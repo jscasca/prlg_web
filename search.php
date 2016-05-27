@@ -70,11 +70,12 @@ session_start();
 			</div>
 		</div>
 		
-		<h5 class="Results-subtitle">
+		<!-- NOT READY YET -->
+		<!--<h5 class="Results-subtitle">
 			¿No encontraste el libro o escritor que buscabas?
 				<button class="btn Results-button">Nuevo Libro</button>
 				<button class="btn Results-button">Nuevo Autor</button>
-		</h5>
+		</h5>-->
 		<div class="">
 		
 		</div>
