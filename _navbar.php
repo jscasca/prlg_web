@@ -31,14 +31,15 @@ echo "<script type='text/javascript'>var loggedIn = ".(isset($_SESSION[SID])?"tr
 								<div class="user-profile-pic">
 									<!--<img src="img/defaultUser.png" class="" />-->
 								</div>
-								<div class="user-display-name">Tin Kalzetin</div>
+								<div class="user-display-name"><?php echo $_SESSION[DISPLAY_NAME]; ?></div>
 							</div>
 							<!--<img src="img/defaultUser.png" class="profile-pic" />!-->
 							<!--Tin Kalzetin-->
 						</a>
 						<ul role="menu" class="dropdown-menu">
-							<li><a href="profile.php">Mi perfil</a></li>
-							<li><a href="logout.php">Salir</a></li>
+							<li><a href="profile.php">Perfil</a></li>
+							<li><a href="library.php">Biblioteca</a></li>
+							<li><a href="logout.php">Cerrar Sesión</a></li>
 						</ul>
 					</li>	
 				<?php	} ?>
