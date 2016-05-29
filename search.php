@@ -191,7 +191,7 @@ function displayResults(results) {
 }
 
 function printAuthorResultCard(holder, result) {
-	var thumb = result.icon == null ? 'img/defaultuser.jpg' : result.icon;
+	var thumb = result.icon == null ? 'img/defaultuser.png' : result.icon;
 	var resultCard = $('<article></article>',{class: 'author-result'});
 	var authorCover = $('<img>',{src:thumb, alt:'Cover'});
 	var authorLink = $('<a></a>',{href:'author.php?i='+result.id}).append(authorCover);
