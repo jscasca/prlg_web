@@ -79,6 +79,7 @@ $(document).ready(function() {
 	$('.backup-cover').error(function() {
 		$(this).attr('src', 'img/default.png');
 	});
+	$('#user-icon').error(function(){this.src='img/defaultuser.png';});
 });
 
 function getUserInteractions(id) {
@@ -118,6 +119,7 @@ function displayUserInfo(info) {
 function printUserDetails(user) {
 	$('#user-display').text(user.displayName);
 	$('#user-name').html(user.userName);
+	if(user.icon == null || user.icon == '')user.icon = 'img/defaultuser.png';
 	$('#user-icon').attr('src', user.icon);
 }
 
