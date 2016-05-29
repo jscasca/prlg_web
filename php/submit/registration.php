@@ -23,7 +23,6 @@ try {
 	else
 		header("Location: ".URL_REGISTRATION."?e=email");
 } catch(Exception $e) {
-	print_r($e);die();
 	header("Location: ".URL_INTERNAL_SERVER_ERROR);
 }
 //$call = authenticationlessCurlCall("POST", "public/registration", array("username" => $user, "email" => $email, "password" => $pass));

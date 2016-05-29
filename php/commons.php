@@ -84,7 +84,7 @@ function registration($username, $password, $email) {
 			throw new DuplicateResourceException("The email address already exists", 1);
 		}
 	} else {
-		throw new RemoteServerError("Token request failed", $response[HTTP_STATUS]);
+		throw new RemoteServerError("Token request failed", $call[HTTP_STATUS]);
 	}
 }
 /**

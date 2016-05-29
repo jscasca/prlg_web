@@ -50,7 +50,7 @@ include 'php/fb-login.php';
 					<label class="sr-only" for="">Contraseña</label>
 				    <div class="input-group">
 				        <div class="input-group-addon register-addon"><span class="fa fa-lock"></span></div>
-				        <input type="password" class="form-control" placeholder=" Repetir Contraseña">
+				        <input type="password" class="form-control" placeholder=" Repetir Contraseña" name="pwdConfirmation">
 				    </div>
 				</div>
 				<button type="send" class="btn Basic-button Green-button">Registrar</button>
