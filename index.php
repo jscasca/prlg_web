@@ -23,6 +23,32 @@ session_start();
 	</header>
 	
 	<div class="container">
+		<div id="index-modal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<form action="search.php">
+						<div class="modal-header text-center">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h2 id="index-modal--header"></h2>
+						</div>
+						<div class="modal-body text-center">
+							<div class="index-modal--info">
+								<span id="index-modal--text"></span>
+							</div>
+							<div class="input-group index-modal--search">
+								<input class="form-control" type="text" name="q" id="index-modal--field">
+								<div class="input-group-btn">
+									<button type="submit" class="btn search-button" id="index-modal--submit">
+										<i class="glyphicon glyphicon-search"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
 		<?php
 		if(!isset($_SESSION[SID])) {
 		?>
@@ -68,46 +94,81 @@ session_start();
 		</div>
 		
 		<?
+		} else {
+		?>
+		<div class="row">
+			
+			<div class="index-buttons">
+				<div class="col-md-3 text-center">
+					<div class="index-action" id="index-action--prologo">
+						<div class="index-action--prologo">Escribe un prólogo</div>
+					</div>
+				</div>
+				<div class="col-md-3 text-center">
+					<div class="index-action" id="index-action--reading">
+						<div class="index-action--reading">Comparte lo que lees</div>
+					</div>
+				</div>
+				<div class="col-md-3 text-center">
+					<div class="index-action" id="index-action--favorite">
+						<div class="index-action--favorite">Encuentra tus favoritos</div>
+					</div>
+				</div>
+				<div class="col-md-3 text-center">
+					<div class="index-action" id="index-action--wishlist">
+						<div class="index-action--wishlist">Agrega libros a tu lista</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">	
+			<div class="index-search">
+				<form class="" action="search.php">
+					<div class="input-group">
+						<input class="form-control" id="index-search--field" type="text" name="q" placeholder="Encuentra tu siguiente historia" />
+						<div class="input-group-btn">
+							<button class="btn btn-default" id="index-search--submit" type="submit">
+								<i class="glyphicon glyphicon-search"></i>
+							</button>
+						</div>
+					</div>
+					
+				</form>
+				<!--<div class="index-search">
+					<form class="" action="search.php">
+						<div class="index-search--form">
+							<input class="form-control" type="text" name="q" placeholder="Encuentra tu siguiente historia">
+							<div class="input-group-btn">
+								<button class="btn btn-default" type="submit">
+									<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>-->
+			</div>
+		</div>
+		<?php
 		}
 		?>
 		
 		
-		<h1 class="Section-title no-padding">Los libros más leídos</h1>
 		
-		<div class="book-cards">
-			<div class="row" id="mostReadBooks">
-				<!--<div class="col-md-4">
-					<article class="book-card">
-						<div class="book-card--thumbnail">
-							<img src="img/defaultthumb.png" alt="Book cover">
-						</div>
-						<div class="book-card--info">
-							<h5>Titulo del Libro: un libro muy largo para leer y algunas otras historias cortas</h5>
-							<h6>Autor del libro</h6>
-							<div class="book-card--rating">
-								<span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span>
-							</div>
-							<div class="book-card--actions text-right">
-							
-							</div>
-						</div>
-					</article>
-				</div>-->
-			</div>
-		</div>
-		
-		<h3 class="Section-title no-padding">Que esta pasando?</h3>
 		
 		<div class="main-page">
 			<div class="row">
 				<!-- Right scroll -->
 				<div class="col-md-4 col-md-push-8">
-					
+					<h3 class="Section-title no-padding">Libros más leídos</h3>
+					<div class="book-cards">
+						<div class="row" id="mostReadBooks">
+						</div>
+					</div>
 				</div>
 				
 				<!-- Main stuff -->
 				<div class="col-md-8 col-md-pull-4">
-					
+					<h3 class="Section-title no-padding">Que esta pasando?</h3>
 					<div class="event-cards" id="event-holder">
 						
 						
@@ -130,10 +191,20 @@ session_start();
 <script type="text/javascript">
 	
 $(document).ready(function() {
-	console.log("ready to start");
 	getMostReadBooks();
 	getEvents();
+	
+	$('#index-action--prologo').click(function() { displayIndexModal("Escribe un Prólogo", "¿De que libro quieres escribir un prólogo?"); });
+	$('#index-action--favorite').click(function() { displayIndexModal("Encuentra tus favoritos", "¿Cual es tu libro favorito?"); });
+	$('#index-action--reading').click(function() { displayIndexModal("Comparte lo que estas leyendo", "¿Que libro estas leyendo?"); });
+	$('#index-action--wishlist').click(function() { displayIndexModal("Agregalos a tu lista", "¿Que libro quieres agregar a tu lista de lectura?"); });
 });
+
+function displayIndexModal(header, message) {
+	$('#index-modal--header').html(header);
+	$('#index-modal--text').html(message);
+	$('#index-modal').modal('show');
+}
 	
 function getMostReadBooks() {
 	//Ajax and stuff
@@ -244,7 +315,6 @@ function printEventFavorite(holder, event) {
 	var userLink = $('<a></a>', {href:'user.php?i='+user.id}).append(user.displayName);
 	var targetLink = $('<a></a>', {href:'book.php?i='+book.id}).append(book.title);
 	var paragraph = $('<p></p>').append(userLink).append(" ha agregado ").append(targetLink).append(" a sus favoritos.");
-	console.log(paragraph);
 	info.append(paragraph);
 	printEvent(holder, thumbnail, target, info);
 }
@@ -283,7 +353,7 @@ function displayMostReadBooks(books) {
 
 function printMostReadBook(holder, book) {
 	
-	var div = $('<div></div>',{class:'col-md-4'});
+	var div = $('<div></div>',{class:'col-md-12 col-sm-4'});
 	var bookCard = $('<article></article>', {class:'book-card'});
 	var bookLink = $('<a></a>',{href:'book.php?i='+book.id});
 	var bookThumb = $('<div></div>', {class: 'book-card--thumbnail'});

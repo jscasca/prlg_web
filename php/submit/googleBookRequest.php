@@ -8,7 +8,8 @@ if(!isset($_SESSION[SID])) {
 	//http_response_code(401);//
 	//die("You must be logged in to access this resource");
 	//Redirect to 401 page
-	die("401");
+	header("Location: ".URL_INTERNAL_SERVER_ERROR);
+	die();
 }
 
 $author = isset($_REQUEST['author']) ? $_REQUEST['author'] : '';
@@ -20,10 +21,12 @@ $icon = isset($_REQUEST['icon']) ? $_REQUEST['icon'] : '';
 $thumbnail = isset($_REQUEST['thumbnail']) ? $_REQUEST['thumbnail'] : '';
 
 if($title == '') {
-	die("no title");
+	header("Location: ".URL_INTERNAL_SERVER_ERROR);
+	die();
 }
 if($language == '') {
-	die('no lang');
+	header("Location: ".URL_INTERNAL_SERVER_ERROR);
+	die();
 }
 
 $request['author'] = $author;
@@ -39,7 +42,8 @@ $token = $_SESSION[TOKEN];
 $response = tokenCurlCall($token, "POST", "api/books/requests", $request);
 $code = $response[HTTP_STATUS];
 if($code != 200) {
-	die("bad code");
+	header("Location: ".URL_INTERNAL_SERVER_ERROR);
+	die();
 } else {
 	$book = json_decode($response[RESPONSE], true);
 	header('Location: '.BASE_DIR.'book.php?i='.$book['id']); die();

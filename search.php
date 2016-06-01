@@ -123,6 +123,7 @@ function getGoogleResults(search) {
 	  url: 'php/ajax/gsearch.php',
 	  data: {q: search},
 	  success: function(data){
+			//console.log(data);
 			displayProbableResults(data);
 		  },
 	  error: function() {
@@ -165,9 +166,10 @@ function printGoogleResult(holder, result) {
 	var resultDiv = $('<div></div>', {class:'google-result--thumbnail'}).append(resultImgSubmit);
 	article.append(resultDiv);
 	var resultTitle = $('<h4></h4>').html(title+" ("+lang+")");
+	var resultTitleSubmit = $('<a></a>', {}).append(resultTitle);
 	var resultAuthor = $('<h5></h5>').html(author);
 	var resultInfo = $('<div></div>', {class: 'google-result--info'});
-	resultInfo.append(resultTitle);
+	resultInfo.append(resultTitleSubmit.click(function(){$(this).closest('form').submit();}));
 	resultInfo.append(resultAuthor);
 	article.append(resultInfo);
 	form.append(article);

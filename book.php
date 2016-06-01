@@ -151,6 +151,7 @@ session_start();
 	
 $(document).ready(function() {
 	$('#prologe-modal--feedback').html(maxProloge);
+	$('#prologe-modal--textarea').val("");
 	$('#prologe-modal--textarea').keyup(function() {
 		var text = $('#prologe-modal--textarea').val();
 		var chars = text.length;
@@ -358,7 +359,8 @@ function submitProloge(book, rating, prologe) {
 		  displaySubmittedProloge(prologe, book);
 	  },
 	  error: function() {
-		  console.log();
+		  //refresh until we find out the problem
+		  location.reload();
 	  }
 	});
 }
