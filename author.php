@@ -104,11 +104,11 @@ function getAuthorBooks(id) {
 
 function displayAuthor(author) {
 	
-	var authorPic = author.icon;
-	if(authorPic != null && authorPic != '')
-		$('#author-pic').attr('src', bookCover);
 	var authorName = author.name;
 	$('#author-name').html(authorName);
+	var authorPic = author.icon;
+	if(authorPic != null && authorPic != '')
+		$('#author-pic').attr('src', authorPic);
 }
 
 function displayAuthorBooks(books) {
