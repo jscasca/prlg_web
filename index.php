@@ -240,6 +240,7 @@ function prepareEvent(holder, event) {
 	var time = event.eventDate;
 	switch(type) {
 		case 'FAVORITED': printEventFavorite(holder, event); break;
+		case 'WISHLISTED': printEventWishlisted(holder, event); break;
 		case 'STARTED_READING': printEventStarted(holder, event); break;
 		case 'POSDTA': printEventProloge(holder, event); break;
 		default: console.log(event); break;
@@ -276,6 +277,21 @@ function getEventBookTarget(book) {
 	targetLink.append(targetImg);
 	target.append(targetLink);
 	return target;
+}
+
+function printEventWishlisted(holder, event) {
+	var user = event.user;
+	var book = event.book;
+	var thumbnail = getEventUserThumbnail(user);
+	var target = getEventBookTarget(book);
+	
+	var info = $('<div></div>', {class:'event-card--info'});
+	var userLink = $('<a></a>', {href:'user.php?i='+user.id}).append(user.displayName);
+	var targetLink = $('<a></a>', {href:'book.php?i='+book.id}).append(book.title);
+	var paragraph = $('<p></p>').append(userLink).append(" agrego ").append(targetLink).append(" a su lista de lectura");
+	info.append(paragraph);
+	
+	printEvent(holder, thumbnail, target, info);
 }
 
 function printEventStarted(holder, event) {
