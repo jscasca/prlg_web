@@ -69,6 +69,12 @@ include 'php/fb-login.php';
 </body>
 </html>
 <script type="text/javascript">
+var validUsername = false;
+
+$('#username').change(function() {
+	validUsername = false;
+});
+
 $('#registration--form').submit(function() {
 	$('#error-msg').empty();
 	var userInput = $('#username');
@@ -88,6 +94,10 @@ $('#registration--form').submit(function() {
 		displayFormViolation(userInput, 'Tu usuario solo puede usar letras, numeros y guiones bajos');
 		return false;
 	}
+	if(!validUsername) {
+		checkUsernameAvailability(username);
+		return false;
+	}
 	removeFormViolation(userInput);
 	if(!(/^[a-zA-Z0-9\.]+@.+\.[a-z]{2,3}$/).test(email.val())) {
 		displayFormViolation(email, 'Tu correo no es valido');
@@ -102,8 +112,7 @@ $('#registration--form').submit(function() {
 		displayFormViolation(pwd2, 'Tu contraseña no coincide'); return false;
 	}
 	removeFormViolation(pwd2);
-	checkUsernameAvailability(username);
-	return false;
+	return true;
 });
 
 $(document).ready(function() {
@@ -121,6 +130,7 @@ function displayFormViolation(input, msg) {
 }
 
 function checkUsernameAvailability(username) {
+	validUsername = false;
 	$.ajax({
 	  type: 'GET',
 	  dataType: 'json',
@@ -128,6 +138,7 @@ function checkUsernameAvailability(username) {
 	  data: {username: username},
 	  success: function(data){
 			if(data === true) {
+				validUsername = true;
 				$('#registration--form').submit();
 			} else {
 				displayFormViolation($('#username'), 'El nombre de usuario <i>'+username+'</i> ya esta tomado');

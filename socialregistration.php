@@ -63,6 +63,12 @@ if(isset($_SESSION["SocialLogin"])) {
 	</form>-->
 </html>
 <script type="text/javascript">
+var validUsername = false;
+
+$('#username').change(function() {
+	validUsername = false;
+});
+
 $('#social-registration--form').submit(function() {
 	$('#error-msg').empty();
 	var userInput = $('#username');
@@ -75,8 +81,11 @@ $('#social-registration--form').submit(function() {
 		displayFormViolation(userInput, 'El nombre de usuario tiene que tener entre 3 y 25 caracteres');
 		return false;
 	}
-	checkUsernameAvailability(username);
-	return false;
+	if(!validUsername) {
+		checkUsernameAvailability(username);
+		return false;
+	}
+	return true;
 });
 
 $(document).ready(function() {
@@ -97,6 +106,7 @@ function checkUsernameAvailability(username) {
 	  data: {username: username},
 	  success: function(data){
 			if(data === true) {
+				validUsername = true;
 				$('#social-registration--form').submit();
 			} else {
 				displayFormViolation($('#username'), 'El nombre de usuario <i>'+username+'</i> ya esta tomado');
