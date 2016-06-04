@@ -229,6 +229,7 @@ function printBookResultCard(holder, result) {
 	var bookThumb = $('<div></div>', {class:'book-result--thumbnail'}).append(bookLink);
 	resultCard.append(bookThumb);
 	var title = $('<h4></h4>').html(result.title);
+	var titleLink = $('<a></a>', {href:'book.php?i='+result.id}).append(title);
 	var author = $('<h5></h5>').html(result.authorName);
 	var bookRating = $('<div></div>', {class: 'book-card--rating'});
 	var rating = 0;
@@ -236,7 +237,7 @@ function printBookResultCard(holder, result) {
 		rating = result.rating.rating;
 	}
 	bookRating = getRatingDiv(bookRating, rating);
-	var bookInfo = $('<div></div>', {class: 'book-result--info'}).append(title).append(author).append(bookRating);
+	var bookInfo = $('<div></div>', {class: 'book-result--info'}).append(titleLink).append(author).append(bookRating);
 	resultCard.append(bookInfo);
 	//TODO: create actions
 	var bookActions = $('<div></div>', {class: 'book-result--actions text-right'});
