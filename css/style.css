@@ -726,6 +726,30 @@ margin-right: auto;
 width: 70px;
 }
 
+.form-upload {
+width: 0.1px;
+height: 0.1px;
+opacity: 0;
+overflow: hidden;
+position: absolute;
+z-index: -1;
+}
+
+.form-upload + label {
+color: #fff;
+border-radius: 4px;
+background-color: #3fb0ac;
+border: 1px solid #277b78;
+margin: 10px;
+}
+
+.form-upload:focus + label, .form-upload + label:hover {
+color: #173e43;
+}
+.form-upload + label {
+cursor: pointer;
+}
+
 
 /* ICONS  */
 div.icon-reading { background:url('../img/i_reading.png')no-repeat; background-size: 48px 48px; width:48px; height:48px;  }

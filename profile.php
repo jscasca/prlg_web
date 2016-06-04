@@ -57,8 +57,21 @@ session_start();
 					<img src="img/defaultuser.png">
 					<img src="img/defaultuser.png">
 				</div>-->
-				<div class="profile-avatar--upload">
+				<div class="profile-avatar--change" id="profile-avatar--change">
+					<button id="avatar-change--button" class="btn Basic-button Green-button">Cambiar</button>
+				</div>
 				
+				<div class="profile-avatar--upload" id="profile-avatar--upload">
+					<form id="avatar-upload--form" action="php/submit/avatar.php" method="POST" enctype="multipart/form-data">
+						<div id="avatar-upload">
+							<input type="file" id="avatar-upload--file" class="form-upload" name="avatar">
+							<label class="btn Basic-button Green-button" for="avatar-upload--file">Sube una imagen</label>
+						</div>
+						<div class="">
+							<button id="avatar-upload--reset" type="reset" class="btn Basic-button">Cancelar</button>
+							<button type="submit" class="btn Basic-button Green-button">Guardar</button>
+						</div>
+					</form>
 				</div>
 			</div>
 			
@@ -75,6 +88,16 @@ session_start();
 </html>
 <script type="text/javascript">
 	var retries = 0;
+var currentAvatar = "";
+$('#profile-avatar--upload').toggle();
+
+$('#avatar-upload--form').submit(function() {
+	//Check if there is a file
+	if($('#avatar-upload--file').val() == '') {
+		return false;
+	}
+	return true;
+});
 	
 $(document).ready(function() {
 	getMyInfo();
@@ -85,6 +108,37 @@ $(document).ready(function() {
 		$(this).attr('src', 'img/default.png');
 	});
 });
+
+$('#avatar-upload--reset').click(function() {
+	$('#avatar').attr('src', currentAvatar);
+	toggleAvatarUpload();
+});
+
+$('#avatar-change--button').click(function() {
+	toggleAvatarUpload();
+});
+
+function toggleAvatarUpload() {
+	$('#profile-avatar--change').toggle();
+	$('#profile-avatar--upload').toggle();
+}
+
+$('#avatar-upload--file').change(function() {
+	//validate the file is an image
+	//TODO: validation
+	//then display
+	previewAvatar(this);
+});
+
+function previewAvatar(input) {
+	if(input.files && input.files[0]) {
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			$('#avatar').attr('src', e.target.result);
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
 
 function getMyInfo(id) {
 	$.ajax({
@@ -104,9 +158,9 @@ function getMyInfo(id) {
 }
 
 function displayMyInfo(user) {
-	console.log(user);
 	$('#userDisplayName').html(user.displayName);
 	$('#username').html(user.userName);
+	currentAvatar = user.icon;
 	$('#avatar').attr('src', user.icon);
 	$('#avatar').error(function(){this.src='img/defaultuser.png';});
 }
