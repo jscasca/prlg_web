@@ -38,11 +38,11 @@ $target = AVATAR_LOC.$_SESSION[USERNAME];
 move_uploaded_file($_FILES['avatar']['tmp_name'], RELATIVE_PATH.$target);
 
 $request['field'] = 'avatar';
-$request['value'] = 'tin';
+$request['value'] = $target;
 
 $token = $_SESSION[TOKEN];
 
-$response = tokenCurlCall($token, "POST", "api/myservice/displayname", $request);
+$response = tokenCurlCall($token, "POST", "api/myservice/avatar", $request);
 $code = $response[HTTP_STATUS];
 if($code != 200 && $code != 204) {
 	print_r($response);die();
