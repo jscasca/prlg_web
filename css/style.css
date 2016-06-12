@@ -327,7 +327,7 @@ padding:1em 1em;
 border: 2px solid #3fb0ac;
 border-radius:4px;
 color: #fff;
-font-size: 16px;
+font-size: 15px;
 font-weight: 600;
 cursor: pointer;
 }
@@ -394,6 +394,15 @@ padding-top: 1em;
 .event-card--book img {
 width: auto;
 height: 90px;
+}
+
+/***** SEARCH *******/
+.search-title {
+margin-left: 3em;
+margin-top: 10px;
+color: #3fb0ac;
+font-style: oblique;
+font-size: 26px;
 }
 .book-result--thumbnail {
 float:left;
@@ -750,6 +759,22 @@ color: #173e43;
 cursor: pointer;
 }
 
+/***** VOTING ****/
+.main-prologe--counter {
+padding-top: 5px;
+color: #b1b1b1;
+}
+.main-prologe--voting {
+width: 102%;
+}
+
+.main-prologe--voting > div {
+float: right;
+margin: 5px;
+}
+
+span.clear-float {clear: left; display: block;}
+
 
 /* ICONS  */
 div.icon-reading { background:url('../img/i_reading.png')no-repeat; background-size: 48px 48px; width:48px; height:48px;  }
@@ -771,7 +796,14 @@ div.icon-wishlist:hover { background:url('../img/i_wishlist_active.png')no-repea
 
 div.icon-prologe-noeffect { background:url('../img/i_prologe.png')no-repeat; background-size: 48px 48px; width:48px; height:48px;  }
 
+div.prologe-upvote {background:url('../img/up_darkblue.png')no-repeat; background-size: 32px 32px; width: 32px; height: 32px;}
+div.prologe-downvote {background:url('../img/down_darkblue.png')no-repeat; background-size: 32px 32px; width: 32px; height: 32px;}
 
+div.prologe-upvote:hover {background:url('../img/up_green.png')no-repeat; background-size: 32px 32px; width: 32px; height: 32px;}
+div.prologe-downvote:hover {background:url('../img/down_red.png')no-repeat; background-size: 32px 32px; width: 32px; height: 32px;}
 
+div.prologe-upvote--active {background:url('../img/up_green.png')no-repeat; background-size: 32px 32px; width: 32px; height: 32px;}
+div.prologe-downvote--active {background:url('../img/down_red.png')no-repeat; background-size: 32px 32px; width: 32px; height: 32px;}
 
-
+div.prologe-upvote--disabled {background:url('../img/up_grey.png')no-repeat; background-size: 32px 32px; width: 32px; height: 32px;}
+div.prologe-downvote--disabled {background:url('../img/down_grey.png')no-repeat; background-size: 32px 32px; width: 32px; height: 32px;}

@@ -24,6 +24,7 @@ session_start();
 	<!-- -->
 	<div class="container">
 		<h1 class="Section-title no-padding">Resultados de tu busqueda</h1>
+		<span id="search-title" class="search-title"></span>
 		
 		<div class="result-cards">
 			<div class="row">
@@ -95,6 +96,8 @@ var waitingToDisplay = true;
 var resultMap = [];
 
 $(document).ready(function() {
+	if(searchText == "") return;
+	$('#search-title').html(searchText);
 	getResults(searchText);
 	if(loggedIn) {
 		getGoogleResults(searchText);
@@ -200,7 +203,8 @@ function printAuthorResultCard(holder, result) {
 	var authorThumb = $('<div></div>', {class:'author-result--thumbnail'}).append(authorLink);
 	resultCard.append(authorThumb);
 	var authorName = $('<h3></h3>').html(result.name);
-	var authorInfo = $('<div></div>', {class: 'author-result--info'}).append(authorName);
+	var authorNameLink = $('<a></a>', {href:'author.php?i='+result.id}).append(authorName);
+	var authorInfo = $('<div></div>', {class: 'author-result--info'}).append(authorNameLink);
 	resultCard.append(authorInfo);
 	var authorActions = $('<div></div>', {class: 'author-result--actions text-right'});
 	resultCard.append(authorActions);
