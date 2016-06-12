@@ -174,12 +174,14 @@ $(document).ready(function() {
 		starOff :'star-off-big.png',
 		starOn :'star-on-big.png'
 	});
-	console.log("ready to start");
 	getBookInfo(bookId);
-	getBookPosdtas(bookId);
+	
 	getBooksFromSameAuthor(bookId);
 	if(loggedIn) {
 		getBookInteractions(bookId);
+		getBookPrologesWithVotes(bookId);
+	} else {
+		getBookPosdtas(bookId);
 	}
 	$('.backup-thumb').error(function() {
 		$(this).attr('src', 'img/defaultthumb.png');
@@ -233,7 +235,7 @@ function displayInteractions(interactions, id) {
 		$('#action-favorite').removeClass('icon-favorite--disabled').addClass('icon-favorite');
 		$('#action-favorite').click(function(){addToFavorites(id);});
 	}
-	if(interactions.wishlist == true) {
+	if(interactions.wishlisted == true) {
 		$('#action-wishlist').removeClass('icon-wishlist--disabled').addClass('icon-wishlist--active');
 		$('#action-wishlist').click(function(){removeFromWishlist(id);});
 	} else {
@@ -384,6 +386,28 @@ function newProloge(prologe) {
 	printProloge(holder, prologe);
 }
 
+function getBookPrologesWithVotes(id) {
+	$.ajax({
+	  type: 'GET',
+	  dataType: 'json',
+	  url: 'php/ajax/getBookPosdtas.php',
+	  data: {book: id},
+	  success: function(data){
+			if($(data).length == 0) {
+				displayEmptyProloge();
+			} else {
+				console.log(data);
+				displayProloges(data);
+			}
+		  },
+	  error: function() {
+		  retries++;
+		  if(retries < 10)
+			setTimeout('getBookPosdtas('+id+')', 300);
+	  }
+	});
+}
+
 
 function getBookPosdtas(id) {
 	$.ajax({
@@ -420,17 +444,21 @@ function displayEmptyProloge() {
 	});
 }
 
-function displayProloges(prologes) {
+function displayProloges(prologes, enabled) {
+	console.log(prologes);
 	var holder = $('#main-prologes');
 	$(prologes).each(function(index, prologe) {
-		printProloge(holder, prologe);
+		if(prologe.length == 2) { //Contains the prologe and the user interaction obj
+			printProloge(holder, prologe[0], true, prologe[1]);
+		} else {
+			printProloge(holder, prologe, false);
+		}
 	});
 	holder.prepend('<h2>Lee lo que la comunidad opina</h2>');
 }
 
-function printProloge(holder, prologe) {
+function printProloge(holder, prologe, enabled, userVote) {
 	var user = prologe.user;
-	
 	var section = $('<section></section>',{class:'main-prologe'});
 	var thumbnail = $('<div></div>',{class:'main-prologe--thumbnail'});
 	var thumbnailImg = $('<img>',{src: user.icon, alt:"user"});
@@ -450,8 +478,68 @@ function printProloge(holder, prologe) {
 	var signatureLink = $('<a></a>', {href:'user.php?i='+user.id});
 	signatureLink.html(user.displayName);
 	signature.append(signatureLink);
+	
+	//Here the voting part
+	var votes = $('<div></div>', {class:'main-prologe--voting text-right'});
+	var prologeVotes = "";
+	if(prologe.votes != null) prologeVotes = (prologe.votes.upvotes - prologe.votes.downvotes);
+	var counter = $('<div></div>', {class:'main-prologe--counter', id:'counter_'+prologe.id}).append(prologeVotes);
+	var upvote;
+	var downvote;
+	if(enabled) {
+		if(userVote != null) {
+			if(userVote.vote === true) {
+				upvote = $('<div></div>', {class:'prologe-upvote--active'});
+				downvote = $('<div></div>', {class:'prologe-downvote--disabled'});
+			} else {
+				upvote = $('<div></div>', {class:'prologe-upvote--disabled'});
+				downvote = $('<div></div>', {class:'prologe-downvote--active'});
+			}
+		} else {
+			upvote = $('<div></div>', {class:'prologe-upvote', id:'upvote_'+prologe.id}).on('click', function(){upvoteProloge(prologe.id, counter);});
+			downvote = $('<div></div>', {class:'prologe-downvote', id:'downvote_'+prologe.id}).on('click', function(){downvoteProloge(prologe.id, counter);});
+		}
+		
+	} else {
+		upvote = $('<div></div>', {class:'prologe-upvote--disabled'});
+		downvote = $('<div></div>', {class:'prologe-downvote--disabled'});
+	}
+	var clear = $('<span></span>', {class:'clear-float'});
+	
+	votes.append(downvote).append(upvote).append(counter).append(clear);
 	section.append(signature);
+	section.append(votes);
 	holder.append(section);
+}
+
+function upvoteProloge(prologe, counterHolder) {
+	//console.log(prologe);
+	$.ajax({
+	  type: 'GET',
+	  dataType: 'json',
+	  url: 'php/ajax/postUpvote.php',
+	  data: {prologe: prologe},
+	  success: function(data){
+			$('#upvote_'+prologe).off().removeClass().addClass('prologe-upvote--active');
+			$('#downvote_'+prologe).off().removeClass().addClass('prologe-downvote--disabled');
+			counterHolder.html(" "+(data.upvotes-data.downvotes));
+		  }
+	});
+}
+
+function downvoteProloge(prologe, counterHolder) {
+	//console.log(prologe);
+	$.ajax({
+	  type: 'GET',
+	  dataType: 'json',
+	  url: 'php/ajax/postDownvote.php',
+	  data: {prologe: prologe},
+	  success: function(data){
+			$('#upvote_'+prologe).off().removeClass().addClass('prologe-upvote--disabled');
+			$('#downvote_'+prologe).off().removeClass().addClass('prologe-downvote--active');
+			counterHolder.html(" "+(data.upvotes-data.downvotes));
+		  }
+	});
 }
 
 function getBookInfo(id) {
