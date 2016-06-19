@@ -57,11 +57,11 @@ include 'php/fb-login.php';
 				<div id="error-msg"></div>
 				<button type="send" class="btn Basic-button Green-button">Registrar</button>
 				<h5>¿Ya tienes cuenta? <a href="login.php">Inicia sesión</a></h5>
-				<h6>O utiliza tus redes sociales</h6>
+				<!--<h6>O utiliza tus redes sociales</h6>
 				<div class="Login-buttonContainer">
 					<a href="<?php echo htmlspecialchars($loginUrl); ?>" class="btn Facebook-button">Facebook</a>
-					<!--<a href="#" class="btn Google-button">Google</a>-->
-				</div>
+					<a href="#" class="btn Google-button">Google</a>
+				</div>-->
 			</form>
 		</div>
 	</section>
