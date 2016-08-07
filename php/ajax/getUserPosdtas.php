@@ -10,7 +10,7 @@ if(!isset($_REQUEST['user'])) {
 
 $userId = $_REQUEST['user'];
 
-$call = authenticationlessCurlCall("GET", "api/users/".$userId."/followers");
+$call = authenticationlessCurlCall("GET", "api/users/".$userId."/posdtas");
 
 http_response_code($call[HTTP_STATUS]);
 

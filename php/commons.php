@@ -8,12 +8,13 @@ define('CLIENT_SECRET', 'web123');
 define('BASE_DIR', '/prologes/');
 define('RELATIVE_PATH','../../');
 define('AVATAR_LOC', 'img/avatar/');
-define('URL_PROFILE', BASE_DIR.'profile.php');
-define('URL_INTERNAL_SERVER_ERROR', BASE_DIR.'500.html');
-define('URL_NOT_FOUND', BASE_DIR.'500.html');
-define('URL_INDEX', BASE_DIR.'index.php');
-define('URL_LOGIN', BASE_DIR.'login.php');
-define('URL_REGISTRATION', BASE_DIR.'registration.php');
+//Addresses to be used as $url = BASE_DIR . $lang . $URL;
+define('URL_PROFILE', 'profile.php');
+define('URL_INTERNAL_SERVER_ERROR', '500.html');
+define('URL_NOT_FOUND', '404.html');
+define('URL_INDEX', 'index.php');
+define('URL_LOGIN', 'login.php');
+define('URL_REGISTRATION', 'registration.php');
 //BACK_END SERVER (CHANGE FOR PRODUCTIVE)
 //define('REST_API','http://209.177.158.134:8080/posdta/');
 //define('REST_API','http://localhost:8080/posdta/');
@@ -23,6 +24,8 @@ define('TOKEN_URL', 'oauth/token');
 define('ME', 'api/myservice');
 define('API_SEARCH_ANYTHING', 'api/search/anything');
 //CONSTANTS
+//session context
+define('LANG', 'lang');
 //session
 define('SID','user_id');
 define('ICON','user_icon');
@@ -267,5 +270,31 @@ function startsWith($haystack, $needle) {
 function endsWith($haystack, $needle) {
     // search forward starting from end minus needle length characters
     return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== FALSE);
+}
+
+function getLang($server) {
+	$default = 'en';
+	$accepted = array('en'=>'en','es'=>'es');
+	$langs = array();
+	if(isset($server['HTTP_ACCEPT_LANGUAGE'])) {
+		preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang_parse);
+		if(count($lang_parse[1])) {
+			$langs = array_combine(($lang_parse[1]), $lang_parse[4]);
+		}
+		// set default to 1 for any without q factor
+        foreach ($langs as $lang => $val) {
+            if ($val === '') $langs[$lang] = 1;
+        }
+        // sort list based on value	
+        arsort($langs, SORT_NUMERIC);
+        print_r($langs);
+	}
+	foreach($langs as $lang => $val) {
+		$l = substr($lang, 0, 2);
+		if(array_key_exists($l, $accepted)) {
+			return $accepted[$l];
+		}
+	}
+	return $default;
 }
 ?>

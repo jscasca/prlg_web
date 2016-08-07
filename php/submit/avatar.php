@@ -1,14 +1,20 @@
 <?php
 
 session_start();
+
 require('../commons.php');
+
+$lang = $_SESSION[LANG].'/';
+
+$internalErrorPage = BASE_DIR . $lang . URL_INTERNAL_SERVER_ERROR;
+$profile= BASE_DIR . $lang . URL_PROFILE;
 
 if(!isset($_SESSION[SID])) {
 	//header('HTTP/1.1 401 Unauthorized', true, 401);
 	//http_response_code(401);//
 	//die("You must be logged in to access this resource");
 	//Redirect to 401 page
-	header("Location: ".URL_INTERNAL_SERVER_ERROR);
+	header("Location: " . $internalErrorPage);
 	die();
 }
 
@@ -38,7 +44,7 @@ $target = AVATAR_LOC.$_SESSION[USERNAME];
 move_uploaded_file($_FILES['avatar']['tmp_name'], RELATIVE_PATH.$target);
 
 $request['field'] = 'avatar';
-$request['value'] = $target;
+$request['value'] = BASE_DIR . $target;
 
 $token = $_SESSION[TOKEN];
 
@@ -46,14 +52,14 @@ $response = tokenCurlCall($token, "POST", "api/myservice/avatar", $request);
 $code = $response[HTTP_STATUS];
 if($code != 200 && $code != 204) {
 	print_r($response);die();
-	header("Location: ".URL_INTERNAL_SERVER_ERROR);
+	header("Location: " . $internalErrorPage);
 	die();
 } else {
-	header('Location: '.URL_PROFILE); die();
+	header('Location: ' . $profile); die();
 }
 
 function failOn($code) {
-	header("Location: ".URL_PROFILE."?e=".$code);
+	header("Location: " . $profile ."?e=".$code);
 	die();
 }
 

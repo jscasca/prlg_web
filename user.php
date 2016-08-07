@@ -43,8 +43,24 @@ session_start();
 			<div class="col-md-4 col-sm-12" id="similar-books">
 			</div>
 		</div>
+
+		<div class='row'>
+			<ul class='nav nav-tabs'>
+				<li class='active'><a href='#tab-prologes' data-toggle='tab'>Prólogos</a></li>
+				<li><a href='#tab-reading' data-toggle='tab'>Leyendo</a></li>
+				<li><a href='#tab-wishlist' data-toggle='tab'>Por leer</a></li>
+				<li><a href='#tab-favorite' data-toggle='tab'>Favoritos</a></li>
+			</ul>
+		</div>
+
+		<div class='tab-content'>
+			<div id='tab-prologes' class='tab-pane fade in active'>Prologe</div>
+			<div id='tab-reading' class='tab-pane fade'>Rading</div>
+			<div id='tab-wishlist' class='tab-pane fade'>Wish</div>
+			<div id='tab-favorite' class='tab-pane fade'>FAvor</div>
+		</div>
 		
-		<div class="row">
+		<!--<div class="row">
 			<div class="profile-library" id="profile-library">
 			</div>
 		</div>
@@ -54,7 +70,7 @@ session_start();
 				<div class="col-md-6" id="left-prologes"></div>
 				<div class="col-md-6" id="right-prologes"></div>
 			</div>
-		</div>
+		</div>-->
 		
 	<!--ends container -->	
 	</div>

@@ -690,6 +690,13 @@ color: #173e43;
 }
 
 /* USER PAGE */
+.user-library--empty {
+background-color:#fff;
+border:1px solid #e4e4e4;
+margin-top:1em;
+padding:0em 1.5em 1em;
+border-radius:4px;
+}
 .user-prologe {
 background-color:#fff;
 border:1px solid #e4e4e4;
@@ -724,6 +731,37 @@ color: #fae596;
 .book-card--rating {
 color: #fae596;
 }
+
+.user-tabs {
+	margin: 1em;
+}
+
+.nav > li > a {
+	outline: none ! important;
+	border: none;
+	font-size: 18px;
+}
+.nav > li.active > a:hover, 
+.nav > li.active > a:focus, 
+.nav > li.active > a {
+	background-color: #fafafa; 
+	border:none;
+	border-bottom: 5px solid #173e43;
+}
+.nav > li.active > a:hover {
+	background-color: #fafafa; 
+	border:none;
+	border-bottom: 5px solid #173e43;
+}
+.user-tabs .nav > li > a:hover {
+	background-color: #fafafa;
+	border-bottom: 5px solid #3fb0ac;
+}
+.nav-tabs {
+	background-color: #fafafa;
+	border-bottom: none;
+}
+
 
 /* LIBRARY PAGE */
 
