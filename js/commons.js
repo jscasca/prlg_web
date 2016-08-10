@@ -505,12 +505,13 @@ function GoogleSearchTemplate(cfg) {
 		//BREAK HERE IF MISSING ATTR
 		if(author == '' || title == '' || lang == '') { console.log(result); return '';}
 		var form = $('<form></form>',{action: '../php/submit/googleBookRequest.php'});
-		form.append("<input type='hidden' name='author' value='"+author+"'>");
-		form.append("<input type='hidden' name='title' value='"+title+"'>");
-		form.append("<input type='hidden' name='language' value='"+lang+"'>");
-		form.append("<input type='hidden' name='icon' value='"+icon+"'>");
-		form.append("<input type='hidden' name='thumbnail' value='"+thumbnail+"'>");
-
+		
+		form.append($('<input>', {type: 'hidden', name: 'author', value: author}));
+		form.append($('<input>', {type: 'hidden', name: 'title', value: title}));
+		form.append($('<input>', {type: 'hidden', name: 'language', value: lang}));
+		form.append($('<input>', {type: 'hidden', name: 'icon', value: icon}));
+		form.append($('<input>', {type: 'hidden', name: 'thumbnail', value: thumbnail}));
+		
 		var resultCover = $('<img>', {src: thumbnail, alt:'Cover'}).error(function(){this.src='img/defaultthumb.png';});
 		var resultImgSubmit = $('<button></button>', {type:'submit', class:'google-result--submit'}).append(resultCover);
 		var resultDiv = $('<div></div>', {class:'google-result--thumbnail'}).append(resultImgSubmit);

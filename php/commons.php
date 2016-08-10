@@ -10,6 +10,7 @@ define('RELATIVE_PATH','../../');
 define('AVATAR_LOC', 'img/avatar/');
 //Addresses to be used as $url = BASE_DIR . $lang . $URL;
 define('URL_PROFILE', 'profile.php');
+define('URL_BOOK', 'book.php');
 define('URL_INTERNAL_SERVER_ERROR', '500.html');
 define('URL_NOT_FOUND', '404.html');
 define('URL_INDEX', 'index.php');

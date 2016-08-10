@@ -3,12 +3,17 @@
 session_start();
 require('../commons.php');
 
+$lang = $_SESSION[LANG].'/';
+
+$internalErrorPage = BASE_DIR . $lang . URL_INTERNAL_SERVER_ERROR;
+$bookPage = BASE_DIR . $lang . URL_BOOK;
+
 if(!isset($_SESSION[SID])) {
 	//header('HTTP/1.1 401 Unauthorized', true, 401);
 	//http_response_code(401);//
 	//die("You must be logged in to access this resource");
 	//Redirect to 401 page
-	header("Location: ".URL_INTERNAL_SERVER_ERROR);
+	header("Location: " . $internalErrorPage);
 	die();
 }
 
@@ -21,11 +26,11 @@ $icon = isset($_REQUEST['icon']) ? $_REQUEST['icon'] : '';
 $thumbnail = isset($_REQUEST['thumbnail']) ? $_REQUEST['thumbnail'] : '';
 
 if($title == '') {
-	header("Location: ".URL_INTERNAL_SERVER_ERROR);
+	header("Location: " . $internalErrorPage);
 	die();
 }
 if($language == '') {
-	header("Location: ".URL_INTERNAL_SERVER_ERROR);
+	header("Location: " . $internalErrorPage);
 	die();
 }
 
@@ -42,11 +47,11 @@ $token = $_SESSION[TOKEN];
 $response = tokenCurlCall($token, "POST", "api/books/requests", $request);
 $code = $response[HTTP_STATUS];
 if($code != 200) {
-	header("Location: ".URL_INTERNAL_SERVER_ERROR);
+	header("Location: " . $internalErrorPage);
 	die();
 } else {
 	$book = json_decode($response[RESPONSE], true);
-	header('Location: '.BASE_DIR.'book.php?i='.$book['id']); die();
+	header('Location: ' . $bookPage . '?i='.$book['id']); die();
 }
 
 ?>
