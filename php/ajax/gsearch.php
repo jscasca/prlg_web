@@ -3,11 +3,11 @@
 session_start();
 require('../commons.php');
 
-if(!isset($_SESSION[SID])) {
+/*if(!isset($_SESSION[SID])) {
 	//header('HTTP/1.1 401 Unauthorized', true, 401);
 	http_response_code(401);//
 	die("You must be logged in to access this resource");
-}
+}*/
 
 if(!isset($_REQUEST['q'])) {
 	http_response_code(400);

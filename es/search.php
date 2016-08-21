@@ -106,7 +106,7 @@ $(document).ready(function() {
 		searchHandler.printCollection(data);
 	});
 
-	if(loggedIn) {
+	//if(loggedIn) {
 		var gsearch = ds.googleSearch(searchText);
 		Promise.all([search, gsearch]).then(function(values){
 			//values[0] has the Prologes Search Results
@@ -115,7 +115,7 @@ $(document).ready(function() {
 			gsearchHandler.printCollection(values[1]);
 			//TODO: After show a link to submit own
 		});
-	}
+	//}
 });
 
 function displayProbableResults(results) {
