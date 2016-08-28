@@ -34,7 +34,7 @@ session_start();
 			
 			<div class="col-md-8 col-sm-12 text-center">
 				<div class="profile-avatar">
-					<img src="img/defaultuser.png" alt="avatar" id="avatar">
+					<img src="../img/defaultuser.png" alt="avatar" id="avatar">
 				</div>
 				<!--<div class="">
 					<button class="btn Stroked-button--grey">Cambiar avatar</button>
