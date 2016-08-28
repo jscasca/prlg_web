@@ -88,7 +88,7 @@ session_start();
 <script type="text/javascript">
 var searchText = "<?php echo $_REQUEST['q'];?>";
 var waitingToDisplay = true;
-var resultMap = [];
+var resultMap = {};
 
 var ds = new SearchDataSource({});
 var searchTemplate = new SearchTemplate({});
@@ -104,6 +104,9 @@ $(document).ready(function() {
 	var search = ds.search(searchText);
 	search.then(function(data){
 		searchHandler.printCollection(data);
+		$.each(data, function(i, r){
+			resultMap[r.title] = 1;
+		});
 	});
 
 	//if(loggedIn) {
@@ -111,70 +114,12 @@ $(document).ready(function() {
 		Promise.all([search, gsearch]).then(function(values){
 			//values[0] has the Prologes Search Results
 			//values[1] has the google search results
-			//TODO: Traverse the first and map, print the second
-			gsearchHandler.printCollection(values[1]);
+			var gresults  = values[1].filter(function(r){
+				return resultMap[r.title] === undefined;
+			});
+			gsearchHandler.printCollection(gresults);
 			//TODO: After show a link to submit own
 		});
 	//}
 });
-
-function displayProbableResults(results) {
-	if(waitingToDisplay) {
-		setTimeout('displayProbableResults('+results+')', 300);
-	} else {
-		//Show results against map
-		var holder = $('#googleResults');
-		holder.append("<h3>Sugerencias de Google Books</h3>");
-		$(results).each(function(index, object) {
-			console.log(object);
-			printGoogleResult(holder, object);
-		});
-	}
-}
-
-function printGoogleResult(holder, result) {
-	var author = result['author'] != undefined ? result['author'] : '';
-	var title = result['title'] != undefined ? result['title'] : '';
-	var lang = result['lang'] != undefined ? result['lang'] : '';
-	var icon = result['icon'] != undefined ? result['icon'] : '';
-	var thumbnail = result['thumbnail'] != undefined ? result['thumbnail'] : '';
-	if(author == '' || title == '' || lang == '') { console.log(result); return 0;}
-	var form = $('<form></form>',{action: 'php/submit/googleBookRequest.php'});
-	form.append("<input type='hidden' name='author' value='"+author+"'>");
-	form.append("<input type='hidden' name='title' value='"+title+"'>");
-	form.append("<input type='hidden' name='language' value='"+lang+"'>");
-	form.append("<input type='hidden' name='icon' value='"+icon+"'>");
-	form.append("<input type='hidden' name='thumbnail' value='"+thumbnail+"'>");
-	
-	var article = $('<article></article>', {class:'google-result'});
-	var resultCover = $('<img>', {src: thumbnail, alt:'Cover'}).error(function(){this.src='img/defaultthumb.png';});
-	var resultImgSubmit = $('<button></button>', {type:'submit', class:'google-result--submit'}).append(resultCover);
-	var resultDiv = $('<div></div>', {class:'google-result--thumbnail'}).append(resultImgSubmit);
-	article.append(resultDiv);
-	var resultTitle = $('<h4></h4>').html(title+" ("+lang+")");
-	var resultTitleSubmit = $('<a></a>', {}).append(resultTitle);
-	var resultAuthor = $('<h5></h5>').html(author);
-	var resultInfo = $('<div></div>', {class: 'google-result--info'});
-	resultInfo.append(resultTitleSubmit.click(function(){$(this).closest('form').submit();}));
-	resultInfo.append(resultAuthor);
-	article.append(resultInfo);
-	form.append(article);
-	holder.append(form);
-}
-
-function displayResults(results) {
-	$(results).each(function(index, object) {
-		var holder = $("#prologesResults");
-		if(object.className == "Book") {
-			printBookResultCard(holder, object);
-			resultMap.push(object.title);
-		} else if(object.className == "Author") {
-			printAuthorResultCard(holder, object);
-			resultMap.push(object.name);
-		} else {
-			//Soemthing weird happened
-		}
-	});
-	waitingToDisplay = false;
-}
 </script>

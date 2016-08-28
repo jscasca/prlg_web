@@ -22,7 +22,9 @@ function Translator() {
 		}
 	});
 		*/
-	}
+	};
+
+	var getFollowingText = function(){return {follow: 'SEGUIR', unfollow: 'NO SEGUIR', following: 'SIGUIENDO'};};
 
 	var getFavoriteParagraph = function(subject, target, base) {
 		var holder = $('<div></div>', {class:base + '--info'});
@@ -44,6 +46,13 @@ function Translator() {
 		var paragraph = $('<p></p>').append(subject).append(" ha escrito un prologe de ").append(target);
 		return holder.append(paragraph);
 	};
+
+	var getFollowingParagraph = function(subject, target, base) {
+		var holder = $('<div></div>', {class:base + '--info'});
+		var paragraph = $('<p></p>').append(subject).append(" esta siguiendo a ").append(target);
+		return holder.append(paragraph);
+	};
+
 
 	var emptyLibraryElement = function() {
 		//
@@ -75,11 +84,14 @@ function Translator() {
 	};
 
 	return {
+		/* Following and unfollowing*/
+		getFollowingText: getFollowingText,
 		/* Regarding event paragraphs*/
 		getWishlistedParagraph: getWishlistedParagraph,
 		getReadingParagraph: getReadingParagraph,
 		getPrologeParagraph: getPrologeParagraph,
 		getFavoriteParagraph: getFavoriteParagraph,
+		getFollowingParagraph: getFollowingParagraph,
 		/* Prologe listing*/
 		getPrologesHeader: getPrologesHeader,
 		getEmptyPrologeList: getEmptyPrologeList,

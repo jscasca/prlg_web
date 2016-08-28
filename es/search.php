@@ -88,7 +88,7 @@ session_start();
 <script type="text/javascript">
 var searchText = "<?php echo $_REQUEST['q'];?>";
 var waitingToDisplay = true;
-var resultMap = [];
+var resultMap = {};
 
 var ds = new SearchDataSource({});
 var searchTemplate = new SearchTemplate({});
@@ -104,6 +104,9 @@ $(document).ready(function() {
 	var search = ds.search(searchText);
 	search.then(function(data){
 		searchHandler.printCollection(data);
+		$.each(data, function(i, r){
+			resultMap[r.title] = 1;
+		});
 	});
 
 	//if(loggedIn) {
@@ -111,24 +114,12 @@ $(document).ready(function() {
 		Promise.all([search, gsearch]).then(function(values){
 			//values[0] has the Prologes Search Results
 			//values[1] has the google search results
-			//TODO: Traverse the first and map, print the second
-			gsearchHandler.printCollection(values[1]);
+			var gresults  = values[1].filter(function(r){
+				return resultMap[r.title] === undefined;
+			});
+			gsearchHandler.printCollection(gresults);
 			//TODO: After show a link to submit own
 		});
 	//}
 });
-
-function displayProbableResults(results) {
-	if(waitingToDisplay) {
-		setTimeout('displayProbableResults('+results+')', 300);
-	} else {
-		//Show results against map
-		var holder = $('#googleResults');
-		holder.append("<h3>Sugerencias de Google Books</h3>");
-		$(results).each(function(index, object) {
-			console.log(object);
-			printGoogleResult(holder, object);
-		});
-	}
-}
 </script>

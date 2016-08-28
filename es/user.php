@@ -21,8 +21,11 @@ session_start();
 		<div class="row">
 			<div class="col-md-8 col-sm-12">
 				<section class="main-user">
-					<div class="main-user--icon">
-						<img src="../img/defaultuser.png" alt="Cover" id="user-icon" class="backup-user"/>
+					<div class="main-user--sidebar">
+						<div class="main-user--icon">
+							<img src="../img/defaultuser.png" alt="Cover" id="user-icon" class="backup-user"/>
+						</div>
+						<div class="main-user--follow" id="main-user--follow"></div>
 					</div>
 					<div class="main-user--info">
 						<h2 id="user-display"></h2>
@@ -91,7 +94,8 @@ session_start();
 	var userId = "<?php echo $_REQUEST['i'];?>";
 	var retries = 0;
 var p = new UserDataSource({});
-var u = new UserHandler();
+var t = new Translator();
+var u = new UserHandler({translator: t});
 var library = new UserLibraryTemplate({base: 'library-book'});
 var prologes = new UserPrologeTemplate({base: 'user-prologe'});
 var readingHolder = new PrologesDataHolder($('#reading-library'), library);
@@ -102,6 +106,7 @@ $(document).ready(function() {
 	//getUserInfo(userId);
 
 	p.getUserInfo(userId).then(function(data){
+		console.log(data);
 		u.displayUser(data, $('#user-display'), $('#user-name'), $('#user-icon'));
 
 	});
@@ -122,6 +127,10 @@ $(document).ready(function() {
 		favoriteHolder.printCollection(books);
 	});
 	if(loggedIn) {
+		p.getUserInteractions(userId).then(function(interactions){
+			console.log(interactions);
+			u.displayInteractionButton(userId, interactions, $('#main-user--follow'));
+		});
 		//getUserInteractions(userId);
 	}
 });

@@ -24,6 +24,8 @@ function Translator() {
 		*/
 	}
 
+	var getFollowingText = function(){return {follow: 'FOLLOW', unfollow: 'UNFOLLOW', following: 'FOLLOWING'};};
+
 	var getFavoriteParagraph = function(subject, target, base) {
 		var holder = $('<div></div>', {class:base + '--info'});
 		var paragraph = $('<p></p>').append(subject).append(" added ").append(target).append(" as a favorite.");
@@ -44,6 +46,11 @@ function Translator() {
 		var paragraph = $('<p></p>').append(subject).append(" wrote a prologue about ").append(target);
 		return holder.append(paragraph);
 	};
+	var getFollowingParagraph = function(subject, target, base) {
+		var holder = $('<div></div>', {class:base + '--info'});
+		var paragraph = $('<p></p>').append(subject).append(" is now following ").append(target);
+		return holder.append(paragraph);
+	}
 
 	var emptyLibraryElement = function() {
 		//
@@ -75,11 +82,14 @@ function Translator() {
 	};
 
 	return {
+		/* Following and unfollowing*/
+		getFollowingText: getFollowingText,
 		/* Regarding event paragraphs*/
 		getWishlistedParagraph: getWishlistedParagraph,
 		getReadingParagraph: getReadingParagraph,
 		getPrologeParagraph: getPrologeParagraph,
 		getFavoriteParagraph: getFavoriteParagraph,
+		getFollowingParagraph: getFollowingParagraph,
 		/* Prologe listing*/
 		getPrologesHeader: getPrologesHeader,
 		getEmptyPrologeList: getEmptyPrologeList,

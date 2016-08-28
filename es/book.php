@@ -138,7 +138,6 @@ $(document).ready(function() {
 	);
 
 	p.getBookInfo(bookId).then(function(data){
-		console.log(data);
 		mainBook.displayBook(data, $('#book-title'), $('#book-cover'), $('#book-author--link'), $('#main-book--rated'));
 	});
 

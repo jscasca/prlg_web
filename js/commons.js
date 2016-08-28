@@ -1,6 +1,7 @@
 /**
  * Read the url values and return the specified parameter 
 */
+var ajaxDir = '../php/ajax/';
 
 function getUrlVars() {
 	var vars = {};
@@ -26,6 +27,13 @@ function populateRatingDiv(ratingDiv, rating) {
 	return ratingDiv;
 }
 
+function ajax(options) {
+	return new Promise(function(resolve, reject) {
+		$.ajax(options).done(resolve).fail(reject);
+	});
+}
+
+
 function UiHelper(modal, placeholder) {
 	var box = modal;
 	var body = placeholder;
@@ -43,7 +51,7 @@ function UiHelper(modal, placeholder) {
 function PrologesDataHolder(node, template, options) {
 	var holder = node;
 	var header = options == null ? false : options.useHeader || false;
-	var defaultEmptyElement = options == null ? false : options.defaultEmptyElement || false;
+	var defaultEmptyElement = options == null ? false : (options.defaultEmptyElement || false);
 
 	var printCollection = function(elements) {
 		if(elements.length != 0) {
@@ -54,7 +62,7 @@ function PrologesDataHolder(node, template, options) {
 				holder.append(template.getElement(element));
 			});
 		} else {
-			if(defaultEmptyElement !== false) {
+			if(defaultEmptyElement === false) {
 				holder.append(template.getEmpty());
 			} else {
 				holder.append(defaultEmptyElement);
@@ -171,10 +179,10 @@ function UserPrologeTemplate(cfg) {
 		if(total !== 0) {
 			if(total > 0 ) {
 				//pos
-				counter.addClass(base + '--counter-positive').append('+' + prologeVotes);
+				counter.addClass(base + '--counter-positive').append('+' + total);
 			} else {
 				//negative
-				counter.addClass(base + '--counter-negative').append(prologeVotes);
+				counter.addClass(base + '--counter-negative').append(total);
 			}
 		}
 		holder.append(counter);
@@ -255,12 +263,15 @@ function BookPrologesTemplate(cfg) {
 	};
 
 	var getVoting = function(enabled, votes, userVote, id) {
+		console.log(enabled);
+		console.log(votes);
+		console.log(userVote);
 		var holder = $('<div></div>', {class: base + '--voting text-right'});
 		var prologeVotes = "";
 		if(votes != null) prologeVotes = (votes.upvotes - votes.downvotes);
 		var counter = $('<div></div>', {class: base + '--counter', id:'counter_' + id}).append(prologeVotes);
-		var upvote = getUpvote(enabled, userVote, id);
-		var downvote = getDownvote(enabled, userVote, id);
+		var upvote = getUpvote(enabled, userVote, id, counter);
+		var downvote = getDownvote(enabled, userVote, id, counter);
 		var clear = $('<span></span>', {class:'clear-float'});
 		holder.append(upvote).append(downvote).append(counter).append(clear);
 		//votes.append(downvote).append(upvote).append(counter).append(clear);
@@ -272,12 +283,12 @@ function BookPrologesTemplate(cfg) {
 		$.ajax({
 		  type: 'GET',
 		  dataType: 'json',
-		  url: 'php/ajax/postUpvote.php',
+		  url: '../php/ajax/postUpvote.php',
 		  data: {prologe: id},
 		  success: function(data){
 				$('#upvote_' + id).off().removeClass().addClass('prologe-upvote--active');
 				$('#downvote_' + id).off().removeClass().addClass('prologe-downvote--disabled');
-				counterHolder.html(" "+(data.upvotes - data.downvotes));
+				counter.html(" "+(data.upvotes - data.downvotes));
 			  }
 		});
 	};
@@ -287,17 +298,17 @@ function BookPrologesTemplate(cfg) {
 		$.ajax({
 		  type: 'GET',
 		  dataType: 'json',
-		  url: 'php/ajax/postDownvote.php',
-		  data: {prologe: prologe},
+		  url: '../php/ajax/postDownvote.php',
+		  data: {prologe: id},
 		  success: function(data){
-				$('#upvote_'+prologe).off().removeClass().addClass('prologe-upvote--disabled');
-				$('#downvote_'+prologe).off().removeClass().addClass('prologe-downvote--active');
-				counterHolder.html(" "+(data.upvotes-data.downvotes));
+				$('#upvote_'+ id).off().removeClass().addClass('prologe-upvote--disabled');
+				$('#downvote_'+ id).off().removeClass().addClass('prologe-downvote--active');
+				counter.html(" "+(data.upvotes-data.downvotes));
 			  }
 		});
 	};
 
-	var getUpvote = function(enabled, vote, id) {
+	var getUpvote = function(enabled, vote, id, counter) {
 		var voteUI;
 		if(enabled) {
 			if(vote == null) { /* havent voted */
@@ -305,7 +316,7 @@ function BookPrologesTemplate(cfg) {
 					.on('click', function(){
 						upvoteProloge(id, counter);
 					});
-			} else if(vote) { /* upvoted already */
+			} else if(vote.upvote) { /* upvoted already */
 				voteUI = $('<div></div>', {class:'prologe-upvote--active'});
 			} else { /* downvoted already */
 				voteUI = $('<div></div>', {class:'prologe-upvote--disabled'});
@@ -316,7 +327,7 @@ function BookPrologesTemplate(cfg) {
 		return voteUI;
 	};
 
-	var getDownvote = function(enabled, vote, id) {
+	var getDownvote = function(enabled, vote, id, counter) {
 		var voteUI;
 		if(enabled) {
 			if(vote == null) { /* havent voted */
@@ -324,10 +335,10 @@ function BookPrologesTemplate(cfg) {
 					.on('click', function(){
 						downvoteProloge(id, counter);
 					});
-			} else if(vote) { /* upvoted already */
-				voteUI = $('<div></div>', {class:'prologe-downvote--disabled'});
-			} else { /* downvoted already */
+			} else if(vote.downvote) { /* upvoted already */
 				voteUI = $('<div></div>', {class:'prologe-downvote--active'});
+			} else { /* downvoted already */
+				voteUI = $('<div></div>', {class:'prologe-downvote--disabled'});
 			}
 		} else { /* only display */
 			voteUI = $('<div></div>', {class:'prologe-downvote--disabled'});
@@ -354,6 +365,7 @@ function EventTemplate(cfg) {
 			case 'WISHLISTED': eventHolder = wishlisted(event); break;
 			case 'STARTED_READING': eventHolder = reading(event); break;
 			case 'POSDTA': eventHolder = prologe(event); break;
+			case 'STARTED_FOLLOWING': eventHolder = following(event); break;
 			default: console.log('unmatched type of event:' + type); break;
 		}
 		return eventHolder;
@@ -387,12 +399,32 @@ function EventTemplate(cfg) {
 		return getEvent(subject, target, info);
 	};
 
+	var following = function(event) {
+		var subject = getSubjectUser(event.user);
+		var target = getTargetUser(event.target);
+		var info = translator.getFollowingParagraph(getSubjectUserName(event.user), getTargetUserName(event.target), base);
+		return getEvent(subject, target, info);
+	};
+
+	var getTargetUserName = function(user) {
+		return $('<a></a>', {href:'user.php?i=' + user.id}).append(user.displayName);
+	};
+
 	var getSubjectUserName = function(user) {
 		return $('<a></a>', {href:'user.php?i=' + user.id}).append(user.displayName);
 	};
 
 	var getTargetBookName = function(book) {
 		return $('<a></a>', {href:'book.php?i=' + book.id}).append(book.title);
+	};
+
+	var getTargetUser = function(user) {
+		var holder = $('<div></div>', {class: base + '--target-thumb'});
+		var link = $('<a></a>', {href: 'user.php?i='+user.id});
+		var img = $('<img>', {class:'backup-user', alt:'user', src: user.icon, onerror:'this.setAttribute("src", "../img/defaultuser.png");'});
+		link.append(img);
+		holder.append(link);
+		return holder;
 	};
 
 	var getSubjectUser = function(user) {
@@ -526,35 +558,6 @@ function GoogleSearchTemplate(cfg) {
 		form.append(holder);
 		return form;
 		//
-		/*
-var author = result['author'] != undefined ? result['author'] : '';
-	var title = result['title'] != undefined ? result['title'] : '';
-	var lang = result['lang'] != undefined ? result['lang'] : '';
-	var icon = result['icon'] != undefined ? result['icon'] : '';
-	var thumbnail = result['thumbnail'] != undefined ? result['thumbnail'] : '';
-	if(author == '' || title == '' || lang == '') { console.log(result); return 0;}
-	var form = $('<form></form>',{action: 'php/submit/googleBookRequest.php'});
-	form.append("<input type='hidden' name='author' value='"+author+"'>");
-	form.append("<input type='hidden' name='title' value='"+title+"'>");
-	form.append("<input type='hidden' name='language' value='"+lang+"'>");
-	form.append("<input type='hidden' name='icon' value='"+icon+"'>");
-	form.append("<input type='hidden' name='thumbnail' value='"+thumbnail+"'>");
-	
-	var article = $('<article></article>', {class:'google-result'});
-	var resultCover = $('<img>', {src: thumbnail, alt:'Cover'}).error(function(){this.src='img/defaultthumb.png';});
-	var resultImgSubmit = $('<button></button>', {type:'submit', class:'google-result--submit'}).append(resultCover);
-	var resultDiv = $('<div></div>', {class:'google-result--thumbnail'}).append(resultImgSubmit);
-	article.append(resultDiv);
-	var resultTitle = $('<h4></h4>').html(title+" ("+lang+")");
-	var resultTitleSubmit = $('<a></a>', {}).append(resultTitle);
-	var resultAuthor = $('<h5></h5>').html(author);
-	var resultInfo = $('<div></div>', {class: 'google-result--info'});
-	resultInfo.append(resultTitleSubmit.click(function(){$(this).closest('form').submit();}));
-	resultInfo.append(resultAuthor);
-	article.append(resultInfo);
-	form.append(article);
-	holder.append(form);
-		*/
 	};
 	return {
 		getEmpty: getEmpty,
@@ -689,6 +692,8 @@ function SideBookTemplate(cfg) {
 }
 
 function UserHandler(cfg) {
+	var translator = cfg.translator;
+
 	var displayUser = function(userInfo, displayNameHolder, userNameHolder, iconHolder) {
 		//
 		iconHolder.attr('href', userInfo);
@@ -697,8 +702,68 @@ function UserHandler(cfg) {
 		return true;
 	};
 
+	var followUser = function(holder, id) {
+		holder.off();
+		ajax({
+			type: 'GET',
+			dataType: 'json',
+			url: ajaxDir + 'followUser.php',
+			data: {user: id}
+		}).then(function(){
+			holder.removeClass()
+				.addClass('unfollow-button btn')
+				.click(function(){
+					unfollowUser(holder, id)
+				});
+		});
+	};
+
+	var unfollowUser = function(holder, id) {
+		holder.off();
+		ajax({
+			type: 'GET',
+			dataType: 'json',
+			url: ajaxDir + 'unfollowUser.php',
+			data: {user: id}
+		}).then(function(){
+			holder.removeClass()
+				.addClass('follow-button btn')
+				.click(function(){
+					followUser(holder, id)
+				});
+		});
+	};
+
+	var displayInteractionButton = function(id, interactions, holder) {
+		//
+		if(typeof interactions.following === "boolean") {
+			//
+			var followingText = translator.getFollowingText();
+			var button = $('<button>', {class: 'btn'});
+			button.append($('<span>', {class: 'follow-text'}).text(followingText.follow));
+			button.append($('<span>', {class: 'unfollow-text'}).text(followingText.unfollow));
+			button.append($('<span>', {class: 'following-text'}).text(followingText.following));
+			if(interactions.following === false) {
+				button.addClass('follow-button');
+				button.click(function(){
+					followUser(button, id);
+				});
+				holder.append(button);
+			} else {
+				button.addClass('unfollow-button');
+				button.click(function(){
+					unfollowUser(button, id);
+				});
+				holder.append(button);
+			}
+		} else {
+			//Probs do nothing
+		}
+	};
+
 	return {
-		displayUser: displayUser
+		displayUser: displayUser,
+		displayInteractionButton: displayInteractionButton
 	};
 }
 
@@ -1034,6 +1099,15 @@ function UserDataSource(cfg) {
 		});
 	};
 
+	var getUserInteractions = function(id) {
+		return ajax({
+			type: 'GET',
+			dataType: 'json',
+			url: ajaxDir + 'getInteractionsWithUser.php',
+			data: {user: id}
+		});
+	};
+
 	var getUserInfo = function(id) {
 		return ajax({
 			type: 'GET',
@@ -1081,6 +1155,7 @@ function UserDataSource(cfg) {
 
 	return {
 		getUserInfo: getUserInfo,
+		getUserInteractions: getUserInteractions,
 		getProloges: getProloges,
 		getBooksReading: getBooksReading,
 		getBooksFavorited: getBooksFavorited,

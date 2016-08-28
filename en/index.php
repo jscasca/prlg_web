@@ -120,7 +120,7 @@ session_start();
 			<div class="index-search">
 				<form class="" action="search.php">
 					<div class="input-group">
-						<input class="form-control" id="index-search--field" type="text" name="q" placeholder="Encuentra tu siguiente historia" />
+						<input class="form-control" id="index-search--field" type="text" name="q" placeholder="Find your next book" />
 						<div class="input-group-btn">
 							<button class="btn btn-default" id="index-search--submit" type="submit">
 								<i class="glyphicon glyphicon-search"></i>
