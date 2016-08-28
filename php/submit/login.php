@@ -19,7 +19,7 @@ try {
 	$code = $e->getCode();
 	$message = $e->getMessage();
 	
-	print($code);die();
+	//print($code);die();
 	if($code == 1 || $code == 401 || $message == "Token request failed") {
 		header('Location: '.$loginUrl.'?l=failed'); die();
 	} else if($code == 500 || $code == 404) {
