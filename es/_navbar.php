@@ -1,5 +1,6 @@
 <?php
 include '../php/commons.php';
+include '_lang.php';
 echo "<script type='text/javascript'>var loggedIn = ".(isset($_SESSION[SID])?"true":"false").";</script>";
 ?>
 <nav role="navigation" class="navbar navbar-custom navbar-default navbar-fixed-top">
