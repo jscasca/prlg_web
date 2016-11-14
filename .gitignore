@@ -1,3 +1,4 @@
 img/avatar/*
+!img/avatar/index.php
 css/style_*
 img/.DS_Store

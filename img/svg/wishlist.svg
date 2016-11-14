@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="SvgWishlistIcon"
+   viewBox="0 0 64 64"
+   version="1.1">
+  <g
+     id="layer1"
+     class="svg-interaction"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       class="svg-wishlist"
+       inkscape:connector-curvature="0"
+       d="m 24.705245,9.7966954 0,46.1793906 11.166143,0 0,-46.1793906 -11.166143,0 z m 1.792696,3.4758006 7.179471,0 0,3.475814 -7.179471,0 0,-3.475814 z"
+       id="rect2985" />
+    <path
+       class="svg-wishlist"
+       inkscape:connector-curvature="0"
+       d="m 10.747561,9.5468613 0,46.1794027 11.166142,0 0,-46.1794027 -11.166142,0 z m 1.592049,3.7256347 7.179483,0 0,3.475814 -7.179483,0 0,-3.475814 z"
+       id="rect2985-4" />
+    <rect
+       class="svg-wishlist"
+       id="rect2985-1"
+       width="11.324286"
+       height="45.751812"
+       x="35.798546"
+       y="20.608212"
+       transform="matrix(0.96014073,-0.27951706,0.18455381,0.98282241,0,0)" />
+  </g>
+</svg>
