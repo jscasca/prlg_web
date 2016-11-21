@@ -865,6 +865,87 @@ span.clear-float {clear: left; display: block;}
 
 
 /* ICONS  */
+.svg-interactions {
+	width: 30px;
+	height: auto;
+}
+#SvgFavoriteIcon {width: 64px; }
+#SvgWishlistIcon { width:64px; }
+.icon-favorite--active .svg-favorite {
+	stroke: #3fb0ac;
+	fill: #3fb0ac;
+}
+.icon-favorite--disabled .svg-favorite {
+	stroke: #a1a1a1;
+	fill: #a1a1a1;
+}
+.icon-favorite .svg-favorite {
+	stroke: #173e43;
+	fill: #173e43;
+}
+.icon-favorite .svg-favorite:hover {
+	stroke: #3fb0ac;
+	fill: #3fb0ac;
+}
+.icon-reading .svg-reading{
+	stroke: #173e43;
+	fill: #173e43;
+}
+.icon-reading--disabled .svg-reading{
+	stroke: #a1a1a1;
+	fill: #a1a1a1;
+}
+.icon-reading--active .svg-reading{
+	stroke: #3fb0ac;
+	fill: #3fb0ac;
+}
+.icon-reading:hover .svg-reading {
+	stroke: #3fb0ac;
+	fill: #3fb0ac;
+}
+.icon-wishlist .svg-wishlist {
+	stroke: #173e43;
+	fill: #173e43;
+}
+.icon-wishlist--disabled .svg-wishlist {
+	stroke: #a1a1a1;
+	fill: #a1a1a1;
+}
+.icon-wishlist--active .svg-wishlist {
+	stroke: #3fb0ac;
+	fill: #3fb0ac;
+}
+.icon-wishlist:hover .svg-wishlist {
+	stroke: #3fb0ac;
+	fill: #3fb0ac;
+}
+.icon-prologe .svg-prologe {
+	stroke: #173e43;
+	fill: #173e43;
+}
+.icon-prologe--disabled .svg-prologe {
+	stroke: #a1a1a1;
+	fill: #a1a1a1;
+}
+.icon-prologe--active .svg-prologe {
+	stroke: #3fb0ac;
+	fill: #3fb0ac;
+}
+.icon-prologe:hover .svg-prologe {
+	stroke: #3fb0ac;
+	fill: #3fb0ac;
+}
+.prologe-upvote--active { color: #00ff00; }
+.prologe-upvote--disabled { color: #a1a1a1; }
+.prologe-upvote:hover { color: #00ff00; }
+.prologe-upvote { color: #173e43; }
+
+.prologe-downvote--active { color: #ff0000; }
+.prologe-downvote--disabled { color: #a1a1a1; }
+.prologe-downvote:hover { color: #ff0000; }
+.prologe-downvote { color: #173e43; }
+
+/*
 div.icon-reading { background:url('../img/i_reading.png')no-repeat; background-size: 48px 48px; width:48px; height:48px;  }
 div.icon-reading--disabled { background:url('../img/i_reading_disabled.png')no-repeat; background-size: 48px 48px; width:48px; height:48px;  }
 div.icon-reading--active { background:url('../img/i_reading_active.png')no-repeat; background-size: 48px 48px; width:48px; height:48px;  }
@@ -895,3 +976,4 @@ div.prologe-downvote--active {background:url('../img/down_red.png')no-repeat; ba
 
 div.prologe-upvote--disabled {background:url('../img/up_grey.png')no-repeat; background-size: 32px 32px; width: 32px; height: 32px;}
 div.prologe-downvote--disabled {background:url('../img/down_grey.png')no-repeat; background-size: 32px 32px; width: 32px; height: 32px;}
+*/

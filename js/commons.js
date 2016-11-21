@@ -309,39 +309,57 @@ function BookPrologesTemplate(cfg) {
 	};
 
 	var getUpvote = function(enabled, vote, id, counter) {
-		var voteUI;
-		if(enabled) {
+		var voteUI = $('<div></div>');
+		voteUI.append($('<span>', {class: 'fa fa-chevron-up vote-icon'}))
+		if(enabled) {//fa chevron-up
 			if(vote == null) { /* havent voted */
-				voteUI = $('<div></div>', {class:'prologe-upvote', id:'upvote_' + id})
+				voteUI.id = 'upvote_' + id;
+				voteUI.addClass('prologe-upvote');
+				voteUI.on('click', function(){
+					upvoteProloge(id, counter);
+				})
+				/*voteUI = $('<div></div>', {class:'prologe-upvote', id:'upvote_' + id})
 					.on('click', function(){
 						upvoteProloge(id, counter);
-					});
+					});*/
 			} else if(vote.upvote) { /* upvoted already */
-				voteUI = $('<div></div>', {class:'prologe-upvote--active'});
+				voteUI.addClass('prologe-upvote--active');
+				//voteUI = $('<div></div>', {class:'prologe-upvote--active'});
 			} else { /* downvoted already */
-				voteUI = $('<div></div>', {class:'prologe-upvote--disabled'});
+				voteUI.addClass('prologe-upvote--disabled');
+				//voteUI = $('<div></div>', {class:'prologe-upvote--disabled'});
 			}
 		} else { /* only display */
-			voteUI = $('<div></div>', {class:'prologe-upvote--disabled'});
+			voteUI.addClass('prologe-upvote--disabled');
+			//voteUI = $('<div></div>', {class:'prologe-upvote--disabled'});
 		}
 		return voteUI;
 	};
 
 	var getDownvote = function(enabled, vote, id, counter) {
-		var voteUI;
-		if(enabled) {
+		var voteUI = $('<div></div>');
+		voteUI.append($('<span>', {class: 'fa fa-chevron-down vote-icon'}))
+		if(enabled) {//fa chevron-up
 			if(vote == null) { /* havent voted */
-				voteUI = $('<div></div>', {class:'prologe-downvote', id:'downvote_' + id})
+				voteUI.id = 'downvote_' + id;
+				voteUI.addClass('prologe-downvote');
+				voteUI.on('click', function(){
+					downvoteProloge(id, counter);
+				})
+				/*voteUI = $('<div></div>', {class:'prologe-downvote', id:'downvote_' + id})
 					.on('click', function(){
 						downvoteProloge(id, counter);
-					});
-			} else if(vote.downvote) { /* upvoted already */
-				voteUI = $('<div></div>', {class:'prologe-downvote--active'});
+					});*/
+			} else if(vote.downvote) { /* downvoted already */
+				voteUI.addClass('prologe-downvote--active');
+				//voteUI = $('<div></div>', {class:'prologe-downvote--active'});
 			} else { /* downvoted already */
-				voteUI = $('<div></div>', {class:'prologe-downvote--disabled'});
+				voteUI.addClass('prologe-downvote--disabled');
+				//voteUI = $('<div></div>', {class:'prologe-downvote--disabled'});
 			}
 		} else { /* only display */
-			voteUI = $('<div></div>', {class:'prologe-downvote--disabled'});
+			voteUI.addClass('prologe-downvote--disabled');
+			//voteUI = $('<div></div>', {class:'prologe-downvote--disabled'});
 		}
 		return voteUI;
 	};

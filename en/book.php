@@ -82,10 +82,18 @@ session_start();
 					</div>
 				</div>
 				<div class="main-book--actions text-right">
-					<div class="icon-wishlist--disabled" id="action-wishlist"></div>
-					<div class="icon-favorite--disabled" id="action-favorite"></div>
-					<div class="icon-prologe--disabled" id="action-prologe"></div>
-					<div class="icon-reading--disabled" id="action-reading"></div>
+					<div class="icon-wishlist--disabled" id="action-wishlist" title="Add to your wishlist" data-toogle="tooltip">
+						<?php echo file_get_contents("../img/svg/wishlist.svg");?>
+					</div>
+					<div class="icon-favorite--disabled" id="action-favorite" title="Add to your favroites">
+						<?php echo file_get_contents("../img/svg/favorite.svg");?>
+					</div>
+					<div class="icon-prologe--disabled" id="action-prologe" title="Rate this book and write a prologue">
+						<?php echo file_get_contents("../img/svg/prologe.svg");?>
+					</div>
+					<div class="icon-reading--disabled" id="action-reading" title="Add to your readings">
+						<?php echo file_get_contents("../img/svg/reading.svg");?>
+					</div>
 				</div>
 			</section>
 			
@@ -130,6 +138,8 @@ var interaction = new BookInteractionHandler({
 });
 	
 $(document).ready(function() {
+
+    $('body').tooltip({placement: 'top', selector: '[data-toggle=tooltip]'});
 
 	p.getBooksFromSameAuthor(bookId).then(
 		function(data) {
