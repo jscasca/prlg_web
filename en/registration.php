@@ -79,15 +79,15 @@ $('#registration--form').submit(function() {
 	var pwd2 = $('#pwd2');
 	var username = userInput.val();
 	if(username == '' || username == undefined) {
-		displayFormViolation(userInput, 'Selecciona un nombre de usuario');
+		displayFormViolation(userInput, 'Please type a username');
 		return false;
 	}
 	if(username.length < 3 || username.length > 25) {
-		displayFormViolation(userInput, 'El nombre de usuario tiene que tener entre 3 y 25 caracteres');
+		displayFormViolation(userInput, 'The username must be between 3 and 25 characters long');
 		return false;
 	}
 	if(!(/^[a-zA-Z0-9_]{1,24}$/.test(username))) {
-		displayFormViolation(userInput, 'Tu usuario solo puede usar letras, numeros y guiones bajos');
+		displayFormViolation(userInput, 'The username must contain only letters, numbers and underscores');
 		return false;
 	}
 	if(!validUsername) {
@@ -96,18 +96,19 @@ $('#registration--form').submit(function() {
 	}
 	removeFormViolation(userInput);
 	if(!(/^[a-zA-Z0-9\.]+@.+\.[a-z]{2,3}$/).test(email.val())) {
-		displayFormViolation(email, 'Tu correo no es valido');
+		displayFormViolation(email, 'The email is not a valid format');
 		return false;
 	}
 	removeFormViolation(email);
 	if(pwd.val().length < 6) {
-		displayFormViolation(pwd, 'Tu contraseña debe tener al menos 6 caracteres'); return false;
+		displayFormViolation(pwd, 'Your password must be at least 6 characters long'); return false;
 	}
 	removeFormViolation(pwd);
 	if(pwd.val() != pwd2.val()) {
-		displayFormViolation(pwd2, 'Tu contraseña no coincide'); return false;
+		displayFormViolation(pwd2, 'The password does not match'); return false;
 	}
 	removeFormViolation(pwd2);
+	console.log('submitting');
 	return true;
 });
 
@@ -133,11 +134,13 @@ function checkUsernameAvailability(username) {
 	  url: '../php/ajax/getUsernameAvailability.php',
 	  data: {username: username},
 	  success: function(data){
+	  	console.log(data);
+	  	console.log('return');
 			if(data === true) {
 				validUsername = true;
 				$('#registration--form').submit();
 			} else {
-				displayFormViolation($('#username'), 'El nombre de usuario <i>'+username+'</i> ya esta tomado');
+				displayFormViolation($('#username'), 'The username <i>'+username+'</i> is already taken');
 			}
 		  }
 	});
