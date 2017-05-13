@@ -88,7 +88,7 @@ session_start();
 			</div>
 		</div>
 		
-		<?
+		<?php
 		} else {
 		?>
 		<div class="row">

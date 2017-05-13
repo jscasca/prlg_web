@@ -25,7 +25,8 @@ $gItems = json_decode($gCall, true);
 $gResults = array();
 if(isset($gItems['items'])) {
 	foreach($gItems['items'] as $result) {
-		$book['author'] = isset($result['volumeInfo']['authors'][0])?$result['volumeInfo']['authors'][0]:'';
+		//$book['author'] = isset($result['volumeInfo']['authors'][0])?$result['volumeInfo']['authors'][0]:'';
+		$book['authors'] = isset($result['volumeInfo']['authors'])?$result['volumeInfo']['authors']:array();
 		$book['title'] = isset($result['volumeInfo']['title'])?$result['volumeInfo']['title']:'';
 		$book['lang'] = isset($result['volumeInfo']['language'])?$result['volumeInfo']['language']:'';
 		$book['icon'] = isset($result['volumeInfo']['imageLinks']['thumbnail'])?$result['volumeInfo']['imageLinks']['thumbnail']:'';
