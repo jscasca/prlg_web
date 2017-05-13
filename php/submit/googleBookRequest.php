@@ -17,9 +17,7 @@ $bookPage = BASE_DIR . $lang . URL_BOOK;
 	die();
 }*/
 
-$author = isset($_REQUEST['author']) ? $_REQUEST['author'] : '';
-$authorId = isset($_REQUEST['authorId']) ? $_REQUEST['authorId'] : '-1';
-$workId = isset($_REQUEST['workId']) ? $_REQUEST['workId'] : '-1';
+$authors = isset($_REQUEST['authors']) ? $_REQUEST['authors'] : '';
 $title = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
 $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
 $icon = isset($_REQUEST['icon']) ? $_REQUEST['icon'] : '';
@@ -34,9 +32,7 @@ if($language == '') {
 	die();
 }
 
-$request['author'] = $author;
-$request['authorId'] = $authorId;
-$request['workId'] = $workId;
+$request['authors'] = $authors;
 $request['title'] = $title;
 $request['language'] = $language;
 $request['icon'] = $icon;
@@ -52,7 +48,7 @@ if($code != 200) {
 	die();
 } else {
 	$book = json_decode($response[RESPONSE], true);
-	header('Location: ' . $bookPage . '?i='.$book['id']); die();
+	//header('Location: ' . $bookPage . '?i='.$book['id']); die();
 }
 
 ?>
