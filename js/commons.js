@@ -546,29 +546,30 @@ function GoogleSearchTemplate(cfg) {
 	var getEmpty = function(){};
 	var getElement = function(result) {
 		var holder = $('<article></article>', {class: base});
+		console.log(result);
 		//GET VARIABLES
-		var author = result['author'] != undefined ? result['author'] : '';
+		var authors = result['authors'] != undefined ? result['authors'] : [];
+		//var author = result['author'] != undefined ? result['author'] : '';
 		var title = result['title'] != undefined ? result['title'] : '';
 		var lang = result['lang'] != undefined ? result['lang'] : '';
 		var icon = result['icon'] != undefined ? result['icon'] : '';
 		var thumbnail = result['thumbnail'] != undefined ? result['thumbnail'] : '';
 		//BREAK HERE IF MISSING ATTR
-		if(author == '' || title == '' || lang == '') { console.log(result); return '';}
+		if(authors == [] || title == '' || lang == '') { console.log(result); return '';}
 		var form = $('<form></form>',{action: '../php/submit/googleBookRequest.php'});
-		
-		form.append($('<input>', {type: 'hidden', name: 'author', value: author}));
+		form.append($('<input>', {type: 'hidden', name: 'authors', value: authors.join(';')}));
 		form.append($('<input>', {type: 'hidden', name: 'title', value: title}));
 		form.append($('<input>', {type: 'hidden', name: 'language', value: lang}));
 		form.append($('<input>', {type: 'hidden', name: 'icon', value: icon}));
 		form.append($('<input>', {type: 'hidden', name: 'thumbnail', value: thumbnail}));
 		
-		var resultCover = $('<img>', {src: thumbnail, alt:'Cover'}).error(function(){this.src='img/defaultthumb.png';});
+		var resultCover = $('<img>', {src: thumbnail, alt:'Cover'}).error(function(){this.src='../img/defaultthumb.png';});
 		var resultImgSubmit = $('<button></button>', {type:'submit', class:'google-result--submit'}).append(resultCover);
 		var resultDiv = $('<div></div>', {class:'google-result--thumbnail'}).append(resultImgSubmit);
 		holder.append(resultDiv);
 		var resultTitle = $('<h4></h4>').html(title+" ("+lang+")");
 		var resultTitleSubmit = $('<a></a>', {}).append(resultTitle);
-		var resultAuthor = $('<h5></h5>').html(author);
+		var resultAuthor = $('<h5></h5>').html(authors.join(', '));
 		var resultInfo = $('<div></div>', {class: 'google-result--info'});
 		resultInfo.append(resultTitleSubmit.click(function(){$(this).closest('form').submit();}));
 		resultInfo.append(resultAuthor);
