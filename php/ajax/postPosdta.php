@@ -12,23 +12,22 @@ if(!isset($_REQUEST['book'])) {
 	http_response_code(400);//
 	die("No query term set");
 }
-if(!isset($_REQUEST['rating'])) {
-	http_response_code(403);//Make a return for no rating
-	die("Rating missing");
+if(isset($_REQUEST['rating'])) {
+	$posdta['rating'] = $_REQUEST['rating'];
 }
-if(!isset($_REQUEST['posdta'])) {
-	http_response_code(403);//Make a return for no comment
-	die("Posdta missing");
+if(isset($_REQUEST['posdta'])) {
+	$posdta['posdta'] = $_REQUEST['posdta'];
 }
 $book = $_REQUEST['book'];
-$posdta['rating'] = $_REQUEST['rating'];
-$posdta['posdta'] = $_REQUEST['posdta'];
+
 $token = $_SESSION[TOKEN];
 //$getUser = tokenCurlCall($accessToken, "GET", ME);
 $response = tokenCurlCall($token, "POST", "api/books/".$book."/posdtas", $posdta);
 $code = $response[HTTP_STATUS];
 if($code != 200 && $code != 204) {
-	http_response_code($code); die("BoS");
+	http_response_code($code);
+	$error = json_decode($response[RESPONSE], true);
+	print( json_encode(array("code" => $code, "message" => $error['message'])) );
 } else {
 	//$response[RESPONSE] should be a book
 	//header('HTTP/1.1 204 No response', true, 204);die();
