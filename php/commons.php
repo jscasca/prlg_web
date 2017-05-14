@@ -19,7 +19,7 @@ define('URL_REGISTRATION', 'registration.php');
 //BACK_END SERVER (CHANGE FOR PRODUCTIVE)
 //define('REST_API','http://209.177.158.134:8080/posdta/');
 //define('REST_API','http://localhost:8080/posdta/');
-define('REST_API','http://localhost:8080/posdta/');
+define('REST_API','http://localhost:8080/Posdta/');
 //SERVER PATHS
 define('TOKEN_URL', 'oauth/token');
 define('ME', 'api/myservice');
@@ -288,7 +288,7 @@ function getLang($server) {
         }
         // sort list based on value	
         arsort($langs, SORT_NUMERIC);
-        print_r($langs);
+        //print_r($langs);
 	}
 	foreach($langs as $lang => $val) {
 		$l = substr($lang, 0, 2);
