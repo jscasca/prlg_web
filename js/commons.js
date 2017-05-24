@@ -714,8 +714,7 @@ function UserHandler(cfg) {
 	var translator = cfg.translator;
 
 	var displayUser = function(userInfo, displayNameHolder, userNameHolder, iconHolder) {
-		//
-		iconHolder.attr('href', userInfo);
+		iconHolder.attr('src', userInfo.user.icon);
 		displayNameHolder.text(userInfo.user.displayName);
 		userNameHolder.text(userInfo.user.userName);
 		return true;
@@ -754,8 +753,8 @@ function UserHandler(cfg) {
 	};
 
 	var displayInteractionButton = function(id, interactions, holder) {
-		//
-		if(typeof interactions.following === "boolean") {
+		//This is going to be disabled for a bit
+		if(typeof interactions.following === "boolean" && false) {
 			//
 			var followingText = translator.getFollowingText();
 			var button = $('<button>', {class: 'btn'});
@@ -787,19 +786,35 @@ function UserHandler(cfg) {
 }
 
 function BookHandler(cfg) {
+	var DEFAULT_COVER = '../img/default.png';
 	//
 	var displayBook = function(bookInfo, titleHolder, coverHolder, authorHolder, ratingHolder) {
 		//Set the cover
+		coverHolder.error(function(){this.src=DEFAULT_COVER;});
 		coverHolder.attr('src', bookInfo.book.icon);
 		//Set the title
 		titleHolder.text(bookInfo.book.title);
-		authorHolder.attr('href', 'author.php?i=' + bookInfo.book.author.id);
-		authorHolder.append(bookInfo.book.author.name);
+		//authorHolder.attr('href', 'author.php?i=' + bookInfo.book.author.id);
+		//authorHolder.append(bookInfo.book.author.name);
+		var authors = bookInfo.book.authors.reduce(function(linkArray, author) {
+			//
+			linkArray.push("<a href='author.php?i=" + author.id + "' >" + author.name +"</a>");
+			/*var authorLink = document.createElement('a');
+			authorLink.href = 'author.php?i=' + author.id;
+			authorLink.appendChild(document.createTextNode(author.name));
+			authorHolder.append(authorLink);
+			console.log(author);*/
+			return linkArray;
+		}, []);
+		authorHolder.append(authors.join(",&nbsp"));
+
+		//set here the authors
+
 		ratingHolder.raty({
 			//
 			readOnly: true,
 			size: 120,
-			score : bookInfo.book.rating.rating,
+			score : bookInfo.book.rating ? bookInfo.book.rating : 0,
 			path: '../img/',
 			starHalf : 'star-half-big.png',
 			starOff : 'star-off-big.png',

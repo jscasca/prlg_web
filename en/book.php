@@ -75,7 +75,7 @@ session_start();
 				</div>
 				<div class="main-book--info">
 					<h2 id="book-title"></h2>
-					<a href="" id="book-author--link"><h3 id="book-author"></h3></a>
+					<h3 id="book-author"></h3>
 					<div class="main-book--rating">
 						<!--<input id="bookRatingInput" type="number" class="rating" value="4" data-show-clear="false" data-show-caption="false" data-display-only="true">-->
 						<div id="main-book--rated"></div>
@@ -149,7 +149,7 @@ $(document).ready(function() {
 
 	p.getBookInfo(bookId).then(function(data){
 		console.log(data);
-		mainBook.displayBook(data, $('#book-title'), $('#book-cover'), $('#book-author--link'), $('#main-book--rated'));
+		mainBook.displayBook(data, $('#book-title'), $('#book-cover'), $('#book-author'), $('#main-book--rated'));
 	});
 
 	p.getBookProloges(bookId).then(function(data){

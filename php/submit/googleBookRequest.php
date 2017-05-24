@@ -48,7 +48,7 @@ if($code != 200) {
 	die();
 } else {
 	$book = json_decode($response[RESPONSE], true);
-	//header('Location: ' . $bookPage . '?i='.$book['id']); die();
+	header('Location: ' . $bookPage . '?i='.$book['id']); die();
 }
 
 ?>
