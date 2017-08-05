@@ -613,7 +613,13 @@ function SearchTemplate(cfg) {
 		var holder = $('<div></div>', {class: bookBase + '--info'});
 		var link = $('<a></a>', {href:'book.php?i=' + book.id});
 		var title = $('<h4></h4>').text(book.title);
-		var author = $('<h5></h5>').text(book.authorName);
+		var authors = book.authors.reduce(function(linkArray, author) {
+			//
+			linkArray.push("<a href='author.php?i=" + author.id + "' >" + author.name +"</a>");
+			return linkArray;
+		}, []);
+		//authorHolder.append(authors.join(",&nbsp"));
+		var author = $('<h5></h5>').html(authors.join(",&nbsp"));
 		link.append(title);
 		holder.append(link);
 		holder.append(author);
@@ -1007,7 +1013,7 @@ function BookInteractionHandler(cfg) {
 	};
 
 	var getPrologeInteraction = function(holder, interactions, id, f) {
-		if(interactions.posdta == true) {
+		if(interactions.posdta) {
 			holder.removeClass('icon-prologe--disabled')
 				.addClass('icon-prologe--active');
 		} else {
