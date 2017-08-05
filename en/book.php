@@ -196,7 +196,7 @@ $(document).ready(function() {
 
 function validateProloge() {
 	var prologe = $('#prologe-modal--textarea').val();
-	if(prologe.length == 0 || prologe.length > maxProloge) {
+	if(prologe.length > maxProloge) {
 		$('.prologe-modal--textarea').css({'border-color':'red'});
 		return 0;
 	} else {
@@ -216,8 +216,6 @@ function validateProloge() {
 		 //easier to reload interactions :P
 		}).catch(function(data){
 			//
-			console.log(data);
-			//location.reload();
 		});
 }
 
