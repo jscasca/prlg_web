@@ -20,8 +20,8 @@ $bookPage = BASE_DIR . $lang . URL_BOOK;
 $authors = isset($_REQUEST['authors']) ? $_REQUEST['authors'] : '';
 $title = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
 $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
-$icon = isset($_REQUEST['icon']) ? $_REQUEST['icon'] : '';
-$thumbnail = isset($_REQUEST['thumbnail']) ? $_REQUEST['thumbnail'] : '';
+$icon = isset($_REQUEST['icon']) ? $_REQUEST['icon'] : 'http://prologes.com/img/default.png';
+$thumbnail = isset($_REQUEST['thumbnail']) ? $_REQUEST['thumbnail'] : 'http://prologes.com/img/default.png';
 
 if($title == '') {
 	header("Location: " . $internalErrorPage);
