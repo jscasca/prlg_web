@@ -89,7 +89,7 @@ function AuthorBooksTemplate(cfg) {
 		icon.append(getThumb(book));
 		var info = $('<div></div>', {class: base + '--info'});
 		info.append(getBookName(book));
-		info.append(getRating(book.rating.rating));
+		info.append(getRating(book.rating));
 		article.append(icon);
 		article.append(info);
 		holder.append(article);
