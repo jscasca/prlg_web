@@ -168,6 +168,10 @@ min-width:45px
 width:100%;
 padding:.6em
 }
+.login-error > p{
+color: red;
+font-size: 14px;
+}
 
 /************** NAVBAR ********************/
 .navbar-custom {

@@ -57,8 +57,8 @@ session_start();
 				<!-- Google Results -->
 				<div class="col-md-4">
 					<div id="not-found">
-						<h5>Not what you are looking for?</h5>
-						<button class="btn Results-button" onclick="(function(){$('#book-request-modal').modal('show');})()";>Add book</button>
+						<h5>No encontraste el libro que buscabas?</h5>
+						<button class="btn Results-button" onclick="(function(){$('#book-request-modal').modal('show');})()";>Arega un libro</button>
 						<!--<button class="btn Results-button">Add author</button>-->
 					</div>
 				</div>
@@ -70,31 +70,31 @@ session_start();
 						<form action="../php/submit/customBookRequest.php" method="POST" class="book-request-form" id="book-request-form">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h3 class="modal-title"><span id="modal-title-placeholder">Request a book!</span></h3>
+							<h3 class="modal-title"><span id="modal-title-placeholder">Solicita un libro!</span></h3>
 						</div>
 						<div class="modal-body">
 						<div class="form-group">
 							<div class="form-group">
-								<label for="requestTitle">Title</label>
-								<input type="text" class="form-control" id="requestTitle" name="title" placeholder="Title" />
+								<label for="requestTitle">Titulo</label>
+								<input type="text" class="form-control" id="requestTitle" name="title" placeholder="Titulo" />
 							</div>
 							<div class="form-group">
-								<label for="requestAuthors">Authors</label>
+								<label for="requestAuthors">Autores</label>
 								<div id="requestAuthors">
 									<div class="form-group">
-										<input type="text" class="form-control request-author" id="requestAuthors" name="author[]" placeholder="Author" />
+										<input type="text" class="form-control request-author" id="requestAuthors" name="author[]" placeholder="Autor" />
 									</div>
 									<div class="form-group">
-										<input type="text" class="form-control request-author" id="requestAuthors" name="author[]" placeholder="Author" />
+										<input type="text" class="form-control request-author" id="requestAuthors" name="author[]" placeholder="Autor" />
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
 								<label>
-								Language 
+								Idioma 
 									<select name="language" >
-										<option value="en">ENG</option>
 										<option value="es">ESP</option>
+										<option value="en">ENG</option>
 										<option value="fr">ITA</option>
 										<option value="it">FRA</option>
 										<option value="jp">JAP</option>
@@ -136,7 +136,7 @@ session_start();
 						</div>
 						<div class="modal-footer">
 							<div class="modal-footer--buttons text-center">
-								<button type="submit" class="btn Blue-button" id="prologe-modal--submit">Request!</button>
+								<button type="submit" class="btn Blue-button" id="prologe-modal--submit">Solicitalo!</button>
 							</div>
 							<!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
 						</div>

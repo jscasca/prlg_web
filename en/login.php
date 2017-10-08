@@ -22,6 +22,16 @@ include '../php/fb-login.php';
 		<div class="Login-container">
 			<h5>Start using Prologues by loging in with your user and password</h5>
 			<form action="../php/submit/login.php" method="POST" class="Login-form">
+				<?php
+				if(isset($_REQUEST['l'])) {
+					//check for the failing cases (maybe swith to understand the type of failure
+					?>
+					<div class="login-error">
+						<p>Sorry, your username and password do not match.</p>
+					</div>
+					<?php
+				}
+				?>
 				<div class="form-group">
 					<label class="sr-only" for="">User</label>
 				    <div class="input-group">

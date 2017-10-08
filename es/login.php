@@ -23,6 +23,16 @@ include '../php/fb-login.php';
 			<h5>Comienza a utilizar Prologes ingresando tus datos
 			de acceso a continuación</h5>
 			<form action="../php/submit/login.php" method="POST" class="Login-form">
+				<?php
+				if(isset($_REQUEST['l'])) {
+					//check for the failing cases (maybe swith to understand the type of failure
+					?>
+					<div class="login-error">
+						<p>Lo sentimos, tu nombre de usuario y contraseña no coinciden.</p>
+					</div>
+					<?php
+				}
+				?>
 				<div class="form-group">
 					<label class="sr-only" for="">Usuario</label>
 				    <div class="input-group">
