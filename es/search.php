@@ -56,26 +56,100 @@ session_start();
 				
 				<!-- Google Results -->
 				<div class="col-md-4">
-				
+					<div id="not-found">
+						<h5>Not what you are looking for?</h5>
+						<button class="btn Results-button" onclick="(function(){$('#book-request-modal').modal('show');})()";>Add book</button>
+						<!--<button class="btn Results-button">Add author</button>-->
+					</div>
 				</div>
 			</div>
-			<div class="row">
+			<!-- Modal dialog for book request-->
+			<div id="book-request-modal" class="modal fade">
+				<div class="modal-dialog modal-sm">
+					<div class="modal-content">
+						<form action="../php/submit/customBookRequest.php" method="POST" class="book-request-form" id="book-request-form">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3 class="modal-title"><span id="modal-title-placeholder">Request a book!</span></h3>
+						</div>
+						<div class="modal-body">
+						<div class="form-group">
+							<div class="form-group">
+								<label for="requestTitle">Title</label>
+								<input type="text" class="form-control" id="requestTitle" name="title" placeholder="Title" />
+							</div>
+							<div class="form-group">
+								<label for="requestAuthors">Authors</label>
+								<div id="requestAuthors">
+									<div class="form-group">
+										<input type="text" class="form-control request-author" id="requestAuthors" name="author[]" placeholder="Author" />
+									</div>
+									<div class="form-group">
+										<input type="text" class="form-control request-author" id="requestAuthors" name="author[]" placeholder="Author" />
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>
+								Language 
+									<select name="language" >
+										<option value="en">ENG</option>
+										<option value="es">ESP</option>
+										<option value="fr">ITA</option>
+										<option value="it">FRA</option>
+										<option value="jp">JAP</option>
+									</select>
+								</label>
+							</div>
+						</div>
+							<!--
+								<div>
+									<h5>Title</h5>
+									<input name="title" class="request-form-title">
+									<h5>Authors</h5>
+									<div>
+										<div class="">
+											<input name="author[]" class="request-form-author">
+										</div>
+										<div class="">
+											<input name="author[]" class="request-form-author">
+										</div>
+									</div>
+									<div>
+										<h5>Language</h5>
+										<select name="language">
+											<option value="en">ENG</option>
+											<option value="es">ESP</option>
+											<option value="fr">ITA</option>
+											<option value="it">FRA</option>
+											<option value="jp">JAP</option>
+										</select>
+									</div>
+								</div>-->
+							<!--<div class="prologe-modal--prologe text-center">
+								<textarea id="prologe-modal--textarea" class="prologe-modal--textarea"></textarea>
+								<div class="prologe-modal--feedback texformt-right" id="prologe-modal--feedback"></div>
+							</div>
+							<div class="prologe-modal--rating">
+								Rate: <span id="prologe-modal--raty"></span>
+							</div>-->
+						</div>
+						<div class="modal-footer">
+							<div class="modal-footer--buttons text-center">
+								<button type="submit" class="btn Blue-button" id="prologe-modal--submit">Request!</button>
+							</div>
+							<!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!--<div class="row">
 				<div class="col-md-8" id="google-results">
 				
 				</div>
-			</div>
+			</div>-->
 		</div>
-		
-		<!-- NOT READY YET -->
-		<!--<h5 class="Results-subtitle">
-			¿No encontraste el libro o escritor que buscabas?
-				<button class="btn Results-button">Nuevo Libro</button>
-				<button class="btn Results-button">Nuevo Autor</button>
-		</h5>-->
-		<div class="">
-		
-		</div>
-		
 		
 	</div>
 	
@@ -99,7 +173,7 @@ $(document).ready(function() {
 	$('#search-title').html(searchText);
 
 	var searchHandler = new PrologesDataHolder($('#search-results'), searchTemplate);
-	var gsearchHandler = new PrologesDataHolder($('#google-results'), gsearchTemplate);
+	var gsearchHandler = new PrologesDataHolder($('#search-results'), gsearchTemplate);
 
 	var search = ds.search(searchText);
 	search.then(function(data){

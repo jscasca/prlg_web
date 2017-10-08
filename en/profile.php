@@ -143,7 +143,7 @@ function displayMyInfo(user) {
 	$('#userDisplayName').html(user.displayName);
 	$('#username').html(user.userName);
 	currentAvatar = user.icon;
-	$('#avatar').attr('src', user.icon);
+	$('#avatar').attr('src', user.icon + '?bs=' + Math.random());
 	$('#avatar').error(function(){this.src='../img/defaultuser.png';});
 }
 

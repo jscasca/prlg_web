@@ -39,6 +39,7 @@ include '../php/fb-login.php';
 				</div>
 				<button type="send" class="btn Basic-button Green-button">Ingresar</button>
 				<h5>¿No tienes cuenta aún? <a href="registration.php">Regístrate</a></h5>
+				<h5><a href="forgotten.php">Olvidaste tu contraseña?</a></h5>
 				<!--<h6>O utiliza tus redes sociales</h6>
 				<div class="Login-buttonContainer">
 					<a href="<?php echo htmlspecialchars($loginUrl); ?>" class="btn Facebook-button">Facebook</a>

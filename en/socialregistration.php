@@ -39,16 +39,16 @@ if(isset($_SESSION["SocialLogin"])) {
 						<img src="<?php echo $socialUser['icon'];?>" >
 					</div>
 				</div>
-				<h5>Para completar tu registro, selecciona un nombre de usuario único.</h5>
+				<h5>To complete registration, select a unique username.</h5>
 				<div class="form-group">
-					<label class="sr-only" for="">Usuario</label>
+					<label class="sr-only" for="">Username</label>
 				    <div class="input-group">
 				        <div class="input-group-addon"><span class="fa fa-user"></span></div>
-				        <input type="text" class="form-control" placeholder="Usuario" name="username" id="username">
+				        <input type="text" class="form-control" placeholder="Username" name="username" id="username">
 				    </div>
 				    <div id="error-msg"></div>
 				</div>
-				<button type="send" class="btn Basic-button Green-button">Registrar</button>
+				<button type="send" class="btn Basic-button Green-button">Register</button>
 			</form>
 		</div>
 	</section>
@@ -74,11 +74,11 @@ $('#social-registration--form').submit(function() {
 	var userInput = $('#username');
 	var username = userInput.val();
 	if(username == '' || username == undefined) {
-		displayFormViolation(userInput, 'Tienes que seleccionar un nombre de usuario');
+		displayFormViolation(userInput, 'Please type a username');
 		return false;
 	}
 	if(username.length < 3 || username.length > 25) {
-		displayFormViolation(userInput, 'El nombre de usuario tiene que tener entre 3 y 25 caracteres');
+		displayFormViolation(userInput, 'Username must be between 3 and 25 characters long');
 		return false;
 	}
 	if(!validUsername) {
@@ -109,7 +109,7 @@ function checkUsernameAvailability(username) {
 				validUsername = true;
 				$('#social-registration--form').submit();
 			} else {
-				displayFormViolation($('#username'), 'El nombre de usuario <i>'+username+'</i> ya esta tomado');
+				displayFormViolation($('#username'), 'The username <i>'+username+'</i> has already been taken');
 			}
 		  }
 	});

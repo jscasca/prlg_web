@@ -108,7 +108,6 @@ $('#registration--form').submit(function() {
 		displayFormViolation(pwd2, 'The password does not match'); return false;
 	}
 	removeFormViolation(pwd2);
-	console.log('submitting');
 	return true;
 });
 
