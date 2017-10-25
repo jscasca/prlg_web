@@ -63,18 +63,30 @@ var author = new AuthorDataSource({});
 var authorHandler = new AuthorHandler({});
 
 var bookTemplate = new AuthorBooksTemplate({});
+var externalTemplate = new AuthorExternalBooksTemplate({});
 $(document).ready(function() {
 	var authorBooksHandler = new PrologesDataHolder($('#author-books'), bookTemplate);
+	var externalBooksHandler = new PrologesDataHolder($('#author-books'), externalTemplate);
 
-	author.getInfo(authorId).then(function(info) {
-		authorHandler.displayAuthor(info, $('#author-name'), $('#author-pic'));
-		console.log(info);
+	var authorBooks = author.getBooks(authorId);
+	authorBooks.then(function(books) {
+		authorBooksHandler.printCollection(books);
 	});
 
-	author.getBooks(authorId).then(function(books) {
-		//
-		authorBooksHandler.printCollection(books);
-		console.log(books);
+	var authorInfo = author.getInfo(authorId);
+	authorInfo.then(function(info) {
+		authorHandler.displayAuthor(info, $('#author-name'), $('#author-pic'));
+		var externalBooks = author.getExternalBooks(info.name);
+		Promise.all([authorBooks, externalBooks]).then(function(values) {
+			var existing = values[0].reduce(function(acc, x) {
+				acc[x.title] = x.authors;
+				return acc;
+			}, {});
+			var external = values[1].filter(function(x) {
+				return existing[x.title] === undefined;
+			});
+			externalBooksHandler.printCollection(external);
+		});
 	});
 });
 </script>

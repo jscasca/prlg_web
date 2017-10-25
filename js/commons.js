@@ -75,6 +75,60 @@ function PrologesDataHolder(node, template, options) {
 	};
 }
 
+function AuthorExternalBooksTemplate(cfg) {
+	var base = cfg.base || 'similar-book';
+	var getThumb = function(form, thumb) {
+		var link = $('<a></a>').click(function() {form.submit();});
+		var icon = $('<img>', {src:thumb, alt:'Cover', class:'backup-thumb'});
+		return link.append(icon);
+	};
+
+	var getBookName = function(form, title) {
+		var link = $('<a></a>').click(function(){form.submit();});
+		var title = $('<h3>').text(title);
+		return link.append(title);
+	}
+
+	var getRating = function() {
+		var rating = $('<div></div>', {class: base + '--rating'});
+		rating = populateRatingDiv(rating, 0);
+		return rating;
+	};
+	var getEmpty = function(book){};
+	var getElement = function(result) {
+		//prep the form
+		var authors = result['authors'] != undefined ? result['authors'] : [];
+		var title = result['title'] != undefined ? result['title'] : '';
+		var lang = result['lang'] != undefined ? result['lang'] : '';
+		var icon = result['icon'] != undefined ? result['icon'] : '';
+		var thumbnail = result['thumbnail'] != undefined ? result['thumbnail'] : '';
+		if(authors == [] || title == '' || lang == '') { console.log(result); return '';}
+		var form = $('<form></form>',{action: '../php/submit/googleBookRequest.php'});
+		form.append($('<input>', {type: 'hidden', name: 'authors', value: authors.join(';')}));
+		form.append($('<input>', {type: 'hidden', name: 'title', value: title}));
+		form.append($('<input>', {type: 'hidden', name: 'language', value: lang}));
+		form.append($('<input>', {type: 'hidden', name: 'icon', value: icon}));
+		form.append($('<input>', {type: 'hidden', name: 'thumbnail', value: thumbnail}));
+		//show the element
+		var holder  = $('<div></div>', {class:'col-md-4 col-sm-6'}); 
+		var article = $('<article></article>', {class: base});
+		var icon = $('<div></div>', {class: base + '--thumbnail'});
+		icon.append(getThumb(form, thumbnail));
+		var info = $('<div></div>', {class: base + '--info'});
+		info.append(getBookName(form, title));
+		info.append(getRating());
+		article.append(icon);
+		article.append(info);
+		article.append(form);
+		holder.append(article);
+		return holder;
+	};
+	return {
+		getElement: getElement,
+		getEmpty: getEmpty
+	};
+}
+
 function AuthorBooksTemplate(cfg) {
 	var base = cfg.base || 'similar-book';
 	//
@@ -1095,9 +1149,19 @@ function AuthorDataSource(cfg) {
 		});
 	};
 
+	var getExternalBooks = function(name) {
+		return ajax({
+			type: 'GET',
+			dataType: 'json',
+			url: ajaxDir + 'authorSearch.php',
+			data: {author: name}
+		});
+	};
+
 	return {
 		getInfo: getInfo,
-		getBooks: getBooks
+		getBooks: getBooks,
+		getExternalBooks: getExternalBooks
 	};
 }
 
