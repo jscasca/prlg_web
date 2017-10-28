@@ -26,9 +26,19 @@ include '../php/fb-login.php';
 				<?php
 				if(isset($_REQUEST['l'])) {
 					//check for the failing cases (maybe swith to understand the type of failure
+					//failed | timeout
+					$errorMsg = "";
+					switch($_REQUEST['l']) {
+						case "failed":
+							$errorMsg = "Lo sentimos, tu nombre de usuario y contraseña no coinciden.";
+							break;
+						case "timeout":
+							$errorMsg = "Lo sentimos, tu sesion ha caducado. Inicia sesion nuevamente";
+							break;
+					}
 					?>
 					<div class="login-error">
-						<p>Lo sentimos, tu nombre de usuario y contraseña no coinciden.</p>
+						<p><?php echo $errorMsg; ?></p>
 					</div>
 					<?php
 				}

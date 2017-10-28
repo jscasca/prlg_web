@@ -5,6 +5,7 @@ require('../commons.php');
 
 $lang = $_SESSION[LANG].'/';
 
+$loginPage = BASE_DIR . $lang . URL_LOGIN;
 $internalErrorPage = BASE_DIR . $lang . URL_INTERNAL_SERVER_ERROR;
 $bookPage = BASE_DIR . $lang . URL_BOOK;
 
@@ -55,7 +56,11 @@ $response = tokenCurlCall($token, "POST", "api/books/requests/custom", $request)
 //$response = authenticationlessCurlCall("POST", "api/books/requests", $request);
 $code = $response[HTTP_STATUS];
 if($code != 200) {
-	header("Location: " . $internalErrorPage);
+	if($code == 401) {
+		header("Location: " . $loginPage . "?l=timeout");
+	} else {
+		header("Location: " . $internalErrorPage);
+	}
 	die();
 } else {
 	$book = json_decode($response[RESPONSE], true);

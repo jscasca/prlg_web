@@ -70,73 +70,43 @@ session_start();
 						<form action="../php/submit/customBookRequest.php" method="POST" class="book-request-form" id="book-request-form">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h3 class="modal-title"><span id="modal-title-placeholder">Solicita un libro!</span></h3>
+							<h3 class="modal-title"><span id="modal-title-placeholder">Agrega un libro!</span></h3>
 						</div>
 						<div class="modal-body">
-						<div class="form-group">
 							<div class="form-group">
-								<label for="requestTitle">Titulo</label>
-								<input type="text" class="form-control" id="requestTitle" name="title" placeholder="Titulo" />
-							</div>
-							<div class="form-group">
-								<label for="requestAuthors">Autores</label>
-								<div id="requestAuthors">
-									<div class="form-group">
-										<input type="text" class="form-control request-author" id="requestAuthors" name="author[]" placeholder="Autor" />
-									</div>
-									<div class="form-group">
-										<input type="text" class="form-control request-author" id="requestAuthors" name="author[]" placeholder="Autor" />
+								<div class="form-group">
+									<label for="requestTitle">Titulo</label>
+									<input type="text" class="form-control" id="request-title" name="title" placeholder="Titulo" />
+								</div>
+								<div class="form-group">
+									<label for="requestAuthors">Autores</label>
+									<div id="requestAuthors">
+										<div class="form-group">
+											<input type="text" class="form-control request-author" name="author[]" placeholder="Autor" />
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control request-author" name="author[]" placeholder="Autor" />
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label>
-								Idioma 
-									<select name="language" >
-										<option value="es">ESP</option>
-										<option value="en">ENG</option>
-										<option value="fr">ITA</option>
-										<option value="it">FRA</option>
-										<option value="jp">JAP</option>
-									</select>
-								</label>
-							</div>
-						</div>
-							<!--
-								<div>
-									<h5>Title</h5>
-									<input name="title" class="request-form-title">
-									<h5>Authors</h5>
-									<div>
-										<div class="">
-											<input name="author[]" class="request-form-author">
-										</div>
-										<div class="">
-											<input name="author[]" class="request-form-author">
-										</div>
-									</div>
-									<div>
-										<h5>Language</h5>
-										<select name="language">
-											<option value="en">ENG</option>
+								<div class="form-group">
+									<label>
+									Idioma 
+										<select name="language" >
 											<option value="es">ESP</option>
+											<option value="en">ENG</option>
 											<option value="fr">ITA</option>
 											<option value="it">FRA</option>
 											<option value="jp">JAP</option>
 										</select>
-									</div>
-								</div>-->
-							<!--<div class="prologe-modal--prologe text-center">
-								<textarea id="prologe-modal--textarea" class="prologe-modal--textarea"></textarea>
-								<div class="prologe-modal--feedback texformt-right" id="prologe-modal--feedback"></div>
+									</label>
+								</div>
+								<div id="error-msg"></div>
 							</div>
-							<div class="prologe-modal--rating">
-								Rate: <span id="prologe-modal--raty"></span>
-							</div>-->
 						</div>
 						<div class="modal-footer">
 							<div class="modal-footer--buttons text-center">
-								<button type="submit" class="btn Blue-button" id="prologe-modal--submit">Solicitalo!</button>
+								<button type="button" class="btn Blue-button" id="custom-request--submit">Agregalo!</button>
 							</div>
 							<!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
 						</div>
@@ -196,4 +166,60 @@ $(document).ready(function() {
 		});
 	//}
 });
+
+$('#custom-request--submit').click(function(){
+	$('#error-msg').empty();
+	var titleInput = $('#request-title');
+	var title = titleInput.val().trim();
+	if(title == '') {
+		displayFormViolation(titleInput, 'Escribe el titulo del libro');
+		return false;
+	}
+	removeFormViolation(titleInput);
+	var firstAuthor = $('.request-author')[0];
+	if(areEmpty($('.request-author'))) {
+		displayHtmlFormViolation($('.request-author')[0], 'Escribe por lo menos un autor');
+		return false
+	}
+	removeHtmlFormViolation(firstAuthor);
+	//return false;
+	//submit that stuff
+	$("#book-request-form").submit();
+});
+
+function areEmpty(inputs) {
+	var empty = true;
+	inputs.each(function(i, e) {
+		if(e.value.trim() !== '') {
+			empty = false;
+		}
+	});
+	return empty;
+};
+
+function isEmpty(input) {
+	return input.val().trim() == '';
+}
+
+function removeHtmlFormViolation(input) {
+	input.style.border = '1px solid #3fb0ac';
+	input.style.boxShadow = '0 0 5px #3fb0ac';
+}
+
+function removeFormViolation(input) {
+	input.css({border: '1px solid #3fb0ac', 'box-shadow':'0 0 5px #3fb0ac'});
+}
+
+function displayHtmlFormViolation(input, msg) {
+	$('#error-msg').append("<p>"+msg+"</p>");
+	input.style.border = '1px solid red';
+	input.style.boxShadow = '0 0 5px red';
+	input.focus();
+}
+
+function displayFormViolation(input, msg) {
+	$('#error-msg').append("<p>"+msg+"</p>");
+	input.css({border: '1px solid red', 'box-shadow': '0 0 5px red'});
+	input.focus();
+}
 </script>

@@ -27,7 +27,7 @@ session_start();
 				<div class="col-md-8" id="search-results">
 					<!--<article class="book-result">
 							<div class="book-result--thumbnail">
-								<img src="img/defaultthumb.png" alt="cover">
+								<img src="img/defalutthumb.png" alt="cover">
 							</div>
 							<div class="book-result--info">
 								<h3>Titulo del Libro</h3>
@@ -136,7 +136,7 @@ session_start();
 						</div>
 						<div class="modal-footer">
 							<div class="modal-footer--buttons text-center">
-								<button type="submit" class="btn Blue-button" id="prologe-modal--submit">Request!</button>
+								<button type="submit" class="btn Blue-button" id="custom-request--submit">Request!</button>
 							</div>
 							<!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
 						</div>
@@ -197,19 +197,60 @@ $(document).ready(function() {
 	//}
 });
 
-$('#registration--form').submit(function() {
-	//check the title or return false
-	//return ( && title);
-	//check the authors or return false
-	return false;
+$('#custom-request--submit').click(function(){
+	$('#error-msg').empty();
+	var titleInput = $('#request-title');
+	var title = titleInput.val().trim();
+	if(title == '') {
+		displayFormViolation(titleInput, 'Type the book title');
+		return false;
+	}
+	removeFormViolation(titleInput);
+	var firstAuthor = $('.request-author')[0];
+	if(areEmpty($('.request-author'))) {
+		displayHtmlFormViolation($('.request-author')[0], 'At least type one author');
+		return false
+	}
+	removeHtmlFormViolation(firstAuthor);
+	//return false;
+	//submit that stuff
+	$("#book-request-form").submit();
 });
 
-function checkAuthors() {
-	//query for request-form-author
-	
+function areEmpty(inputs) {
+	var empty = true;
+	inputs.each(function(i, e) {
+		if(e.value.trim() !== '') {
+			empty = false;
+		}
+	});
+	return empty;
 };
 
-function checkTitle() {
-	//query for request-form-title
-};
+function isEmpty(input) {
+	return input.val().trim() == '';
+}
+
+function removeHtmlFormViolation(input) {
+	input.style.border = '1px solid #3fb0ac';
+	input.style.boxShadow = '0 0 5px #3fb0ac';
+}
+
+function removeFormViolation(input) {
+	input.css({border: '1px solid #3fb0ac', 'box-shadow':'0 0 5px #3fb0ac'});
+}
+
+function displayHtmlFormViolation(input, msg) {
+	$('#error-msg').append("<p>"+msg+"</p>");
+	input.style.border = '1px solid red';
+	input.style.boxShadow = '0 0 5px red';
+	input.focus();
+}
+
+function displayFormViolation(input, msg) {
+	$('#error-msg').append("<p>"+msg+"</p>");
+	input.css({border: '1px solid red', 'box-shadow': '0 0 5px red'});
+	input.focus();
+}
+
 </script>

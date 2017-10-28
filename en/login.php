@@ -25,9 +25,19 @@ include '../php/fb-login.php';
 				<?php
 				if(isset($_REQUEST['l'])) {
 					//check for the failing cases (maybe swith to understand the type of failure
+					//failed | timeout
+					$errorMsg = "";
+					switch($_REQUEST['l']) {
+						case "failed":
+							$errorMsg = "Sorry, your username and password do not match.";
+							break;
+						case "timeout":
+							$errorMsg = "Sorry, your session has expired. Please log in";
+							break;
+					}
 					?>
 					<div class="login-error">
-						<p>Sorry, your username and password do not match.</p>
+						<p><?php echo $errorMsg; ?></p>
 					</div>
 					<?php
 				}
