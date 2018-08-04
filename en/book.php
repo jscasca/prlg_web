@@ -96,9 +96,32 @@ session_start();
 					</div>
 				</div>
 			</section>
-			
-			<div class="main-prologes" id="main-prologes">
-				
+
+			<div class='row user-tabs'>
+				<ul class='nav nav-tabs'>
+					<li class='active'><a href='#tab-prologes' data-toggle='tab'>Prologues</a></li>
+					<li><a href='#tab-comments' data-toggle='tab'>Comments</a></li>
+				</ul>
+			</div>
+
+			<div class='tab-content'>
+				<!-- Prologes DIV -->
+				<div id='tab-prologes' class='tab-pane fade in active'>
+					<div class="main-prologes" id="main-prologes"></div>
+				</div>
+
+				<!-- Comments DIV -->
+				<div id='tab-comments' class='tab-pane fade'>
+					<div class="book-comment--area" id="book-comment--area" >
+						<div class="book-comment--form">
+							<textarea id="book-comment--textarea" class="book-comment--textarea" placeholder="Write a comment..."></textarea>
+							<button type="button" class="btn Comment-button" id="comment-book--submit">Post</button>
+							<div class="book-comment--feedback text-right" id="book-comment--feedback"></div>
+						</div>
+					</div>
+					<div class="main-comments" id="main-comments">
+					</div>
+				</div>
 			</div>
 		</div>
 		
@@ -118,6 +141,7 @@ session_start();
 var bookId = "<?php echo $_REQUEST['i'];?>";
 var retries = 0;
 var maxProloge = 380;
+var maxComment = 240;
 
 var p = new PrologesDataSource({});
 var h = new PrologesDataHandler({});
@@ -131,6 +155,8 @@ var prologesHandler = new PrologesDataHolder($('#main-prologes'), prologesTempla
 var uiHelper = new UiHelper($('#book-modal'), $('#book-modal--body'));
 
 var mainBook = new BookHandler({});
+
+var commentHandler = new CommentDataHolder($('#main-comments'), { translator: translator });
 
 var interaction = new BookInteractionHandler({
 	translator: translator,
@@ -153,7 +179,15 @@ $(document).ready(function() {
 	});
 
 	p.getBookProloges(bookId).then(function(data){
+		console.log(data);
 		prologesHandler.printCollection(data);
+	});
+
+	//getbookcomments
+	//print comment tree
+	p.getBookComments(bookId).then(function(data) {
+		console.log(data);
+		commentHandler.printCollection(data);
 	});
 
 	if(loggedIn) {
@@ -165,6 +199,7 @@ $(document).ready(function() {
 				$("#prologe-modal").modal('show');
 			});
 		});
+		//if logged in show the comment thingy
 	}
 
 	$('#prologe-modal--feedback').html(maxProloge);
@@ -191,6 +226,18 @@ $(document).ready(function() {
 		starHalf :'star-half-big.png',
 		starOff :'star-off-big.png',
 		starOn :'star-on-big.png'
+	});
+
+	$('#book-comment--textarea').keyup(function() {
+		var text = $('#book-comment--textarea').val();
+		var chars = text.length;
+		var charsRemaining = maxComment - chars;
+		if(chars > maxComment) {
+			var newText = text.substr(0, maxComment);
+			$('#book-comment--textarea').val(newText);
+			charsRemaining = 0;
+		}
+		$('#book-comment--feedback').html(charsRemaining);
 	});
 });
 

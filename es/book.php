@@ -96,9 +96,32 @@ session_start();
 					</div>
 				</div>
 			</section>
-			
-			<div class="main-prologes" id="main-prologes">
-				
+
+			<div class='row user-tabs'>
+				<ul class='nav nav-tabs'>
+					<li class='active'><a href='#tab-prologes' data-toggle='tab'>Prologues</a></li>
+					<li><a href='#tab-comments' data-toggle='tab'>Comentarios</a></li>
+				</ul>
+			</div>
+
+			<div class='tab-content'>
+				<!-- Prologes DIV -->
+				<div id='tab-prologes' class='tab-pane fade in active'>
+					<div class="main-prologes" id="main-prologes"></div>
+				</div>
+
+				<!-- Comments DIV -->
+				<div id='tab-comments' class='tab-pane fade'>
+					<div class="book-comment--area" id="book-comment--area" >
+						<div class="book-comment--form">
+							<textarea id="book-comment--textarea" class="book-comment--textarea" placeholder="Write a comment..."></textarea>
+							<button type="button" class="btn Comment-button" id="comment-book--submit">Post</button>
+							<div class="book-comment--feedback text-right" id="book-comment--feedback"></div>
+						</div>
+					</div>
+					<div class="main-comments" id="main-comments">
+					</div>
+				</div>
 			</div>
 		</div>
 		
@@ -132,12 +155,16 @@ var uiHelper = new UiHelper($('#book-modal'), $('#book-modal--body'));
 
 var mainBook = new BookHandler({});
 
+var commentHandler = new CommentDataHolder($('#main-comments'), { translator: translator });
+
 var interaction = new BookInteractionHandler({
 	translator: translator,
 	uiHandler: uiHelper
 });
 	
 $(document).ready(function() {
+
+    $('body').tooltip({placement: 'top', selector: '[data-toggle=tooltip]'});
 
 	p.getBooksFromSameAuthor(bookId).then(
 		function(data) {
@@ -152,6 +179,13 @@ $(document).ready(function() {
 
 	p.getBookProloges(bookId).then(function(data){
 		prologesHandler.printCollection(data);
+	});
+
+	//getbookcomments
+	//print comment tree
+	p.getBookComments(bookId).then(function(data) {
+		console.log(data);
+		commentHandler.printCollection(data);
 	});
 
 	if(loggedIn) {

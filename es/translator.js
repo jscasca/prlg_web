@@ -83,6 +83,37 @@ function Translator() {
 		return 'Se removio de tus libros por leer';
 	};
 
+	var spanMap = {
+		years: 'an;os',
+		months: 'meses',
+		days: 'dias',
+		hours: 'horas',
+		minutes: 'minutos',
+		seconds: 'segundos'
+	};
+
+	var getSpan = function(name, args) {
+		var span = '';
+		switch(name) {
+			case 'post': span = 'Publicar'; break;
+			case 'cancel': span = 'Cancelar'; break;
+			case 'reply': span = 'Responder'; break;
+			case 'expand': span = 'Ver ' + args[0] +  (args[0] > 1 ? ' respuestas' : ' respuesta'); break;
+			case 'collapse': span = 'Colapsar'; break;
+			case 'timeFromNow': 
+				span = 'Hace ' + args[0] + ' ' + spanMap[args[1]]; 
+				break;
+		}
+		return span;
+	}
+
+	var getErrorMessage = function(message) {
+		var errorMessages = {
+			logInToPost: 'Debes iniciar sesion para publicar tu respuesta'
+		}
+		return errorMessages[message] !== undefined ? errorMessages[message] : 'Ha ocurrido un error';
+	};
+
 	return {
 		/* Following and unfollowing*/
 		getFollowingText: getFollowingText,
@@ -101,6 +132,9 @@ function Translator() {
 		interactionFavoritesAdd: interactionFavoritesAdd,
 		interactionWishlistRemove: interactionWishlistRemove,
 		interactionReadingRemove: interactionReadingRemove,
-		interactionFavoritesRemove: interactionFavoritesRemove
+		interactionFavoritesRemove: interactionFavoritesRemove,
+		/**/
+		getSpan: getSpan,
+		getErrorMessage: getErrorMessage
 	};
 }

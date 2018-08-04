@@ -81,6 +81,30 @@ function Translator() {
 		return 'Removed from your wishlist';
 	};
 
+	var getSpan = function(name, args) {
+		var span = name;
+		switch(name) {
+			case 'post': span = 'Post'; break;
+			case 'cancel': span = 'Cancel'; break;
+			case 'reply': span = 'Reply'; break;
+			case 'expand': span = '' + args[0] + ' ' + (args[0] > 1 ? 'replies' : 'reply'); break;
+			case 'collapse': span = 'Collapse'; break;
+			case 'timeFromNow': span = args[0] + ' ' + args[1] + ' ago'; break;
+		}
+		return span;
+	}
+
+	var getTimeFromNow = function(interval, span) {
+		return  interval + ' ' + span + ' ago';
+	};
+
+	var getErrorMessage = function(message) {
+		var errorMessages = {
+			logInToPost: 'You must be logged in to post a reply'
+		};
+		return errorMessages[message] !== undefined ? errorMessages[message] : 'An error has occurred';
+	};
+
 	return {
 		/* Following and unfollowing*/
 		getFollowingText: getFollowingText,
@@ -99,6 +123,9 @@ function Translator() {
 		interactionFavoritesAdd: interactionFavoritesAdd,
 		interactionWishlistRemove: interactionWishlistRemove,
 		interactionReadingRemove: interactionReadingRemove,
-		interactionFavoritesRemove: interactionFavoritesRemove
+		interactionFavoritesRemove: interactionFavoritesRemove,
+		/**/
+		getSpan: getSpan,
+		getErrorMessage: getErrorMessage
 	};
 }

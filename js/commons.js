@@ -3,6 +3,58 @@
 */
 var ajaxDir = '../php/ajax/';
 
+function timeSinceTimestamp(timestamp) {
+	return timeSinceDate(new Date(timestamp));
+}
+
+function timeSinceDate(date) {
+	var seconds = Math.floor((new Date() - date) / 1000);
+
+	var interval = Math.floor(seconds / 31536000);
+
+	if (interval >= 2) {
+		return {
+			interval: interval,
+			span: 'years'
+		};
+	}
+	interval = Math.floor(seconds / 2592000);
+	if (interval >= 2) {
+		return {
+			interval: interval,
+			span: 'months'
+		};
+	}
+	interval = Math.floor(seconds / 86400);
+	if (interval >= 2) {
+		return {
+			interval: interval,
+			span: 'days'
+		};
+	}
+	interval = Math.floor(seconds / 3600);
+	if (interval >= 2) {
+		return {
+			interval: interval,
+			span: 'hours'
+		};
+	}
+	interval = Math.floor(seconds / 60);
+	if (interval >= 2) {
+		return {
+			interval: interval,
+			span: 'minutes'
+		};
+	}
+	return { interval: Math.floor(seconds), span: 'seconds' };
+}
+
+function stringTimeSince(timestamp, translator) {
+	var interval = timeSinceTimestamp(timestamp);
+	// return translator.timeFromNow(interval.interval, interval.span);//
+	return translator.getSpan('timeFromNow', [interval.interval, interval.span]);
+}
+
 function getUrlVars() {
 	var vars = {};
 	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -73,6 +125,154 @@ function PrologesDataHolder(node, template, options) {
 	return {
 		printCollection: printCollection
 	};
+}
+
+function CommentDataHolder(htmlNode, options) {
+	var holder = htmlNode;
+	var commentHandler = options.dataHandler;
+
+	var translator = options.translator;
+
+	var printCollection = function(tree) {
+		console.log(tree);
+		if(tree.nodes !== undefined && tree.nodes.length > 0) {
+			tree.nodes.forEach(function(node, index) {
+				// console.log(i, e);
+				printNode(holder, node);
+			});
+		}
+		//start printing divs here
+	};
+
+	var createHeader = function(comment) {
+		var header = $('<div></div>', { class: 'comment-header'});
+		var minus = $('<span class="glyphicon glyphicon-minus"></span>');
+		var userlink = $('<a></a>', { class: 'user-span-link', href: './user.php?i=' + comment.user.id});
+		var user = $('<span></span>', {class: 'user-label label'}).append(comment.user.userName);
+		// debugger;
+		var stringTime = stringTimeSince(comment.date, translator);
+		return header.append(userlink.append(user)).append(stringTime);
+	};
+
+	var createBody = function(comment, container, replyCount) {
+		var holder = $('<div></div>', { class: 'comment-body'});
+		// var thumbnailHolder = $('<div></div>', { class: 'comment-user-thumbnail'});
+		// var thumbnail = $('<img/>', { class: '', src: '../img/defaultuser.png', 'img-src': comment.user.icon });
+		// thumbnailHolder.append(thumbnail);
+		var commentHolder = $('<div></div>', { class: 'comment-text'});
+		commentHolder.append(comment.text);
+		holder.append(createHeader(comment));
+		holder.append(commentHolder);
+		holder.append(createFooter(comment, container, replyCount));
+		return holder;
+	};
+
+	var createFooter = function(comment, container, replyCount) {
+		var holder = $('<div></div>', { class: 'comment-footer'});
+		if(replyCount > 0) {
+			console.log(replyCount);
+			var collapse = $('<span></span>').append(translator.getSpan('collapse', [replyCount]));
+			collapse.on('click', function() {
+				//hide container
+				container.find('.thread').toggle();
+				if(container.find('.thread').is(':visible')) {
+					collapse.text(translator.getSpan('collapse', [replyCount]));
+				} else {
+					collapse.text(translator.getSpan('expand', [replyCount]));
+				}
+			});
+			holder.append(collapse);
+		}
+		
+		var reply = $('<span></span>', {}).append(translator.getSpan('reply'));
+		reply.on('click', function () {
+			$('.reply-form').remove();
+			var threadNest = $(this).closest('.thread').find('.thread-nest').first();
+			//look for thread and prepend
+			var replyForm = $('<div></div>', { class: 'comment'}).addClass('reply-form');
+			var holder = $('<div></div>', { class: 'book-comment--form'});
+			var textareaDiv = $('<div></div>', { class: 'book-comment--textarea-container'});
+			var errorArea = $('<div></div>', {class: 'book-comment--error-area'});
+			var textarea = $('<textarea/>', { class: 'book-comment--textarea', placeholder: 'Reply...', 'reply-to': comment.id});
+			var buttons = $('<div></div>', { class: 'reply-form--actions'});
+			var postButton = $('<button>Post</button>').addClass('btn').addClass('reply-button');
+			postButton.on('click', function() {
+				postButton.addClass('disabled').attr('disabled', 'disabled');
+				console.log('submit:', textarea.attr('reply-to'), textarea.val());
+				postReply(container, replyForm, textarea.attr('reply-to'), textarea.val());
+			});
+			var cancel = $('<button>Cancel</button>').addClass('btn').addClass('cancel-button');
+			cancel.on('click', function() {
+				replyForm.remove();
+			});
+			replyForm.append(
+				holder.append(
+					textareaDiv.append(textarea).append(errorArea)
+				)
+				.append(
+					buttons.append(postButton).append(cancel)
+				)
+			);
+			threadNest.prepend(replyForm);
+		});
+		holder.append(reply);
+		return holder;
+	};
+
+	var postReply = function(container, form, comment, reply) {
+		ajax({
+			type: 'GET',
+			dataType: 'json',
+			url: ajaxDir + 'postReply.php',
+			data: {comment: comment, reply: reply}
+		}).then(function(comment){
+			form.remove();
+			container.prepend(createThread(comment, 0));
+			//create a new node with the received comment
+		}).catch(function(e) {
+			console.log(e);
+			var errorArea = form.find('.book-comment--error-area').first();
+			var error = translator.getErrorMessage();
+			if(e.status === 401) {
+				error = translator.getErrorMessage('logInToPost');
+			}
+			errorArea.append('<i>' + error + '</i>');
+		});
+	};
+
+	var createLeft = function(comment) {
+		var holder = $('<div></div>', { class: 'comment-user-thumbnail'});
+		var thumbnail = $('<img/>', { class: '', src: '../img/bunny.png', 'img-src': comment.user.icon });
+		return holder.append(thumbnail);
+	}
+
+	var createThreadContent = function(comment, container, replyCount) {
+		var holder = $('<div></div>', {class: 'comment'});
+		var left = createLeft(comment);
+		var body = createBody(comment, container, replyCount);
+		return holder.append(left).append(body);
+	};
+
+	var createThread = function(comment, replyCount) {
+		var threadContainer = $('<div></div>', { class:'thread'});
+		var threadNest = $('<div></div>', { class: 'thread-nest'});
+		var threadContent = createThreadContent(comment, threadNest, replyCount);
+		threadContainer.append(threadContent)
+			.append(threadNest);
+		return threadContainer;
+	}
+
+	var printNode = function(container, node) {
+		var thread = createThread(node.comment, node.nodes.length);
+		container.append(thread);
+		node.nodes.forEach(function(child, index){
+			printNode(thread.find('.thread-nest').first(), child);
+		});
+	}
+
+	return {
+		printCollection: printCollection
+	}
 }
 
 function AuthorExternalBooksTemplate(cfg) {
@@ -1103,6 +1303,33 @@ function BookInteractionHandler(cfg) {
 	};
 }
 
+function CommentDataHandler(cfg) {
+	var ajaxDir = '../php/ajax';
+	var ajax = function(options) {
+		return new Promise(function(resolve, reject) {
+			$.ajax(options).done(resolve).fail(reject);
+		});
+	}
+
+	this.postComment = function(book, comment) {
+		return ajax({
+			type: 'GET',
+			dataType: 'json',
+			url: ajaxDir + 'postBookThread.php',
+			data: {book: book, comment: comment}
+		});
+	}
+
+	this.replyComment = function(original, comment) {
+		return ajax({
+			type: 'GET',
+			dataType: 'json',
+			url: ajaxDir + 'postReply.php',
+			data: {original: original, comment: comment}
+		});
+	}
+}
+
 function PrologesDataHandler(cfg) {
 	var ajaxDir = cfg.dir || '../php/ajax/';
 
@@ -1368,4 +1595,13 @@ function PrologesDataSource(cfg) {
 			data: {book: id}
 		});
 	};
+
+	this.getBookComments = function(id) {
+		return ajax({
+			type: 'GET',
+			dataType: 'json',
+			url: ajaxDir + 'getBookComments.php',
+			data: {book: id}
+		});
+	}
 }
