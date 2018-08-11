@@ -138,10 +138,19 @@ function CommentDataHolder(htmlNode, options) {
 		if(tree.nodes !== undefined && tree.nodes.length > 0) {
 			tree.nodes.forEach(function(node, index) {
 				// console.log(i, e);
-				printNode(holder, node);
+				printNode(holder, node, false);
 			});
 		}
 		//start printing divs here
+	};
+
+	var pushNew = function(element) {
+		//check if anything
+		var fakeNode = {
+			comment: element,
+			nodes: []
+		}
+		printNode(holder, fakeNode, true);
 	};
 
 	var createHeader = function(comment) {
@@ -160,6 +169,7 @@ function CommentDataHolder(htmlNode, options) {
 		// var thumbnail = $('<img/>', { class: '', src: '../img/defaultuser.png', 'img-src': comment.user.icon });
 		// thumbnailHolder.append(thumbnail);
 		var commentHolder = $('<div></div>', { class: 'comment-text'});
+		console.log(comment.text);
 		commentHolder.append(comment.text);
 		holder.append(createHeader(comment));
 		holder.append(commentHolder);
@@ -171,20 +181,36 @@ function CommentDataHolder(htmlNode, options) {
 		var holder = $('<div></div>', { class: 'comment-footer'});
 		if(replyCount > 0) {
 			console.log(replyCount);
-			var collapse = $('<span></span>').append(translator.getSpan('collapse', [replyCount]));
+			var collapse = $('<span></span>').append('[' + translator.getSpan('collapse', [replyCount]) + ']');
 			collapse.on('click', function() {
 				//hide container
-				container.find('.thread').toggle();
-				if(container.find('.thread').is(':visible')) {
-					collapse.text(translator.getSpan('collapse', [replyCount]));
+				var thread = container.find('.thread');
+				if(thread.is(':visible')) {
+					thread.fadeOut();
+					collapse.text('[' + translator.getSpan('expand', [replyCount]) + ']');
 				} else {
-					collapse.text(translator.getSpan('expand', [replyCount]));
+					thread.fadeIn();
+					collapse.text('[' + translator.getSpan('collapse', [replyCount]) + ']');
 				}
+				// if(thread.is(':visible')) {
+				// 	thread.removeClass('expanding').addClass('collapsing');
+				// 	collapse.text(translator.getSpan('expand', [replyCount]));
+				// } else {
+				// 	thread.removeClass('collapsing').addClass('expanding');
+				// 	collapse.text(translator.getSpan('collapse', [replyCount]));
+				// }
+				// // container.find('.thread').toggle();
+				// // if(container.find('.thread').is(':visible')) {
+				// // 	collapse.text(translator.getSpan('collapse', [replyCount]));
+				// // } else {
+				// // 	collapse.text(translator.getSpan('expand', [replyCount]));
+				// // }
+				// thread.toggle();
 			});
 			holder.append(collapse);
 		}
 		
-		var reply = $('<span></span>', {}).append(translator.getSpan('reply'));
+		var reply = $('<span></span>', {}).append('[' + translator.getSpan('reply') + ']');
 		reply.on('click', function () {
 			$('.reply-form').remove();
 			var threadNest = $(this).closest('.thread').find('.thread-nest').first();
@@ -230,7 +256,6 @@ function CommentDataHolder(htmlNode, options) {
 			container.prepend(createThread(comment, 0));
 			//create a new node with the received comment
 		}).catch(function(e) {
-			console.log(e);
 			var errorArea = form.find('.book-comment--error-area').first();
 			var error = translator.getErrorMessage();
 			if(e.status === 401) {
@@ -242,7 +267,7 @@ function CommentDataHolder(htmlNode, options) {
 
 	var createLeft = function(comment) {
 		var holder = $('<div></div>', { class: 'comment-user-thumbnail'});
-		var thumbnail = $('<img/>', { class: '', src: '../img/bunny.png', 'img-src': comment.user.icon });
+		var thumbnail = $('<img/>', { class: '', src: comment.user.icon, 'img-src': comment.user.icon });
 		return holder.append(thumbnail);
 	}
 
@@ -262,16 +287,18 @@ function CommentDataHolder(htmlNode, options) {
 		return threadContainer;
 	}
 
-	var printNode = function(container, node) {
+	var printNode = function(container, node, reverse) {
 		var thread = createThread(node.comment, node.nodes.length);
-		container.append(thread);
+		if(!reverse) container.append(thread);
+		else container.prepend(thread);
 		node.nodes.forEach(function(child, index){
 			printNode(thread.find('.thread-nest').first(), child);
 		});
-	}
+	};
 
 	return {
-		printCollection: printCollection
+		printCollection: printCollection,
+		pushNew: pushNew
 	}
 }
 
@@ -1336,6 +1363,15 @@ function PrologesDataHandler(cfg) {
 	var ajax = function(options) {
 		return new Promise(function(resolve, reject) {
 			$.ajax(options).done(resolve).fail(reject);
+		});
+	};
+
+	this.postBookComment = function(book, comment) {
+		return ajax({
+			type: 'GET',
+			dataType: 'json',
+			url: ajaxDir + 'postBookThread.php',
+			data: {book: book, comment: comment}
 		});
 	};
 

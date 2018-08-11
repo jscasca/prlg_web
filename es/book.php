@@ -114,9 +114,14 @@ session_start();
 				<div id='tab-comments' class='tab-pane fade'>
 					<div class="book-comment--area" id="book-comment--area" >
 						<div class="book-comment--form">
-							<textarea id="book-comment--textarea" class="book-comment--textarea" placeholder="Write a comment..."></textarea>
-							<button type="button" class="btn Comment-button" id="comment-book--submit">Post</button>
-							<div class="book-comment--feedback text-right" id="book-comment--feedback"></div>
+							<div class="book-comment--textarea-container">
+								<textarea id="book-comment--textarea" class="book-comment--textarea" placeholder="Escribe un comentario..."></textarea>
+								<div class="book-comment--error-area" id="book-comment--error-area"></div>
+							</div>
+							<div class="reply-form--actions">
+								<button type="button" class="btn Comment-button disabled" disabled="disabled" id="comment-book--submit">Post</button>
+							</div>
+							<!-- <div class="book-comment--feedback text-right" id="book-comment--feedback"></div> -->
 						</div>
 					</div>
 					<div class="main-comments" id="main-comments">
@@ -141,6 +146,7 @@ session_start();
 var bookId = "<?php echo $_REQUEST['i'];?>";
 var retries = 0;
 var maxProloge = 380;
+var maxComment = 240;
 
 var p = new PrologesDataSource({});
 var h = new PrologesDataHandler({});
@@ -173,7 +179,6 @@ $(document).ready(function() {
 	);
 
 	p.getBookInfo(bookId).then(function(data){
-		console.log(data);
 		mainBook.displayBook(data, $('#book-title'), $('#book-cover'), $('#book-author'), $('#main-book--rated'));
 	});
 
@@ -184,7 +189,6 @@ $(document).ready(function() {
 	//getbookcomments
 	//print comment tree
 	p.getBookComments(bookId).then(function(data) {
-		console.log(data);
 		commentHandler.printCollection(data);
 	});
 
@@ -197,6 +201,45 @@ $(document).ready(function() {
 				$("#prologe-modal").modal('show');
 			});
 		});
+		setTimeout(function() {
+			$('#comment-book--submit').removeClass('disabled').removeAttr('disabled');
+			$('#comment-book--submit').on('click', function() {
+				if($('#tab-comments').hasClass('active')) {
+					var textarea = $('#book-comment--textarea');
+					var commentText = textarea.val();
+					if(commentText.length > 6400) {
+						//alert and return 
+						return 0;
+					}
+					if(commentText.trim() !== '') {
+						$('#comment-book--submit').addClass('disabled').attr('disabled', 'disabled');
+						$('#book-comment--error-area').html('');
+						//post and show thread
+						h.postBookComment(bookId, commentText).then(function(thread){
+							console.log(thread);
+							commentHandler.pushNew(thread);
+							textarea.val('');
+							$('#comment-book--submit').removeClass('disabled').removeAttr('disabled');
+						}).catch(function(err) {
+							console.log(err);
+							var displayError = translator.getErrorMessage();
+							switch(err.status) {
+								case 401: displayError = translator.getErrorMessage('logInToPost'); break;
+							}
+							$('#book-comment--error-area').html('<i>' + displayError + '</i>')
+			// 				var errorArea = form.find('.book-comment--error-area').first();
+			// var error = translator.getErrorMessage();
+			// if(e.status === 401) {
+			// 	error = translator.getErrorMessage('logInToPost');
+			// }
+			// errorArea.append('<i>' + error + '</i>');
+						});
+					}
+
+				}
+			});
+		}, 3000);
+		//if logged in show the comment thingy
 	}
 
 	$('#prologe-modal--feedback').html(maxProloge);

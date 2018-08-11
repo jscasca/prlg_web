@@ -43,6 +43,7 @@ width: 128px;
 .Comment-button {
 background-color:#3fb0ac;
 color:#fff;
+margin-right: 10px;
 }
 .reply-button {
 background-color:#3fb0ac;
@@ -402,6 +403,29 @@ font-family:Helvetica,Arial,sans-serif
 	margin-left: 4px;
 }
 
+.thread {
+	animation-name: movingup;
+	animation-duration: 1.4s;
+}
+
+@keyframes expand {
+	from {
+		margin-top: 0;
+	}
+	to {
+		margin-top: -50px;
+	}
+}
+
+@keyframes collapse {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
 .reply-form--actions {
 	display: flex;
 	flex-direction: column;
@@ -756,7 +780,9 @@ justify-content: flex-end;
 background-color:#fff;
 border:1px solid #e4e4e4;
 margin-top:1em;
-padding:0em 1.5em 1em;
+margin-bottom: 7px;
+padding-left: 10px;
+/*padding:0em 1.5em 1em;*/
 border-radius:4px;
 }
 .main-comment {

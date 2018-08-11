@@ -13,7 +13,7 @@ if(!isset($_REQUEST['book'])) {
 	die("No query term set");
 }
 if(isset($_REQUEST['comment'])) {
-	$comment = $_REQUEST['posdta'];
+	$comment = $_REQUEST['comment'];
 }
 $book = $_REQUEST['book'];
 
