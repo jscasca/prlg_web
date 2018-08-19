@@ -48,7 +48,7 @@ echo "<script type='text/javascript'>var loggedIn = ".(isset($_SESSION[SID])?"tr
         
             <!-- NOT LOGGED IN -->
             <?php	if(!isset($_SESSION[SID])) { ?>
-			<li><a href="login"><?php echo getTranslation('Log in');?></a></li>
+			<li><a href="<?php echo $rootpath;?>login"><?php echo getTranslation('Log in');?></a></li>
 		<!-- LOGGED IN -->
 		<?php	} else { ?>
 			<!--<li><a href="#">Perfil</a></li>	

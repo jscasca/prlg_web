@@ -1,8 +1,7 @@
 /**
  * Read the url values and return the specified parameter 
 */
-var ajaxDir = '../php/ajax/';
-
+var ajaxDir = ROOT_PATH + 'php/ajax/';
 function timeSinceTimestamp(timestamp) {
 	return timeSinceDate(new Date(timestamp));
 }
@@ -134,7 +133,6 @@ function CommentDataHolder(htmlNode, options) {
 	var translator = options.translator;
 
 	var printCollection = function(tree) {
-		console.log(tree);
 		if(tree.nodes !== undefined && tree.nodes.length > 0) {
 			tree.nodes.forEach(function(node, index) {
 				// console.log(i, e);
@@ -169,7 +167,6 @@ function CommentDataHolder(htmlNode, options) {
 		// var thumbnail = $('<img/>', { class: '', src: '../img/defaultuser.png', 'img-src': comment.user.icon });
 		// thumbnailHolder.append(thumbnail);
 		var commentHolder = $('<div></div>', { class: 'comment-text'});
-		console.log(comment.text);
 		commentHolder.append(comment.text);
 		holder.append(createHeader(comment));
 		holder.append(commentHolder);
@@ -180,7 +177,6 @@ function CommentDataHolder(htmlNode, options) {
 	var createFooter = function(comment, container, replyCount) {
 		var holder = $('<div></div>', { class: 'comment-footer'});
 		if(replyCount > 0) {
-			console.log(replyCount);
 			var collapse = $('<span></span>').append('[' + translator.getSpan('collapse', [replyCount]) + ']');
 			collapse.on('click', function() {
 				//hide container
@@ -224,7 +220,6 @@ function CommentDataHolder(htmlNode, options) {
 			var postButton = $('<button>Post</button>').addClass('btn').addClass('reply-button');
 			postButton.on('click', function() {
 				postButton.addClass('disabled').attr('disabled', 'disabled');
-				console.log('submit:', textarea.attr('reply-to'), textarea.val());
 				postReply(container, replyForm, textarea.attr('reply-to'), textarea.val());
 			});
 			var cancel = $('<button>Cancel</button>').addClass('btn').addClass('cancel-button');
@@ -544,9 +539,6 @@ function BookPrologesTemplate(cfg) {
 	};
 
 	var getVoting = function(enabled, votes, userVote, id) {
-		console.log(enabled);
-		console.log(votes);
-		console.log(userVote);
 		var holder = $('<div></div>', {class: base + '--voting text-right'});
 		var prologeVotes = "";
 		if(votes != null) prologeVotes = (votes.upvotes - votes.downvotes);
@@ -827,7 +819,6 @@ function GoogleSearchTemplate(cfg) {
 	var getEmpty = function(){};
 	var getElement = function(result) {
 		var holder = $('<article></article>', {class: base});
-		console.log(result);
 		//GET VARIABLES
 		var authors = result['authors'] != undefined ? result['authors'] : [];
 		//var author = result['author'] != undefined ? result['author'] : '';
@@ -837,14 +828,14 @@ function GoogleSearchTemplate(cfg) {
 		var thumbnail = result['thumbnail'] != undefined ? result['thumbnail'] : '';
 		//BREAK HERE IF MISSING ATTR
 		if(authors == [] || title == '' || lang == '') { console.log(result); return '';}
-		var form = $('<form></form>',{action: '../php/submit/googleBookRequest.php'});
+		var form = $('<form></form>',{action: ROOT_PATH + 'php/submit/googleBookRequest.php'});
 		form.append($('<input>', {type: 'hidden', name: 'authors', value: authors.join(';')}));
 		form.append($('<input>', {type: 'hidden', name: 'title', value: title}));
 		form.append($('<input>', {type: 'hidden', name: 'language', value: lang}));
 		form.append($('<input>', {type: 'hidden', name: 'icon', value: icon}));
 		form.append($('<input>', {type: 'hidden', name: 'thumbnail', value: thumbnail}));
 		
-		var resultCover = $('<img>', {src: thumbnail, alt:'Cover'}).error(function(){this.src='../img/defaultthumb.png';});
+		var resultCover = $('<img>', {src: thumbnail, alt:'Cover'}).error(function(){this.src=ROOT_PATH + 'img/defaultthumb.png';});
 		var resultImgSubmit = $('<button></button>', {type:'submit', class:'google-result--submit'}).append(resultCover);
 		var resultDiv = $('<div></div>', {class:'google-result--thumbnail'}).append(resultImgSubmit);
 		holder.append(resultDiv);
@@ -1531,7 +1522,7 @@ function UserDataSource(cfg) {
 }
 
 function SearchDataSource(cfg) {
-	var ajaxDir = cfg.dir || '../php/ajax/';
+	var ajaxDir = cfg.dir || ROOT_PATH + 'php/ajax/';
 	var ajax = function(options) {
 		return new Promise(function(resolve, reject) {
 			$.ajax(options).done(resolve).fail(reject);

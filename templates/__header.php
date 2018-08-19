@@ -42,4 +42,9 @@ for($i = 0; $i < count($stylesheets); $i++) {
 //Any additional header goes ehre
 // const ROOT_PATH = '/prologes/';
 // const IMG_ROOT = '/prologes/';
+var translator = new Translator();
+
+var getText = function(text) {
+	return translator.getText(text);
+}
 </script>
