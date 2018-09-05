@@ -42,7 +42,7 @@
 						<div class="prologe-modal--feedback text-right" id="prologe-modal--feedback"></div>
 					</div>
 					<div class="prologe-modal--rating">
-						Rate: <span id="prologe-modal--raty"></span>
+						<span id='modal-rating--label'>Rate</span>: <span id="prologe-modal--raty"></span>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -89,14 +89,14 @@
 
 	<div class='row user-tabs'>
 		<ul class='nav nav-tabs'>
-			<li class='active'><a href='#tab-prologes' data-toggle='tab'>Prologues</a></li>
-			<li><a href='#tab-comments' data-toggle='tab'>Comments</a></li>
+			<li  class='active'><a href='#tab-prologues' data-toggle='tab' id='tab-prologues--anchor'>Prologues</a></li>
+			<li><a href='#tab-comments' data-toggle='tab' id='tab-comments--anchor'>Comments</a></li>
 		</ul>
 	</div>
 
 	<div class='tab-content'>
 		<!-- Prologes DIV -->
-		<div id='tab-prologes' class='tab-pane fade in active'>
+		<div id='tab-prologues' class='tab-pane fade in active'>
 			<div class="main-prologes" id="main-prologes"></div>
 		</div>
 
@@ -120,9 +120,9 @@
 	</div>
 </div>
 
-<div class="col-md-4 col-sm-12" id="similar-books">
+<!-- <div class="col-md-4 col-sm-12" id="similar-books">
 	<h2 class="Section-title no-padding">Similar books</h2>
-</div>
+</div> -->
 
 <script type="text/javascript">
 var bookId = '<?php echo $book; ?>';
@@ -151,6 +151,17 @@ var interaction = new BookInteractionHandler({
 $(document).ready(function() {
 
   $('body').tooltip({placement: 'top', selector: '[data-toggle=tooltip]'});
+  /* Set translated texts */
+  $('#tab-prologues--anchor').html(getText('Prologues'));
+  $('#tab-comments--anchor').html(getText('Comments'));
+  $('#book-comment--textarea').attr('placeholder', getText('Write a comment...'));
+  $('#action-wishlist').attr('title', getText('Add to your wishlist'));
+  $('#action-favorite').attr('title', getText('Add to your favourites'));
+  $('#action-prologe').attr('title', getText('Rate and leave a prologue'));
+  $('#action-reading').attr('title', getText('Add to your readings'));
+  $('#modal-title-placeholder').text(getText('Write a prologue!'));
+  $('#modal-rating--label').text(getText('Rate'));
+  $('#prologe-modal--submit').html(getText('Stamp'));
 
   //Print other books from the same author
 	p.getBooksFromSameAuthor(bookId).then(
@@ -265,7 +276,7 @@ $(document).ready(function() {
 	
 	$('#prologe-modal--raty').raty({
 		size: 120,
-		path: '../img/',
+		path: IMG_ROOT + 'img/',
 		starHalf :'star-half-big.png',
 		starOff :'star-off-big.png',
 		starOn :'star-on-big.png'

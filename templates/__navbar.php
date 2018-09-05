@@ -11,7 +11,7 @@ echo "<script type='text/javascript'>var loggedIn = ".(isset($_SESSION[SID])?"tr
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a href="<?php echo $rootpath;?>index" class="navbar-brand-image"><img src="http://beta.prologes.com/img/prologes.png" class="navlogo"/></a>
+        <a href="<?php echo $rootpath;?>index" class="navbar-brand-image"><img src="<?php echo $rootpath;?>img/prologes.png" class="navlogo"/></a>
     </div>
     <!-- Collection of nav links, forms, and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">

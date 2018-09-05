@@ -2,7 +2,8 @@
 
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<!-- <html lang="es"> Get this from a translation maybe-->
+<html>
 <head>
 	<?php include('templates/__header.php'); ?>
 	<title><?php echo getTranslation('Log in'); ?></title>
@@ -11,7 +12,7 @@
 	
 	<section class="Login text-center">
 		<div class="Login-header">
-			<a href="index"><img src="img/prologes.png" /></a>
+			<a href="index"><img src="<?php echo $rootpath;?>img/prologes.png" /></a>
 		</div>
 		<div class="Login-container">
 			<h5><?php echo getTranslation('Start using Prologues by login in with your user and password'); ?></h5>

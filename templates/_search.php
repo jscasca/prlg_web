@@ -122,7 +122,9 @@ $(document).ready(function() {
 			searchHandler.printCollection(data.local);
 			gsearchHandler.printCollection(data.external);
 			$('#search-input--submit').removeAttr('disabled');
-			addCustomRequest();
+			setTimeout(function() {
+				addCustomRequest();
+			}, 5000);
 			//add event listener and stuff to handle this in page instead of reloading
 		} else {
 			var search = ds.search(searchQuery);
@@ -151,7 +153,6 @@ $(document).ready(function() {
 		}
 	} else {
 		$('#search-input--submit').removeAttr('disabled');
-		addCustomRequest();
 	}
 
 	/* Modal text set */
@@ -165,7 +166,6 @@ $(document).ready(function() {
 });
 
 $('#custom-request--submit').click(function(){
-	console.log('click');
 	$('#error-msg').empty();
 	var titleInput = $('#request-title');
 	var title = titleInput.val().trim();

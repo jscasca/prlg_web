@@ -49,11 +49,11 @@ if(!$loggedIn) {
 			<div class="col-md-4">
 				<div class="welcome-whatis">
 					<div class="welcome-whatis--header text-center">
-						<h1><span>W</span>elcome</h1>
+						<h1><?php echo getTranslation('Welcome'); ?></h1>
 					</div>
 					<div class="welcome-whatis--body">
-						<p>Join us and discover a new community for readers!</p>
-						<p>Wishlist what you want to read, share what you are reading and write prologues so other readers can find their next book!</p>
+						<p><?php echo getTranslation('Join us and discover a new community for readers!'); ?></p>
+						<p><?php echo getTranslation('Wishlist what you want to read, share what you are reading and write prologues so other readers can find their next book!'); ?></p>
 					</div>
 
 				</div>
@@ -64,7 +64,7 @@ if(!$loggedIn) {
 			<div class="col-md-4">
 				<div class="welcome-padding-top-right"></div>
 				<div class="welcome-prologes">
-					<p>Start reading the prologues that the community has written!</p>
+					<p><?php echo getTranslation('Start reading the prologues that the community has written!'); ?></p>
 					<div class="welcome-prologes--prologes">
 						<div class="icon-prologe-noeffect text-center"></div>
 					</div>
@@ -79,7 +79,7 @@ if(!$loggedIn) {
 	<div class="index-search">
 		<form class="" action="search">
 			<div class="input-group">
-				<input class="form-control" id="index-search--field" type="text" name="q" placeholder="Find your next book" />
+				<input class="form-control" id="index-search--field" type="text" name="q" placeholder="<?php echo getTranslation('Find a book'); ?>" />
 				<div class="input-group-btn">
 					<button class="btn btn-default" id="index-search--submit" type="submit">
 						<i class="glyphicon glyphicon-search"></i>

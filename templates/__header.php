@@ -47,4 +47,8 @@ var translator = new Translator();
 var getText = function(text) {
 	return translator.getText(text);
 }
+
+var getSpan = function(name, args) {
+	return translator.getSpan(name, args);
+}
 </script>
