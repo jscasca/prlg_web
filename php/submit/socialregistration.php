@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once '/var/www/html/prologes/php/commons.php';
+//TODO: Update this. Havent tested this in a while so it probably doesnt work anymore
+//Check pls
 
 $username = $_REQUEST['username'];
 $user = $_REQUEST['user'];

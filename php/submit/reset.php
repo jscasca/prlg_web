@@ -2,16 +2,14 @@
 session_start();
 require("../commons.php");
 
-$lang = $_SESSION[LANG].'/';
-
 if(!isset($_REQUEST['token'])) {
-	header("Location: ". BASE_DIR . $lang . "reset.php?e=403");
+	header("Location: ". BASE_DIR . "reset?e=403");
 	die();
 }
 $token = $_REQUEST['token'];
 
 if(!isset($_REQUEST['pwd'])) {
-	header("Location: ". BASE_DIR . $lang . "reset.php?e=401");
+	header("Location: ". BASE_DIR . "reset?e=401");
 	die();
 }
 $pwd = $_REQUEST['pwd'];
@@ -24,12 +22,12 @@ if($code != 200 && $code != 204) {
 	//log or something
 	//print( json_encode(array("code" => $code, "message" => $error['message'])) );
 	//This means that the token does not exist, has expired or other...
-	header("Location: ". BASE_DIR . $lang . "forgotten.php?e=" . $code);
+	header("Location: ". BASE_DIR . "forgotten?e=" . $code);
 } else {
 	//$response[RESPONSE] should be a book
 	//header('HTTP/1.1 204 No response', true, 204);die();
 	//print($response[RESPONSE]);
-	header("Location: ". BASE_DIR . $lang . "reset.php?sent=success");
+	header("Location: ". BASE_DIR . "reset?sent=success");
 }
 
 //Possible headers:

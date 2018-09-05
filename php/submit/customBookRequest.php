@@ -3,12 +3,11 @@
 session_start();
 require('../commons.php');
 
-$lang = $_SESSION[LANG].'/';
+$loginPage = BASE_DIR . 'login';
+$internalErrorPage = BASE_DIR . '500';
+$bookPage = BASE_DIR . 'book';
 
-$loginPage = BASE_DIR . $lang . URL_LOGIN;
-$internalErrorPage = BASE_DIR . $lang . URL_INTERNAL_SERVER_ERROR;
-$bookPage = BASE_DIR . $lang . URL_BOOK;
-
+// This should try to check the user is logged in
 /*if(!isset($_SESSION[SID])) {
 	//header('HTTP/1.1 401 Unauthorized', true, 401);
 	//http_response_code(401);//
@@ -31,8 +30,8 @@ $authors = implode(";", $cleanAuthors);
 //loop escape and join
 $title = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
 $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : '';
-$icon = "http://prologes.com/img/default.png";
-$thumbnail = "http://prologes.com/img/default.png";
+$icon = "//prologes.com/img/default.png";
+$thumbnail = "//prologes.com/img/default.png";
 
 if($title == '') {
 	//header("Location: " . $internalErrorPage);
@@ -64,7 +63,7 @@ if($code != 200) {
 	die();
 } else {
 	$book = json_decode($response[RESPONSE], true);
-	header('Location: ' . $bookPage . '?i='.$book['id']); die();
+	header('Location: ' . $bookPage . '/'.$book['id']); die();
 }
 
 ?>

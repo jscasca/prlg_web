@@ -3,10 +3,8 @@
 session_start();
 require('../commons.php');
 
-$lang = $_SESSION[LANG].'/';
-
-$internalErrorPage = BASE_DIR . $lang . URL_INTERNAL_SERVER_ERROR;
-$bookPage = BASE_DIR . $lang . URL_BOOK;
+$internalErrorPage = BASE_DIR . URL_INTERNAL_SERVER_ERROR;
+$bookPage = BASE_DIR . 'book';
 
 /*if(!isset($_SESSION[SID])) {
 	//header('HTTP/1.1 401 Unauthorized', true, 401);
@@ -48,7 +46,7 @@ if($code != 200) {
 	die();
 } else {
 	$book = json_decode($response[RESPONSE], true);
-	header('Location: ' . $bookPage . '?i='.$book['id']); die();
+	header('Location: ' . $bookPage . '/'.$book['id']); die();
 }
 
 ?>

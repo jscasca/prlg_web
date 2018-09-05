@@ -298,4 +298,9 @@ function getLang($server) {
 	}
 	return $default;
 }
+
+function isValidLanguage($lang) {
+	$validLanguages = array('en','es');
+	return in_array($lang, $validLanguages);
+}
 ?>

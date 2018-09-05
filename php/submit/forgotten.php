@@ -11,5 +11,5 @@ if($user != "") {
 }
 
 
-header("Location: ". BASE_DIR . $lang . "forgotten.php?sent=success");
+header("Location: ". BASE_DIR . "forgotten?sent=success");
 ?>
