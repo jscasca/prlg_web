@@ -75,6 +75,10 @@ if(preg_match('"^(?:/prologes)/lang/[a-z]{2}$"', $uri) && preg_match('"https?://
 	        $params["secure"], $params["httponly"]
 	    );
 	}
+	if(preg_match('"(?:(?:profile)|(?:library))"', $refererUri)) {
+		header('Location: ' . BASE_DIR . 'index');
+		exit;
+	}
 	header('Location: ' . $refererUri);
 	exit;
 }
@@ -106,29 +110,148 @@ if(preg_match('"^(?:/prologes)?/(?:(?:index)|(?:home))(?:.php)?$"', $uri) || pre
 		$pass = $_REQUEST['pwd'];
 		try {
 			logIn($user, $pass);
-			header('Location: /prologes/index');
+			if(isset($_SESSION['login_referer']) && true) {
+				header('Location: ' . $_SESSION['login_referer']);
+			} else {
+				header('Location: ' . BASE_DIR . 'index');
+			}
 			exit;
 		} catch(Exception $e) {
 			//depending on the error print variable or redirect to a different page
 			$failureToLogin = 'Your username and password do not match';
 		}
+	} else {
+		//store referer
+		//TODO: Check that the referer is actually inside prologes/localhost
+		if(preg_match('"(?:(?:prologes\.com)|(?:localhost))"', $refererUri)) {
+			if(!preg_match('"(?:/prologes)?/(?:(?:regis)|(?:log)|(?:reset)|(?:forg)|(?:olv))"', $refererUri)) {
+				$_SESSION['login_referer'] = $refererUri;
+			}
+		} else {
+			unset($_SESSION['login_referer']);
+		}
 	}
 	include 'templates/_login.php';
 	//
-} else if(preg_match('"^(?:/prologes)?/user"', $uri)) {
-	//
-} else if(preg_match('"^(?:/prologes)?/book"', $uri)) {
-	//TODO:
-
-} else if(preg_match('"^(?:/prologes)?/about"', $uri)) {
-
-} else if(preg_match('"^(?:/prologes)?/registration"', $uri)) {
-
-} else if(preg_match('"^(?:/prologes)?/forgotten"', $uri)) {
+} else if(preg_match('"^(?:/prologes)?/(?:(?:registration)|(?:register)|(?:registr))"', $uri)) {
+	// TODO: set a session variable to validate
+	if($_SERVER['REQUEST_METHOD'] === 'POST') {
+		$user = $_REQUEST['user'];
+		$email = $_REQUEST['email'];
+		$pass = $_REQUEST['pwd'];
+		$passConf = $_REQUEST['pwdConfirmation'];
+		//TODO: validate properly	
+		$error = null;
+		$args = null;
+		if($user === '' && $email === '' && $pass === '') {
+			$error = 'missing';
+		}
+		//Check that pass === passConf
+		if($pass === $passConf && $error === null) {
+			try {
+				registration($user, $pass, $email);
+				header('Location: ' . $indexUrl);
+				exit;
+			} catch(DuplicateResourceException $e) {
+				if($e->getCode() == 0) {
+					$error = 'user';
+					$args = $user;
+				} else {
+					$error = 'email';
+					$args = $email;
+				}
+			} catch(Exception $e) {
+				$error = 'unk';
+			}
+		}
+	} else {
+		//Set the sess var
+	}
+	include 'templates/_registration.php';
+} else if(preg_match('"^(?:/prologes)?/(?:(?:forgotten)|(?:olvid))"', $uri)) {
 	//forgotten
-	if(isset($requestUri['args'])) {
+	if($_SERVER['REQUEST_METHOD'] === 'POST') {
+		//
+		if(isset($_REQUEST['user']) && $_REQUEST['user'] !== '') {
+			$user = $_REQUEST['user'];
+			$call = authenticationlessCurlCall("POST", "public/passwordRequest", $user);
+			// TODO: check that the call does not fail
+			$sent = true;
+		}
+	} else {
 		//
 	}
+	include 'templates/_forgotten.php';
+} else if(preg_match('"^(?:/prologes)?/(?:(?:reset)|(?:restablecer))"', $uri)) {
+	if($_SERVER['REQUEST_METHOD'] === 'POST') {
+		//
+		if(isset($_REQUEST['token']) && isset($_REQUEST['pwd']) && isset($_REQUEST['pwdCnf'])) {
+			//
+			if($_REQUEST['pwd'] === $_REQUEST['pwdCnf']) {
+				$call = authenticationlessCurlCall("POST", "public/passwordReset", array('token'=>$_REQUEST['token'], 'password'=>$_REQUEST['pwd']));
+				//
+				$code = $call[HTTP_STATUS];
+				if($code != 200 && $code != 204) {
+					include 'templates/_forgotten.php';
+					exit;
+				}
+				$sent = true;
+			}
+		} else {
+			//
+			$error = '';
+		}
+	} else {
+		//
+	}
+	include 'templates/_reset.php';
+} else if(preg_match('"^(?:/prologes)?/(?:(?:user)|(?:usuario))"', $uri)) {
+	$userid = null;
+	$username = null;
+	if(isset($requestUri['args'])) {
+		$queryArgs = mapArgs($requestUri['args']);
+		if(isset($queryArgs['i']) && $queryArgs['i'] != '') {
+			$userid = $queryArgs['i'];
+		}
+	} else {
+		preg_match('"^(?:/prologes)?/(?:(?:user)|(?:usuario))/(.*)$"', $uri, $nameQueryMatches);
+		if(isset($nameQueryMatches[1])) {
+			$username = urldecode($nameQueryMatches[1]);
+		}
+	}
+	$content = 'templates/_user.php';
+	include 'templates/__template.php';
+} else if(preg_match('"^(?:/prologes)?/(?:(?:author)|(?:autor))"', $uri)) {
+	$author = null;
+	if(isset($requestUri['args'])) {
+		$queryArgs = mapArgs($requestUri['args']);
+		if(isset($queryArgs['i']) && $queryArgs['i'] != '') {
+			$author = $queryArgs['i'];
+		}
+	} else {
+		preg_match('"^(?:/prologes)?/(?:(?:author)|(?:autor))/(.*)$"', $uri, $authorQueryMatches);
+		if(isset($authorQueryMatches[1])) {
+			$author = urldecode($authorQueryMatches[1]);
+		}
+	}
+	$content = 'templates/_author.php';
+	include 'templates/__template.php';
+} else if(preg_match('"^(?:/prologes)?/book"', $uri)) {
+	//TODO:
+	$book = null;
+	if(isset($requestUri['args'])) {
+		$queryArgs = mapArgs($requestUri['args']);
+		if(isset($queryArgs['i']) && $queryArgs['i'] != '') {
+			$book = $queryArgs['i'];
+		}
+	} else {
+		preg_match('"^(?:/prologes)?/(?:(?:book)|(?:libro))/(.*)$"', $uri, $bookQueryMatches);
+		if(isset($bookQueryMatches[1])) {
+			$book = urldecode($bookQueryMatches[1]);
+		}
+	}
+	$content = 'templates/_book.php';
+	include 'templates/__template.php';
 
 } else if(preg_match('"^(?:/prologes)?/(?:(?:search)|(?:buscar))"', $uri)) {
 	//check if there is a query
@@ -149,15 +272,39 @@ if(preg_match('"^(?:/prologes)?/(?:(?:index)|(?:home))(?:.php)?$"', $uri) || pre
 	$content = 'templates/_search.php';
 	include 'templates/__template.php';
 
+} else if(preg_match('"^(?:/prologes)?/(?:(?:profile)|(?:perfil))"', $uri)) {
+	if($loggedIn) {
+		if(isset($requestUri['args'])) {
+			//checkl for e
+			$queryArgs = mapArgs($requestUri['args']);
+			if(isset($queryArgs['e'])) {
+				$profileError = true;
+			}
+		}
+		$content = 'templates/_profile.php';
+		include 'templates/__template.php';
+	} else {
+		// Send a 401 or redirect to login
+		header('Location: ' . BASE_DIR . 'index');
+		exit;
+	}
+
+} else if(preg_match('"^(?:/prologes)?/(?:(?:library)|(?:biblioteca))"', $uri)) {
+	if($loggedIn) {
+		$content = 'templates/_mylibrary.php';
+		include 'templates/__template.php';
+	} else {
+		header('Location: ' . BASE_DIR . 'index');
+		exit;
+	}
+
 } else if(preg_match('"^(?:/prologes)?/privacy"', $uri)) {
-
+	include 'templates/_building.php';
 } else if(preg_match('"^(?:/prologes)?/about"', $uri)) {
-	//
-
-} else if(preg_match('"^(?:/prologes)?/logout"', $uri)) {
-
+	include 'templates/_building.php';
 } else {
 	//do a 500 or 404
-	echo "fail";
+	// echo "fail";
+	include 'templates/_building.php';
 }
 ?>
