@@ -2,6 +2,14 @@
  * Read the url values and return the specified parameter 
 */
 var ajaxDir = ROOT_PATH + 'php/ajax/';
+var AJAX_DIR = ROOT_PATH + 'php/ajax/';
+
+function ajaxPromise(options) {
+	return new Promise(function(resolve, reject) {
+		$.ajax(options).done(resolve).fail(reject);
+	});
+}
+
 function timeSinceTimestamp(timestamp) {
 	return timeSinceDate(new Date(timestamp));
 }
@@ -373,13 +381,13 @@ function AuthorBooksTemplate(cfg) {
 	};
 
 	var getThumb = function(book) {
-		var link = $('<a></a>',{href:'book.php?i='+book.id});
+		var link = $('<a></a>',{href: ROOT_PATH + 'book/' + book.id});
 		var icon = $('<img>', {src:book.icon, alt:'Cover', class:'backup-thumb'});
 		return link.append(icon);
 	}
 
 	var getBookName = function(book) {
-		var link = $('<a></a>',{href:'book.php?i='+book.id});
+		var link = $('<a></a>',{href: ROOT_PATH + 'book/' + book.id});
 		var title = $('<h3>').text(book.title);
 		return link.append(title);
 	}
@@ -421,7 +429,7 @@ function UserPrologeTemplate(cfg) {
 	};
 
 	var getThumbnail = function(user) {
-		var link = $('<a></a>', {href:'book.php?i='+user.id});
+		var link = $('<a></a>', {href:ROOT_PATH + 'book/' +user.id});
 		var img = $('<img>',{src: user.icon, alt:"user", onerror:'this.setAttribute("src", "../img/defaultthumb.png");'});
 		var holder = $('<div></div>',{class: base + '--thumbnail'});
 		link.append(img);
@@ -508,7 +516,7 @@ function BookPrologesTemplate(cfg) {
 
 	var getThumbnail = function(user) {
 		var link = $('<a></a>', {href:'user.php?i='+user.id});
-		var img = $('<img>',{src: user.icon, alt:"user", onerror:'this.setAttribute("src", "../img/defaultuser.png");'});
+		var img = $('<img>',{src: user.icon, alt:"user", onerror:'this.setAttribute("src", "'+ ROOT_PATH+'img/defaultuser.png");'});
 		var holder = $('<div></div>',{class: base + '--thumbnail'});
 		link.append(img);
 		holder.append(link);
@@ -730,7 +738,7 @@ function EventTemplate(cfg) {
 	//TODO: Apply error method to all images
 	var getTargetBook = function(book) {
 		var holder = $('<div></div>', {class:base + '--target'});
-		var link = $('<a></a>', {href: 'book.php?i='+book.id});
+		var link = $('<a></a>', {href: ROOT_PATH + 'book/' +book.id});
 		var img = $('<img>', {
 			alt:'Cover', 
 			src: book.thumbnail});
@@ -779,14 +787,14 @@ function UserLibraryTemplate(cfg) {
 	var getElement = function(book) {
 		var bookHolder = $('<div></div>',{class:'col-md-4'});
 		var bookCard = $('<article></article>', {class:base});
-		var bookThumbLink = $('<a></a>',{href:'book.php?i='+book.id});
+		var bookThumbLink = $('<a></a>',{href:ROOT_PATH + 'book/' +book.id});
 		var bookThumb = $('<div></div>', {class: base + '--thumbnail'});
 		
 		var cover = book.thumbnail == null ? '../img/defaultthumb.png' : book.thumbnail;
 		var thumb = $('<img>',{alt:'Book cover', src: cover});
 		
 		var bookInfo = $('<div></div>', {class: base + '--info'});
-		var bookTitleLink = $('<a></a>',{href:'book.php?i='+book.id});
+		var bookTitleLink = $('<a></a>',{href:ROOT_PATH + 'book/' +book.id});
 		var bookTitle = $('<h5></h5>').text(book.title);
 		var bookAuthor = $('<h6></h6>').text(book.authorName);
 		
@@ -954,14 +962,14 @@ function SideBookTemplate(cfg) {
 	var getElement = function(book) {
 		var bookHolder = $('<div></div>',{class:'col-md-12 col-sm-4'});
 		var bookCard = $('<article></article>', {class:base});
-		var bookThumbLink = $('<a></a>',{href:'book.php?i='+book.id});
+		var bookThumbLink = $('<a></a>',{href:ROOT_PATH + 'book/' +book.id});
 		var bookThumb = $('<div></div>', {class: base + '--thumbnail'});
 		
 		var cover = book.thumbnail == null ? '../img/defaultthumb.png' : book.thumbnail;
 		var thumb = $('<img>',{alt:'Book cover', src: cover});
 		
 		var bookInfo = $('<div></div>', {class: base + '--info'});
-		var bookTitleLink = $('<a></a>',{href:'book.php?i='+book.id});
+		var bookTitleLink = $('<a></a>',{href:ROOT_PATH + 'book/' +book.id});
 		var bookTitle = $('<h5></h5>').text(book.title);
 		var bookAuthor = $('<h6></h6>').text(book.authorName);
 		
@@ -1106,17 +1114,17 @@ function BookHandler(cfg) {
 	};
 }
 
-function AuthorHandler(cfg) {
-	var displayAuthor = function(author, nameHolder, iconHolder) {
-		//
-		nameHolder.text(author.name);
-		iconHolder.attr('src', author.icon)
-	};
+// function AuthorHandler(cfg) {
+// 	var displayAuthor = function(author, nameHolder, iconHolder) {
+// 		//
+// 		nameHolder.text(author.name);
+// 		iconHolder.attr('src', author.icon)
+// 	};
 
-	return {
-		displayAuthor: displayAuthor
-	};
-}
+// 	return {
+// 		displayAuthor: displayAuthor
+// 	};
+// }
 
 function BookInteractionHandler(cfg) {
 	//handle the book interactions
@@ -1553,7 +1561,7 @@ function SearchDataSource(cfg) {
 
 function PrologesDataSource(cfg) {
 	
-	var ajaxDir = cfg.dir || '../php/ajax/';
+	var ajaxDir = cfg.dir || AJAX_DIR;
 
 	var ajax = function(options) {
 		return new Promise(function(resolve, reject) {

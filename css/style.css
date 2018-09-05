@@ -127,6 +127,22 @@ width:100%;
 height:100%;
 padding-top:1em
 }
+.Building {
+	background-image: url(../img/working.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+width:100%;
+height:100%;
+padding-top:1em
+}
+.Building-container {
+	max-width:450px;
+	padding:1em 4em;
+	border-radius:4px;
+	background-color: rgba(255,255,255, 0.4);
+	margin-left: auto;
+	margin-right: auto;
+}
 .Login-container {
 max-width:450px;
 padding:1em 4em;
@@ -186,6 +202,9 @@ padding:.6em
 color: red;
 font-size: 14px;
 }
+.error-msg > p {
+	color: red; font-size: 14px; font-style: italic;
+}
 
 /************** NAVBAR ********************/
 .navbar-custom {
@@ -229,8 +248,9 @@ padding: 1em;
 border-bottom-left-radius: 8px;
 border-bottom-right-radius: 8px;
 }
-.welcome-whatis--header span {
+.welcome-whatis--header::first-letter {
 color:#173e43;
+font-size: 135%;
 }
 
 .welcome-login {
@@ -891,6 +911,10 @@ border-radius:4px;
 .library-book--thumbnail {
 float: left;
 padding: 1em 1em;
+}
+
+.library-book--rating {
+color: #fae596;
 }
 
 .library-book--thumbnail img {
