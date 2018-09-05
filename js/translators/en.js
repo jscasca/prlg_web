@@ -101,6 +101,8 @@ function Translator() {
 			case 'expand': span = '' + args[0] + ' ' + (args[0] > 1 ? 'replies' : 'reply'); break;
 			case 'collapse': span = 'Collapse'; break;
 			case 'timeFromNow': span = args[0] + ' ' + args[1] + ' ago'; break;
+			case 'duplicateUser': span = 'The username <i>'+args[0]+'</i> is already taken'; break;
+			case 'duplicateEmail': span = 'The email address <i>'+args[0]+'</i> is already used by another account'; break;
 		}
 		return span;
 	}

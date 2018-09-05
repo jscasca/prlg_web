@@ -97,7 +97,34 @@ function Translator() {
 			'Search book': 'Encuentra un libro',
 			'Select a title': 'Escribe el titulo del libro',
 			'Select one author': 'Escribe por lo menos un autor',
-			'': ''
+			/* Registration */
+			'Please type a username': 'Por favor escribe el nombre de usuario',
+			'The username must be between 3 and 25 characters long': 'El nombre de usuario tiene que ser entre 3 y 25 caracterres de largo',
+			'The username can contain only letters, numbers and underscores': 'El nombre de usuario solo puede tener letras, numeros y guiones bajos',
+			'The email is not a valid format': 'El formato de correo no es valido',
+			'Your password must be at least 6 characters long':'Tu contraseña debe de tener al menos 6 caracteres',
+			'Your password does not match':'Tu contraseña no coincide',
+			'There was an error during registration, please try again later': 'Ha ocurrido un error durante el registro. Por favor trata de nuevo mas tarde',
+			/* Book */
+			'Prologues': 'Prologos',
+			'Comments': 'Comentarios',
+			'Write a comment...': 'Escribe un comentario...',
+			'Add to your wishlist': 'Agregalo a tu lista de lectura',
+			'Add to your favourites': 'Agregalo a tus favoritos',
+			'Rate and leave a prologue': 'Calificalo y escribe un prologo',
+			'Add to your readings': 'Agregalo a los libros que estas leyendo',
+			'Write a prologue!': 'Escribe un prologo!',
+			'Rate': 'Puntuar',
+			'Stamp': 'Sellar',
+			/* Library */
+			'Currently reading': 'Estoy leyendo',
+			'My wishlist': 'Quiero leer',
+			'My favourites': 'Mis favoritos',
+			'My prologes': 'Mis prologos',
+			/* Profile */
+			'Display name': 'Nombre para mostrar',
+			'Username': 'Usuario',
+			'There was an error uploading the file. Please try again.': 'Ha ocurrido un error. Por favor intentalo mas tarde.'
 		};
 		if(translations[text] !== undefined) {
 			return translations[text]
@@ -126,6 +153,8 @@ function Translator() {
 			case 'timeFromNow': 
 				span = 'Hace ' + args[0] + ' ' + spanMap[args[1]]; 
 				break;
+			case 'duplicateUser': span = 'El nombre de usuario <i>' + args[0] + '</i> ya existe'; break;
+			case 'duplicateEmail': span = 'El correo electronico <i>' + args[0] + '</i> ya esta asociado a otra cuenta'; break;
 		}
 		return span;
 	}
