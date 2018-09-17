@@ -52,7 +52,7 @@ $loggedIn = isset($_SESSION[SID]);
 
 $uri = $requestUri['uri'];
 
-if(preg_match('"^(?:/prologes)/lang/[a-z]{2}$"', $uri) && preg_match('"https?://(?:(?:(?:[^./]+\.)?prologes.com)|(?:localhost))(?:/prologes)?/"', $refererUri)) {
+if(preg_match('"^(?:/prologes)?/lang/[a-z]{2}$"', $uri) && preg_match('"https?://(?:(?:(?:[^./]+\.)?prologes.com)|(?:localhost))(?:/prologes)?/"', $refererUri)) {
 	//
 	$lang = substr($uri, -2);
 	if(isValidLanguage($lang)) {
@@ -61,7 +61,7 @@ if(preg_match('"^(?:/prologes)/lang/[a-z]{2}$"', $uri) && preg_match('"https?://
 	header('Location: ' . $refererUri);
 	exit;
 	// $uri = preg_replace('"https?://(?:(?:(?:[^./]+\.)?prologes.com)|(?:localhost))(?:/prologes)?"', '', $refererUri);
-} else if(preg_match('"^(?:/prologes)/logout$"', $uri)) {
+} else if(preg_match('"^(?:/prologes)?/logout$"', $uri)) {
 	//destroy and redirect somehwere
 	$currentLang = $_SESSION['lang'];
 	$_SESSION = array();
@@ -102,7 +102,7 @@ if(preg_match('"^(?:/prologes)?/(?:(?:index)|(?:home))(?:.php)?$"', $uri) || pre
 	//
 	$content = 'templates/_index.php';
 	include 'templates/__template.php';
-} else if(preg_match('"/prologes/login"', $uri)) {
+} else if(preg_match('"(?:/prologes)?/login"', $uri)) {
 	// check the referer and check if it is post or get
 	if($_SERVER['REQUEST_METHOD'] === 'POST') {
 		// is trying to log in
