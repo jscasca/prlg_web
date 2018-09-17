@@ -26,6 +26,7 @@ $translations = array(
 	'Password' => 'Contraseña',
 	'Confirm password' => 'Confirmar contraseña',
 	/* Forgotten password */
+	'The token is invalid or has already expired. Please try again' => 'El token es invalido o ya ha expirado. Por favor intenta de nuevo',
 	'New password' => 'Nueva contraseña',
 	'Confirm new password' => 'Confirmar nueva contraseña',
 	'An email has been sent with instructions on how to reset your password!' => 'Se ha enviado un correo electronico con instrucciones para recuperar tu contraseña',

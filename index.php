@@ -191,7 +191,12 @@ if(preg_match('"^(?:/prologes)?/(?:(?:index)|(?:home))(?:.php)?$"', $uri) || pre
 				$call = authenticationlessCurlCall("POST", "public/passwordReset", array('token'=>$_REQUEST['token'], 'password'=>$_REQUEST['pwd']));
 				//
 				$code = $call[HTTP_STATUS];
+				echo "<!--";
+				var_dump($call);
+				echo "-->";
 				if($code != 200 && $code != 204) {
+					// Set and display an error
+					$expired = true;
 					include 'templates/_forgotten.php';
 					exit;
 				}
