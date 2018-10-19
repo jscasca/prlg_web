@@ -34,7 +34,7 @@ echo "<script type='text/javascript'>var loggedIn = ".(isset($_SESSION[SID])?"tr
 		</li>
 
 		<li>
-      <form role="search" class="navbar-form navbar-right" action="search">
+      <form role="search" class="navbar-form navbar-right" action="<?php echo $rootpath;?>search">
           <div class="input-group">
             <input type="text" placeholder="<?php echo getTranslation('Search');?>" name="q" class="form-control">
             <div class="input-group-btn">
