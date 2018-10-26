@@ -2,6 +2,15 @@
 $rootpath = BASE_DIR;
 ?>
 <meta charset="UTF-8">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-78449381-1"></script> -->
+<script>
+  /*window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-78449381-1');*/
+</script>
 <script type="text/javascript">
 //Any additional header goes ehre
 const ROOT_PATH = '/prologes/';
