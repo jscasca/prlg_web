@@ -220,10 +220,10 @@ function CommentDataHolder(htmlNode, options) {
 			var threadNest = $(this).closest('.thread').find('.thread-nest').first();
 			//look for thread and prepend
 			var replyForm = $('<div></div>', { class: 'comment'}).addClass('reply-form');
-			var holder = $('<div></div>', { class: 'book-comment--form'});
-			var textareaDiv = $('<div></div>', { class: 'book-comment--textarea-container'});
-			var errorArea = $('<div></div>', {class: 'book-comment--error-area'});
-			var textarea = $('<textarea/>', { class: 'book-comment--textarea', placeholder: 'Reply...', 'reply-to': comment.id});
+			var holder = $('<div></div>', { class: 'comment--form'});
+			var textareaDiv = $('<div></div>', { class: 'comment--textarea-container'});
+			var errorArea = $('<div></div>', {class: 'comment--error-area'});
+			var textarea = $('<textarea/>', { class: 'comment--textarea', placeholder: 'Reply...', 'reply-to': comment.id});
 			var buttons = $('<div></div>', { class: 'reply-form--actions'});
 			var postButton = $('<button>Post</button>').addClass('btn').addClass('reply-button');
 			postButton.on('click', function() {
@@ -243,6 +243,7 @@ function CommentDataHolder(htmlNode, options) {
 				)
 			);
 			threadNest.prepend(replyForm);
+			textarea.focus();
 		});
 		holder.append(reply);
 		return holder;
@@ -259,7 +260,7 @@ function CommentDataHolder(htmlNode, options) {
 			container.prepend(createThread(comment, 0));
 			//create a new node with the received comment
 		}).catch(function(e) {
-			var errorArea = form.find('.book-comment--error-area').first();
+			var errorArea = form.find('.comment--error-area').first();
 			var error = translator.getErrorMessage();
 			if(e.status === 401) {
 				error = translator.getErrorMessage('logInToPost');
@@ -429,7 +430,7 @@ function UserPrologeTemplate(cfg) {
 	};
 
 	var getThumbnail = function(user) {
-		var link = $('<a></a>', {href:ROOT_PATH + 'book/' +user.id});
+		var link = $('<a></a>', {href: ROOT_PATH + 'book/' +user.id});
 		var img = $('<img>',{src: user.icon, alt:"user", onerror:'this.setAttribute("src", "../img/defaultthumb.png");'});
 		var holder = $('<div></div>',{class: base + '--thumbnail'});
 		link.append(img);
@@ -445,7 +446,7 @@ function UserPrologeTemplate(cfg) {
 
 	var getProloge = function(prologe) {
 		var paragraph = $('<p></p>');
-		var link = $('<a></a>', {href:'book.php?i=' + prologe.book.id});
+		var link = $('<a></a>', {href: ROOT_PATH + 'book.php/' + prologe.book.id});
 		var title = $('<h4></h4>').append(prologe.book.title);
 		var holder = $('<div></div>', {class:base + '--text'});
 		link.append(title);
@@ -515,7 +516,7 @@ function BookPrologesTemplate(cfg) {
 	};
 
 	var getThumbnail = function(user) {
-		var link = $('<a></a>', {href:'user.php?i='+user.id});
+		var link = $('<a></a>', {href: ROOT_PATH + 'user?i='+user.id});
 		var img = $('<img>',{src: user.icon, alt:"user", onerror:'this.setAttribute("src", "'+ ROOT_PATH+'img/defaultuser.png");'});
 		var holder = $('<div></div>',{class: base + '--thumbnail'});
 		link.append(img);
@@ -533,7 +534,7 @@ function BookPrologesTemplate(cfg) {
 
 	var getSignature = function(user) {
 		//
-		var link = $('<a></a>', {href:'user.php?i=' + user.id});
+		var link = $('<a></a>', {href: ROOT_PATH + 'user?i=' + user.id});
 		var signature = $('<div></div>', {class: base + '--signature text-right'});
 		link.text(user.displayName);
 		signature.append(link);
@@ -1129,7 +1130,7 @@ function BookHandler(cfg) {
 function BookInteractionHandler(cfg) {
 	//handle the book interactions
 	var base = cfg.base || 'icon';
-	var ajaxDir = cfg.dir || '../php/ajax/';
+	var ajaxDir = cfg.dir || ROOT_PATH + 'php/ajax/';
 	//TODO: put defautl values for these two (make them optional)
 	var translator = cfg.translator;
 	var uiHandler = cfg.uiHandler;
@@ -1330,7 +1331,7 @@ function BookInteractionHandler(cfg) {
 }
 
 function CommentDataHandler(cfg) {
-	var ajaxDir = '../php/ajax';
+	var ajaxDir = ROOT_PATH + 'php/ajax/';
 	var ajax = function(options) {
 		return new Promise(function(resolve, reject) {
 			$.ajax(options).done(resolve).fail(reject);
@@ -1357,7 +1358,7 @@ function CommentDataHandler(cfg) {
 }
 
 function PrologesDataHandler(cfg) {
-	var ajaxDir = cfg.dir || '../php/ajax/';
+	var ajaxDir = cfg.dir || ROOT_PATH + 'php/ajax/';
 
 	var ajax = function(options) {
 		return new Promise(function(resolve, reject) {
@@ -1385,7 +1386,7 @@ function PrologesDataHandler(cfg) {
 }
 
 function AuthorDataSource(cfg) {
-	var ajaxDir = cfg.dir || '../php/ajax/';
+	var ajaxDir = cfg.dir || ROOT_PATH + 'php/ajax/';
 
 	var ajax = function(options) {
 		return new Promise(function(resolve, reject) {
@@ -1428,7 +1429,7 @@ function AuthorDataSource(cfg) {
 }
 
 function MyDataSource(cfg) {
-	var ajaxDir = cfg.dir || '../php/ajax/';
+	var ajaxDir = cfg.dir || ROOT_PATH + 'php/ajax/';
 	var ajax = function(options) {
 		return new Promise(function(resolve, reject) {
 			$.ajax(options).done(resolve).fail(reject);
@@ -1457,7 +1458,7 @@ function MyDataSource(cfg) {
 }
 
 function UserDataSource(cfg) {
-	var ajaxDir = cfg.dir || '../php/ajax/';
+	var ajaxDir = cfg.dir || ROOT_PATH + 'php/ajax/';
 
 	var ajax = function(options) {
 		return new Promise(function(resolve, reject) {

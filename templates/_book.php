@@ -103,10 +103,10 @@
 		<!-- Comments DIV -->
 		<div id='tab-comments' class='tab-pane fade'>
 			<div class="book-comment--area" id="book-comment--area" >
-				<div class="book-comment--form">
-					<div class="book-comment--textarea-container">
-						<textarea id="book-comment--textarea" class="book-comment--textarea" placeholder="Write a comment..."></textarea>
-						<div class="book-comment--error-area" id="book-comment--error-area"></div>
+				<div class="comment--form">
+					<div class="comment--textarea-container">
+						<textarea id="book-comment--textarea" class="comment--textarea" placeholder="Write a comment..."></textarea>
+						<div class="comment--error-area" id="book-comment--error-area"></div>
 					</div>
 					<div class="reply-form--actions">
 						<button type="button" class="btn Comment-button disabled" disabled="disabled" id="comment-book--submit">Post</button>
@@ -239,20 +239,13 @@ $(document).ready(function() {
 							switch(err.status) {
 								case 401: displayError = translator.getErrorMessage('logInToPost'); break;
 							}
-							$('#book-comment--error-area').html('<i>' + displayError + '</i>')
-			// 				var errorArea = form.find('.book-comment--error-area').first();
-			// var error = translator.getErrorMessage();
-			// if(e.status === 401) {
-			// 	error = translator.getErrorMessage('logInToPost');
-			// }
-			// errorArea.append('<i>' + error + '</i>');
+							$('#book-comment--error-area').html('<i>' + displayError + '</i>');
 						});
 					}
 
 				}
 			});
 		}, 3000);
-		//if logged in show the comment thingy
 	}
 
 	//This is all the code for the max text prologue text area
