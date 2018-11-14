@@ -121,6 +121,9 @@ function Translator() {
 			'My wishlist': 'Quiero leer',
 			'My favourites': 'Mis favoritos',
 			'My prologes': 'Mis prologos',
+			/* Clubs */
+			'Start a new book club!': 'Empieza un nuevo club de lectura!',
+			'Add it!': 'Añadelo!'
 			/* Profile */
 			'Display name': 'Nombre para mostrar',
 			'Username': 'Usuario',
@@ -155,6 +158,7 @@ function Translator() {
 				break;
 			case 'duplicateUser': span = 'El nombre de usuario <i>' + args[0] + '</i> ya existe'; break;
 			case 'duplicateEmail': span = 'El correo electronico <i>' + args[0] + '</i> ya esta asociado a otra cuenta'; break;
+			case 'duplicateName': span = 'El nombre <i>' + args[0] + '</i> ya existe'; break;
 		}
 		return span;
 	}

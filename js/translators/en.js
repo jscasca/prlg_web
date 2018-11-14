@@ -103,6 +103,7 @@ function Translator() {
 			case 'timeFromNow': span = args[0] + ' ' + args[1] + ' ago'; break;
 			case 'duplicateUser': span = 'The username <i>'+args[0]+'</i> is already taken'; break;
 			case 'duplicateEmail': span = 'The email address <i>'+args[0]+'</i> is already used by another account'; break;
+			case 'duplicateName': span = 'The name <i>' + args[0] + '</i> is already taken'; break;
 		}
 		return span;
 	}
