@@ -28,7 +28,7 @@
 			<h3><?php echo getTranslation('Forgot your password?'); ?></h3>
 
 			<?php
-				if(isset($expired) && $expired === true)echo getTranslation("<h4 class='error'>The token is invalid or has already expired. Please try again.</h4>"); 
+				if(isset($expired) && $expired === true)echo "<h4 class='eror'>" . getTranslation("The token is invalid or has already expired. Please try again") . "</h4>"; 
 			?>
 			<h5><?php echo getTranslation('Enter your username or email address to reset your password'); ?></h5>
 			<form action="forgotten" method="POST" class="Login-form" id="registration--form">

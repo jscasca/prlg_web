@@ -41,7 +41,7 @@
 		<form action="<?php echo $rootpath;?>php/submit/customBookRequest.php" method="POST" class="book-request-form" id="book-request-form">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3 class="modal-title"><span id="modal-title-placeholder">Agrega un libro!</span></h3>
+				<h3 class="modal-title"><span id="modal-title-placeholder"><?php echo getTranslation('Add a new book!'); ?></span></h3>
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
