@@ -36,6 +36,22 @@ $translations = array(
 	'Enter your new password' => 'Escribe tu nueva contraseña',
 	'Email or username' => 'Nombre de usuario o correo',
 	'Enter your username or email address to reset your password' => 'Inserta tu nombre de usuario o correo electronico para cambiar tu contraseña',
+	/* Search */
+	'Add a new book!' => 'Agrega un nuevo libro!',
+	/* Groups/Clubs */
+	'Add a book that you are reading, have read or is in your wishlist' => 'Añade un libro que hayas leido, estes leyendo o este en tu lista de lectura',
+	'Add a book to the club wishlist' => 'Añade un libro a la lista de lectura del club',
+	'Select what the club is reading' => 'Selecciona el libro que el club va a leer',
+	'Select a book from the club wishlist and mark it as the current reading' => 'Selecciona un libro de la lista de lectura del club y marcalo como la lectura actual',
+	'Mark a reading' => 'Marca una lectura',
+	'Add to wishlist' => 'Añade a tu lista',
+	'Start your club!' => 'Empieza tu club!',
+	'Start your own book club!' => 'Empieza tu club de lectura!',
+	'Club names must start with a letter and can contain letter, numbers and/or underscores up to 25 characters' => 'Los nombres de clubes deben de empezar con una letra y pueden contener letras, numeros y/o guiones bajos hasta un total de 25 caracteres',
+	'Select a unique club name for your group and start enjoying your new space!' => 'Selecciona un nombre unico para tu club y empieza a disfrutar de tu nuevo espacio!',
+	'Club name' => 'Nombre del club',
+	'If you are already a member, log in to start your own book club!' => 'Si ya eres un miembro, inicia sesion para crear tu propio club de lectura!',
+	'Or register to start your own book club using Prologes!' => 'O registrate para empezar tu club de lectura en Prologes!',
 	/* Registration */
 	'Register' => 'Registrate',
 	'Join Prologes by filling this form' => 'Unete a Prologes llenando esta forma',
@@ -46,6 +62,7 @@ $translations = array(
 	'Search' => 'Buscar',
 	'Profile' => 'Perfil',
 	'Library' => 'Libreria',
+	'Book clubs' => 'Clubes de lectura',
 	'Log out' => 'Cerrar sesion',
 	'LANG' => 'ES'
 );
