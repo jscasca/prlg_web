@@ -36,7 +36,9 @@ $stylesheets = array(
 	"css/bootstrap.min.css",
 	"css/font-awesome.min.css",
 	"css/star-rating.min.css",
-	"css/style.css"
+	"css/style.css",
+	"fa-free/css/all.css"
+
 );
 for($i = 0; $i < count($stylesheets); $i++) {
 	echo "<link rel='stylesheet' href='".$rootpath . $stylesheets[$i]."'>\n";
@@ -46,6 +48,7 @@ for($i = 0; $i < count($stylesheets); $i++) {
 <link rel="icon" type="image/png" href="<?php echo $rootpath;?>img/favicon.png" />
 <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">-->
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"> -->
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <script type="text/javascript">
 //Any additional header goes ehre

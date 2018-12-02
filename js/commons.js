@@ -74,14 +74,14 @@ function populateRatingDiv(ratingDiv, rating) {
 	if(rating == null) rating = 0;
 	var stars = Math.floor(rating);
 	for(var i = 0; i < stars; i++) {
-		ratingDiv.append('<span class="fa fa-star"></span>');
+		ratingDiv.append('<span class="fas fa-star"></span>');
 	}
 	if(rating%1 > 0) {
-		ratingDiv.append('<span class="fa fa-star-half-o"></span>');
+		ratingDiv.append('<span class="fas fa-star-half-alt"></span>');
 		stars++;
 	}
 	for(var i = stars; i < 5; i++) {
-		ratingDiv.append('<span class="fa fa-star-o"></span>');
+		ratingDiv.append('<span class="far fa-star"></span>');
 	}
 	return ratingDiv;
 }
