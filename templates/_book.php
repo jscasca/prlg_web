@@ -91,6 +91,7 @@
 		<ul class='nav nav-tabs'>
 			<li  class='active'><a href='#tab-prologues' data-toggle='tab' id='tab-prologues--anchor'>Prologues</a></li>
 			<li><a href='#tab-comments' data-toggle='tab' id='tab-comments--anchor'>Comments</a></li>
+			<li><a href='#tab-similar' data-toggle='tab' id='tab-similar--anchor'>Similar</a></li>
 		</ul>
 	</div>
 
@@ -101,7 +102,7 @@
 		</div>
 
 		<!-- Comments DIV -->
-		<div id='tab-comments' class='tab-pane fade'>
+		<div id='tab-comments' class='tab-pane fade in'>
 			<div class="book-comment--area" id="book-comment--area" >
 				<div class="comment--form">
 					<div class="comment--textarea-container">
@@ -115,6 +116,119 @@
 				</div>
 			</div>
 			<div class="main-comments" id="main-comments">
+			</div>
+		</div>
+
+		<!-- Similar DIV -->
+		<div id='tab-similar' class='tab-pane fade in'>
+			<!-- Existing similar -->
+			<div class='similarities' id='main-similarities'>
+				<!-- Example 1 -->
+				<!-- <div class='similarity panel'>
+					<div class='similarity--book'>
+						<div class='book--icon similarity--icon'>
+							<img src='/prologes/img/book_dark.png' class='book--icon'>
+						</div>
+						<div class='book-info book-info--right'>
+							<span class='title'><a href=''>Long Book tile</a></span>
+							<span class='authors'><a href=''>Author One</a>, <a href=''>Author Two</a></span>
+						</div>
+					</div>
+					<div class='similarity--voting'>
+						<div class='similairty--voting-up'>
+							<i class='fas fa-chevron-up'></i>
+						</div>
+						<div class='similarity--voting-bar'>
+							<div class='up' style='width:75%'></div>
+						</div>
+						<div class='similarity--voting-down'>
+							<i class='fas fa-chevron-down'></i>
+						</div>
+					</div>
+				</div> -->
+				<!-- Example 2 -->
+				<!-- <div class='similarity panel'>
+					<div class='similarity--book'>
+						<div class='book--icon similarity--icon'>
+							<img src='/prologes/img/book_clear.png' class='book--icon'>
+						</div>
+						<div class='book-info book-info--right'>
+							<span class='title'><a href=''>The lord of the rings: Two towers</a></span>
+							<span class='authors'><a href=''>Author One</a>, <a href=''>Author Two</a>, <a href=''>Author Three</a></span>
+						</div>
+					</div>
+					<div class='similarity--voting'>
+						<div class='similairty--voting-up'></div>
+						<div class='similarity--voting-bar'>
+							<div class='up' style='width:75%'></div>
+						</div>
+						<div class='similarity--voting-down'></div>
+					</div>
+				</div> -->
+				<!-- End examples -->
+				<!-- <div class='similarity panel'>
+					<div class='similarity--book'>
+						<div class='book--icon similarity--icon'>
+							<img src='/prologes/img/book_dark.png' class='book--icon'>
+						</div>
+						<div class='book-info book-info--right'>
+							<span class='title'><a href=''>Long Book tile</a></span>
+							<span class='authors'><a href=''>Author One</a>, <a href=''>Author Two</a></span>
+						</div>
+					</div>
+					<div class='similarity--voting'>
+						<div class='similairty--voting-up'>
+							<i class='fas fa-chevron-up'></i>
+						</div>
+						<div class='similarity--voting-bar'>
+							<div class='up' style='width:75%'></div>
+						</div>
+						<div class='similarity--voting-down'>
+							<i class='fas fa-chevron-down'></i>
+						</div>
+					</div>
+				</div>
+				<div class='similarity panel'>
+					<div class='similarity--book'>
+						<div class='book--icon similarity--icon'>
+							<img src='/prologes/img/book_dark.png' class='book--icon'>
+						</div>
+						<div class='book-info book-info--right'>
+							<span class='title'><a href=''>Long Book tile</a></span>
+							<span class='authors'><a href=''>Author One</a>, <a href=''>Author Two</a></span>
+						</div>
+					</div>
+					<div class='similarity--voting'>
+						<div class='similairty--voting-up'>
+							<i class='fas fa-chevron-up'></i>
+						</div>
+						<div class='similarity--voting-bar empty'>
+						</div>
+						<div class='similarity--voting-down'>
+							<i class='fas fa-chevron-down'></i>
+						</div>
+					</div>
+				</div> -->
+			</div>
+			<!-- Add from your readings -->
+			<div class='row suggest-similar'>
+				<div class='collapsible-button' data-toggle='collapse' data-target='#my-readings' tabindex='0' role='button' id='add-similar-book'>
+					<i class='fas fa-plus'></i>
+					<span class='' >Add a similar book</span>
+				</div>
+				<div class='collapse' id='my-readings'>
+					<div class='filter'>
+						<div class='instructions'>
+							<span>Suggest a similar book from the ones you have read.</span>
+						</div>
+						<div class='filter-textfield'>
+							<input type='text' id='suggest-similar--filter' class='filter-textfield' placeholder='Filter'/>
+					</div>
+					</div>
+					<div class='my-readings'>
+						<!-- List of books I have read -->
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -147,13 +261,192 @@ var interaction = new BookInteractionHandler({
 	translator: translator,
 	uiHandler: uiHelper
 });
+
+var similarBooks = {}; //map of ids of similar books
+
+var myReads = null; // array of my books
+
+function filterMyReads(filterString) {
+	for(var i = 0; i < myReads.length; i++) {
+		var book = myReads[i];
+		if(book.title.includes(filterString)) {
+			$('#mybook-' + book.id).removeClass('filter-out');
+			// TODO: add highlighting
+		} else {
+			$('#mybook-' + book.id).addClass('filter-out');
+		}
+	}
+}
+
+function suggestionButtonClick(similarId) {
+	return function() {
+		console.log('similar:', similarId);
+		suggestSimilar(similarId).then(function(similarity) {
+			console.log('similarity:', similarity);
+			similarBooks[similarity.similar.id] = true;
+			$('#mybook-' + similarity.similar.id).remove();
+			myReads.splice(myReads.map(function(e){e.id}).indexOf(similarity.similar.id), 1);
+			var similarityElement = createSimilarityElement(similarity);
+			$('#main-similarities').append(similarityElement);
+		});
+	};
+}
+
+function createSimilarityBar(upvotes, downvotes) {
+	var similarityBar = $('<div></div>', {class: 'similairty--voting-bar'});
+	if(upvotes > 0 && downvotes > 0) {
+		var percentage = (upvotes*100) / (upvotes + downvotes);
+		var upDiv = $('<div></div>', {class: 'up', style: 'width:' + percentage + '%;'});
+		similarityBar.append(upDiv);
+	} else {
+		similarityBar.addClass('empty');
+	}
+	return similarityBar;
+}
+
+function authorsNode(authors) {
+	var span = $('<span></span>');
+	for(var i = 0; i < authors.length; i++) {
+		var author = authors[i];
+		var link = $('<a></a>', {href: ROOT_PATH + 'author/' + author.id})
+			.append(document.createTextNode(author.name));
+		if(i > 0) span.append(document.createTextNode(', '));
+		span.append(link);
+	}
+	return span;
+}
+
+function createVoteOnClick(similarityId, vote, elementToUnbind) {
+	return function() {
+		// console.log('voting for: ', similarityId, vote);
+		voteSimilar(similarityId, vote === true ? '1' : '0').then(function(data) {
+			if(data.vote === true) {
+				$('#similarity-' + similarityId).find('.similarity--voting-up').addClass('voted');
+			} else {
+				$('#similarity-' + similarityId).find('.similarity--voting-down').addClass('voted');
+			}
+		});
+		unbind(elementToUnbind);
+	}
+}
+
+function createVoteOnKeydown(similarityId, vote, elementToUnbind) {
+	return function(e) {
+		if(e.keyCode == 13 || e.keyCode == 32) {
+			// console.log('voting for: ', similarityId, vote);
+			voteSimilar(similarityId, vote === true ? '1' : '0').then(function(data) {
+				if(data.vote === true) {
+					$('#similarity-' + similarityId).find('.similarity--voting-up').addClass('voted');
+				} else {
+					$('#similarity-' + similarityId).find('.similarity--voting-down').addClass('voted');
+				}
+			});
+			unbind(elementToUnbind);
+		}
+	}
+}
+
+function unbind(elementId) {
+	var el = '#' + elementId;
+	console.log('el:', $(el));
+	$(el).find('.similarity--voting-up').off('click');
+	$(el).find('.similarity--voting-down').off('click');
+	$(el).find('.similarity--voting-up').off('keypress');
+	$(el).find('.similarity--voting-down').off('keypress');
+}
+
+function createSimilarityElement(similarity) {
+	//
+	var elementId = 'similarity-' + similarity.id;
+	var icon = $('<img>', {class: 'book--icon', src: similarity.similar.icon});
+	var bookIconDiv = $('<div></div>', {class: 'book--icon similarity--icon'}).append(icon);
+
+	var link = $('<a></a>', {class: '', href: ROOT_PATH + 'book/' + similarity.similar.id}).append(document.createTextNode(similarity.similar.title));
+	var titleSpan = $('<span></span>', {class: 'title'}).append(link);
+	var authors = authorsNode(similarity.similar.authors);
+	var bookInfoDiv = $('<div></div>', {class: 'book-info book-info--right'}).append(titleSpan).append(authors);
+	var bookDiv = $('<div></div>', {class: 'similarity--book'}).append(bookIconDiv).append(bookInfoDiv);
+	var upvoteChevron = $('<i></i>', {class: 'fas fa-chevron-up'});
+	var upvote = $('<div></div>', {class: 'similarity--voting-up', tabindex: '0', role: 'button'}).append(upvoteChevron);
+	var downvoteChevron = $('<i></i>', {class: 'fas fa-chevron-down'});
+	var downvote = $('<div></div>', {class: 'similarity--voting-down', tabindex: '0', role: 'button'}).append(downvoteChevron);
+	var voteCounter = $('<div></div>', {class: 'similarity--voting-counter', tabindex: '0'}).append(document.createTextNode(similarity.upvotes - similarity.downvotes));
+	console.log('printing votes:');
+	var votingDiv = $('<div></div>', {class: 'similarity--voting'}).append(upvote).append(voteCounter).append(downvote);
+	if(loggedIn && similarity.vote == null) {
+		votingDiv.addClass('enabled');
+		upvote.on('click', createVoteOnClick(similarity.id, true, elementId));
+		downvote.on('click', createVoteOnClick(similarity.id, false, elementId));
+		upvote.on('keypress', createVoteOnKeydown(similarity.id, true, elementId));
+		downvote.on('keypress', createVoteOnKeydown(similarity.id, false, elementId));
+	}
+	if(similarity.vote === true) {
+		upvote.addClass('voted');
+	}
+	if(similarity.vote === false) {
+		downvote.addClass('voted');
+	}
+	var panel = $('<div></div>', {class: 'similarity panel', id: elementId}).append(bookDiv).append(votingDiv);
+	return panel;
+}
+
+function getMyBooks() {
+	if(myReads == null) {
+		myReads = [];
+		getMyReadings().then(function(books) {
+			var holder = $('.my-readings');
+			//print books
+			for(var i = 0; i < books.length; i++) {
+				//
+				// check if book is in existing similatiries already
+				var book = books[i];
+				if(!similarBooks[book.id]) {
+				// if not print it
+					myReads.push({
+						title: book.title.toLowerCase(),
+						id: book.id
+					});
+					// print each
+					var iconImg = $('<img/>', {src: book.icon, class: 'book--icon'});
+					var iconDiv = $('<div></div>', {class: 'book-icon similarity--icon'}).append(iconImg);
+					var titleSpan = $('<span></span>', {class: 'title'}).append(document.createTextNode(book.title));
+					var authorSpan = $('<span></span>', {}).append(document.createTextNode(book.authors[0].name));
+					var infoDiv = $('<div></div>', {class: 'book-info book-info--right'}).append(titleSpan).append(authorSpan);
+					var bookDiv = $('<div></div>', {class: 'similarity--book'}).append(iconDiv).append(infoDiv);
+
+					var button = $('<button></button>', {class: 'btn action-btn-green'}).append(document.createTextNode(getText('Suggest as similar'))).on('click', suggestionButtonClick(book.id));
+					var buttonDiv = $('<div></div>', {class: ''}).append(button);
+					var actionsDiv = $('<div></div>', {class: 'actions'}).append(buttonDiv);
+					var myReadingDiv = $('<div></div>', {class:'similarity panel', id: 'mybook-' + book.id}).append(bookDiv).append(actionsDiv);
+
+					holder.append(myReadingDiv);
+				}
+			}
+		});
+	}
+}
 	
 $(document).ready(function() {
+
+	$('#add-similar-book').on('keypress', function(e) {
+		if(e.keyCode == 13 || e.keyCode == 32) {
+			$(this).click();
+		}
+	});
+
+	$('#tab-similar--anchor').on('click', function(){
+		getMyBooks();
+	});
+
+	$('#suggest-similar--filter').on('keyup', function(e) {
+		filterMyReads($(this).val().toLowerCase());
+	});
 
   $('body').tooltip({placement: 'top', selector: '[data-toggle=tooltip]'});
   /* Set translated texts */
   $('#tab-prologues--anchor').html(getText('Prologues'));
   $('#tab-comments--anchor').html(getText('Comments'));
+  $('#tab-similar--anchor').html(getText('Similar books'));
   $('#book-comment--textarea').attr('placeholder', getText('Write a comment...'));
   $('#action-wishlist').attr('title', getText('Add to your wishlist'));
   $('#action-favorite').attr('title', getText('Add to your favourites'));
@@ -202,6 +495,17 @@ $(document).ready(function() {
 	//print comment tree
 	p.getBookComments(bookId).then(function(data) {
 		commentHandler.printCollection(data);
+	});
+
+	getSimilar(bookId).then(function(data){
+		//print
+		console.log(data);
+		for(var i = 0; i < data.length; i++) {
+			var similarity = data[i];
+			similarBooks[similarity.similar.id] = true;
+			var similarityElement = createSimilarityElement(similarity);
+			$('#main-similarities').append(similarityElement);
+		}
 	});
 
 	if(loggedIn) {
@@ -313,6 +617,43 @@ function displaySubmittedProloge(prologe, id) {
 
 function newProloge(prologe) {
 	prologesHandler.printCollection(prologe);
+}
+
+/* Similar books */
+function getMyReadings() {
+	return ajaxPromise({
+		type: 'GET',
+		dataType: 'json',
+		url: AJAX_DIR + 'getMyReads.php'
+	});
+}
+
+function getSimilar(bookId) {
+	return ajaxPromise({
+		type: 'GET',
+		dataType: 'json',
+		url: AJAX_DIR + 'getBookSimilarities.php',
+		data: {book: bookId}
+	});
+}
+
+function suggestSimilar(similarId) {
+	//bookId
+	return ajaxPromise({
+		type: 'POST',
+		dataType: 'json',
+		url: AJAX_DIR + 'postSimilarBook.php',
+		data: {original: bookId, similar: similarId}
+	});
+}
+
+function voteSimilar(similarityId, vote) {
+	return ajaxPromise({
+		type: 'POST',
+		dataType: 'json',
+		url: AJAX_DIR + 'postSimilarityVote.php',
+		data: {similarity: similarityId, vote: vote}
+	});
 }
 
 </script>

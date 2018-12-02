@@ -13,7 +13,7 @@ $bookId = $_REQUEST['book'];
 $row = isset($_REQUEST['start']) ? $_REQUEST['start'] : '0';
 $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : '10';
 
-$call = authenticationlessCurlCall("GET", "api/comments/books/".$bookId."/commenttree");
+$call = authenticationlessCurlCall("GET", "api/comments/books/".$bookId."/comments");
 
 http_response_code($call[HTTP_STATUS]);
 

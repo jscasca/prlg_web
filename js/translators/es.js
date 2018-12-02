@@ -108,6 +108,7 @@ function Translator() {
 			/* Book */
 			'Prologues': 'Prologos',
 			'Comments': 'Comentarios',
+			'Similar books': 'Libros similares',
 			'Write a comment...': 'Escribe un comentario...',
 			'Add to your wishlist': 'Agregalo a tu lista de lectura',
 			'Add to your favourites': 'Agregalo a tus favoritos',
@@ -123,7 +124,7 @@ function Translator() {
 			'My prologes': 'Mis prologos',
 			/* Clubs */
 			'Start a new book club!': 'Empieza un nuevo club de lectura!',
-			'Add it!': 'Añadelo!'
+			'Add it!': 'Añadelo!',
 			/* Profile */
 			'Display name': 'Nombre para mostrar',
 			'Username': 'Usuario',
