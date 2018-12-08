@@ -52,6 +52,9 @@ $loggedIn = isset($_SESSION[SID]);
 
 $uri = $requestUri['uri'];
 
+$error = null;
+$args = null;
+
 if(preg_match('"^(?:/prologes)?/lang/[a-z]{2}$"', $uri) && preg_match('"https?://(?:(?:(?:[^./]+\.)?prologes.com)|(?:localhost))(?:/prologes)?/"', $refererUri)) {
 	//
 	$lang = substr($uri, -2);
@@ -191,9 +194,9 @@ if(preg_match('"^(?:/prologes)?/(?:(?:index)|(?:home))(?:.php)?$"', $uri) || pre
 				$call = authenticationlessCurlCall("POST", "public/passwordReset", array('token'=>$_REQUEST['token'], 'password'=>$_REQUEST['pwd']));
 				//
 				$code = $call[HTTP_STATUS];
-				echo "<!--";
-				var_dump($call);
-				echo "-->";
+				// echo "<!--";
+				// var_dump($call);
+				// echo "-->";
 				if($code != 200 && $code != 204) {
 					// Set and display an error
 					$expired = true;
@@ -303,6 +306,62 @@ if(preg_match('"^(?:/prologes)?/(?:(?:index)|(?:home))(?:.php)?$"', $uri) || pre
 		exit;
 	}
 
+} else if(preg_match('"^(?:/prologes)?/(?:(?:club)|(?:group)|(?:grupo))"', $uri)) {
+	$group = null;
+	if(isset($requestUri['args'])) {
+		$queryArgs = mapArgs($requestUri['args']);
+		if(isset($queryArgs['i']) && $queryArgs['i'] != '') {
+			$group = $queryArgs['i'];
+		}
+	} else {
+		preg_match('"^(?:/prologes)?/(?:(?:club)|(?:group)|(?:grupo))[^/]*/([a-zA-Z0-9_]+)$"', $uri, $groupQueryMatches);
+		if(isset($groupQueryMatches[1])) {
+			$group = urldecode($groupQueryMatches[1]);
+		}
+	}
+	if($group != null) {
+		$content = 'templates/_group.php';
+	} else {
+		if($loggedIn) {
+			$content = 'templates/_newgroup.php';
+		} else {
+			$content = 'templates/_newgroup.php';
+		}
+	}
+	include 'templates/__template.php';
+// Handled by direct submit can be handled by the index routing instead
+} else if(preg_match('"^(?:/prologes)?/newclub"', $uri)) {
+	if($_SERVER['REQUEST_METHOD'] === 'POST') {
+		if(isset($_REQUEST['name']) && $_REQUEST['name'] !== '') {
+			$request['name'] = $_REQUEST['name'];
+			$token = $_SESSION[TOKEN];
+			$response = tokenCurlCall($token, "POST", "api/clubs/", $request);
+			$code = $response[HTTP_STATUS];
+			if($code === 200) {
+				//redirect to the new group
+				$group = json_decode($response[RESPONSE], true);
+				if(isset($group['clubName'])) {
+					$club = $group['clubName'];
+				} else {
+					$club = $group['id'];
+				}
+				header('Location: '.BASE_DIR.'club/'.$club); // can be in id or name
+			} else if($code === 409){
+				// Duplicate so let the user know
+				$error = 'name';
+				$args = $_REQUEST['name'];
+			} else {
+				// Server error
+				$error = 'unk';
+			}
+		} else {
+			$error = 'unk';
+		}
+		$content = 'templates/_newgroup.php';
+	} else {
+		$content = 'templates/_newgroup.php';
+	}
+	include 'templates/__template.php';
 } else if(preg_match('"^(?:/prologes)?/privacy"', $uri)) {
 	include 'templates/_building.php';
 } else if(preg_match('"^(?:/prologes)?/about"', $uri)) {
