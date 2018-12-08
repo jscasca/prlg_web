@@ -446,7 +446,7 @@ function UserPrologeTemplate(cfg) {
 
 	var getProloge = function(prologe) {
 		var paragraph = $('<p></p>');
-		var link = $('<a></a>', {href: ROOT_PATH + 'book.php/' + prologe.book.id});
+		var link = $('<a></a>', {href: ROOT_PATH + 'book/' + prologe.book.id});
 		var title = $('<h4></h4>').append(prologe.book.title);
 		var holder = $('<div></div>', {class:base + '--text'});
 		link.append(title);
@@ -715,7 +715,7 @@ function EventTemplate(cfg) {
 	};
 
 	var getTargetBookName = function(book) {
-		return $('<a></a>', {href:'book.php?i=' + book.id}).append(book.title);
+		return $('<a></a>', {href:'book/' + book.id}).append(book.title);
 	};
 
 	var getTargetUser = function(user) {
@@ -883,7 +883,7 @@ function SearchTemplate(cfg) {
 
 	var getBookCover = function(book) {
 		var holder = $('<div></div>', {class: bookBase + '--thumbnail'});
-		var link = $('<a></a>',{href:'book.php?i=' +  book.id});
+		var link = $('<a></a>',{href:'book/' +  book.id});
 		var icon = $('<img>',{src: book.thumbnail, alt:'Cover'});
 		link.append(icon);
 		holder.append(link);
@@ -892,7 +892,7 @@ function SearchTemplate(cfg) {
 
 	var getBookInfo = function(book) {
 		var holder = $('<div></div>', {class: bookBase + '--info'});
-		var link = $('<a></a>', {href:'book.php?i=' + book.id});
+		var link = $('<a></a>', {href:'book/' + book.id});
 		var title = $('<h4></h4>').text(book.title);
 		var authors = book.authors.reduce(function(linkArray, author) {
 			//
