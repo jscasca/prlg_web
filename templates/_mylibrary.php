@@ -124,7 +124,7 @@ function printBook(holder, book) {
 	var article = $('<article></article>', {class:'library-book'});
 	var div = $('<div></div>', {class:'col-md-4'});
 	var thumb = $('<div></div>', {class:'library-book--thumbnail'});
-	var thumbLink = $('<a></a>', {href:'book.php?i='+book.id});
+	var thumbLink = $('<a></a>', {href:'book/'+book.id});
 	thumbnail = book.thumbnail == null ? 'img/defaultthumb.png' : book.thumbnail;
 	var thumbImg = $('<img>', {src:thumbnail, alt:'Cover'});
 	thumbImg.error(function() {
@@ -135,7 +135,7 @@ function printBook(holder, book) {
 	article.append(thumb);
 	
 	var info = $('<div></div>', {class:'library-book--info'});
-	var infoLink = $('<a></a>', {href:'book.php?i='+book.id});
+	var infoLink = $('<a></a>', {href:'book/'+book.id});
 	var infoTitle = $('<h3>'+book.title+'</h3>');
 	
 	var infoRating = $('<div></div>', {class:'library-book--rating'});
@@ -186,7 +186,7 @@ function printProloge(holder, prologe) {
 	
 	var section = $('<section></section>',{class:'user-prologe'});
 	var thumbnail = $('<div></div>',{class:'user-prologe--thumbnail'});
-	var thumbnailLink = $('<a></a>',{href:'book.php?i='+book.id});
+	var thumbnailLink = $('<a></a>',{href:'book/'+book.id});
 	var thumb = book.thumbnail == null ? 'img/defaultthumb.png' : book.thumbnail;
 	var thumbnailImg = $('<img>',{src: thumb, alt:"Cover"}).error(function(){this.src = 'img/defaultthumb.png';});
 	thumbnailLink.append(thumbnailImg);
@@ -194,7 +194,7 @@ function printProloge(holder, prologe) {
 	section.append(thumbnail);
 	var text = $('<div></div>', {class:'user-prologe--text'});
 	var textTitle = $('<h4></h4>').append(book.title);
-	var textLink = $('<a></a>',{href:'book.php?i='+book.id});
+	var textLink = $('<a></a>',{href:'book/'+book.id});
 	var textParagraph = $('<p></p>').html(prologe.posdta);
 	textLink.append(textTitle);
 	text.append(textLink);
