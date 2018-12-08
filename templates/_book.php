@@ -211,6 +211,7 @@
 				</div> -->
 			</div>
 			<!-- Add from your readings -->
+			<?php if($loggedIn) { ?>
 			<div class='row suggest-similar'>
 				<div class='collapsible-button' data-toggle='collapse' data-target='#my-readings' tabindex='0' role='button' id='add-similar-book'>
 					<i class='fas fa-plus'></i>
@@ -222,7 +223,13 @@
 							<span>Suggest a similar book from the ones you have read.</span>
 						</div>
 						<div class='filter-textfield'>
-							<input type='text' id='suggest-similar--filter' class='filter-textfield' placeholder='Filter'/>
+							<div class="input-group">
+								<input type="text" class="form-control" id="suggest-similar--filter">
+								<span class="input-group-addon">
+									<i class="fas fa-filter"></i>
+								</span>
+							</div>
+							<!-- <input type='text' id='suggest-similar--filter' class='filter-textfield' placeholder='Filter'/> -->
 					</div>
 					</div>
 					<div class='my-readings'>
@@ -230,6 +237,7 @@
 					</div>
 				</div>
 			</div>
+			<?php } ?>
 		</div>
 	</div>
 </div>
@@ -428,19 +436,21 @@ function getMyBooks() {
 	
 $(document).ready(function() {
 
-	$('#add-similar-book').on('keypress', function(e) {
-		if(e.keyCode == 13 || e.keyCode == 32) {
-			$(this).click();
-		}
-	});
+	if(loggedIn) {
+		$('#add-similar-book').on('keypress', function(e) {
+			if(e.keyCode == 13 || e.keyCode == 32) {
+				$(this).click();
+			}
+		});
 
-	$('#tab-similar--anchor').on('click', function(){
-		getMyBooks();
-	});
+		$('#tab-similar--anchor').on('click', function(){
+			getMyBooks();
+		});
 
-	$('#suggest-similar--filter').on('keyup', function(e) {
-		filterMyReads($(this).val().toLowerCase());
-	});
+		$('#suggest-similar--filter').on('keyup', function(e) {
+			filterMyReads($(this).val().toLowerCase());
+		});
+	}
 
   $('body').tooltip({placement: 'top', selector: '[data-toggle=tooltip]'});
   /* Set translated texts */
