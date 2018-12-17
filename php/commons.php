@@ -8,6 +8,7 @@ define('CLIENT_SECRET', 'web123');
 define('BASE_DIR', '/prologes/');
 define('RELATIVE_PATH','../../');
 define('AVATAR_LOC', 'img/avatar/');
+define('GROUPICON_LOC', 'img/group/');
 //Addresses to be used as $url = BASE_DIR . $lang . $URL;
 define('URL_PROFILE', 'profile.php');
 define('URL_BOOK', 'book.php');
