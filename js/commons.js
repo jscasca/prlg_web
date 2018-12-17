@@ -4,6 +4,10 @@
 var ajaxDir = ROOT_PATH + 'php/ajax/';
 var AJAX_DIR = ROOT_PATH + 'php/ajax/';
 
+var DEFAULT_USER_ICON = ROOT_PATH + 'img/user_clear.png';
+var DEFAULT_CLUB_ICON = ROOT_PATH + 'img/user_dark.png';
+var DEFAULT_BOOK_ICON = ROOT_PATH + 'img/user_clear.png';
+
 function ajaxPromise(options) {
 	return new Promise(function(resolve, reject) {
 		$.ajax(options).done(resolve).fail(reject);
