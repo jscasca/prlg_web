@@ -23,7 +23,7 @@
 					<?php
 					if(isset($failureToLogin)) {
 						?>
-						<div class="login-error">
+						<div class="error-msg">
 							<p><?php echo getTranslation($failureToLogin); ?></p>
 						</div>
 						<?php
