@@ -18,12 +18,15 @@ const IMG_ROOT = '/prologes/';
 </script>
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <?php
 $commonLibs = array(
-	"js/jquery.min.js",
-	"js/bootstrap.min.js",
+	// "js/jquery.min.js",
+	// "js/bootstrap.min.js",
 	"js/commons.js",
-	"js/jquery.raty.min.js");
+	"js/jquery.raty.min.js"
+);
 for($i = 0; $i < count($commonLibs); $i++) {
 	echo "<script src='".$rootpath . $commonLibs[$i]."'></script>\n";
 }
@@ -34,10 +37,10 @@ if(isset($libraries) && sizeof($libraries) > 0) {
 }
 $stylesheets = array(
 	"css/bootstrap.min.css",
-	"css/font-awesome.min.css",
+	// "css/font-awesome.min.css",
 	"css/star-rating.min.css",
 	"css/style.css",
-	"fa-free/css/all.css"
+	// "fa-free/css/all.css"
 
 );
 for($i = 0; $i < count($stylesheets); $i++) {
@@ -45,10 +48,12 @@ for($i = 0; $i < count($stylesheets); $i++) {
 }
 ?>
 <!-- <script src="translator.js"></script> -->
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<!-- Fav icon -->
 <link rel="icon" type="image/png" href="<?php echo $rootpath;?>img/favicon.png" />
-<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">-->
-<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"> -->
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <script type="text/javascript">
 //Any additional header goes ehre

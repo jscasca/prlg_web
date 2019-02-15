@@ -3,7 +3,6 @@
 ?>
 
 <div class="col-md-12">
-<!--  -->
 	<div id="book-modal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -57,38 +56,46 @@
 </div>
 
 <div class="col-md-8 col-sm-12">
-	<section class="main-book">
-		<div class="main-book--cover">
-		<img alt="Cover" id="book-cover" class="backup-cover lazy"/>
-
-			<!-- <img src="<?php echo $rootpath;?>img/default.png" alt="Cover" id="book-cover" class="backup-cover"/>
- -->		</div>
-		<div class="main-book--info">
+	<section class="main-book prlg-panel">
+		<div class="book">
+			<div class="icon">
+				<img id="book-cover" class="backup-cover lazy" alt="cover"/>
+			</div>
+			<div class="info">
+				<div class="title" id="book-title"></div>
+				<div class="author" id="book-author"></div>
+				<div class="rating" id="main-book--rated"></div>
+			</div>
+		</div>
+		<!-- <div class="main-book--cover">
+			<img alt="Cover" id="book-cover" class="backup-cover lazy"/>
+		</div> -->
+		<!-- <div class="main-book--info">
 			<h2 id="book-title"></h2>
 			<h3 id="book-author"></h3>
 			<div class="main-book--rating">
-				<!--<input id="bookRatingInput" type="number" class="rating" value="4" data-show-clear="false" data-show-caption="false" data-display-only="true">-->
+				<input id="bookRatingInput" type="number" class="rating" value="4" data-show-clear="false" data-show-caption="false" data-display-only="true">
 				<div id="main-book--rated"></div>
 			</div>
-		</div>
-		<div class="main-book--actions text-right">
-			<div class="icon-wishlist--disabled" id="action-wishlist" title="Add to your wishlist" data-toogle="tooltip">
-				<?php echo file_get_contents("img/svg/wishlist.svg");?>
+		</div>-->
+		<div class="actions">
+			<div class="action" tabindex="0" role="button" id="action-wishlist" title="Add to your wishlist" data-toogle="tooltip">
+        <span class="fas fa-book"></span>
 			</div>
-			<div class="icon-favorite--disabled" id="action-favorite" title="Add to your favroites">
-				<?php echo file_get_contents("img/svg/favorite.svg");?>
+			<div class="action" tabindex="0" role="button" id="action-favorite" title="Add to your favroites">
+				<span class="fas fa-heart"></span>
 			</div>
-			<div class="icon-prologe--disabled" id="action-prologe" title="Rate this book and write a prologue">
-				<?php echo file_get_contents("img/svg/prologe.svg");?>
+			<div class="action" tabindex="0" role="button" id="action-prologe" title="Rate this book and write a prologue">
+				<span class="fas fa-pen-nib"></span>
 			</div>
-			<div class="icon-reading--disabled" id="action-reading" title="Add to your readings">
-				<?php echo file_get_contents("img/svg/reading.svg");?>
+			<div class="action" tabindex="0" role="button" id="action-reading" title="Add to your readings">
+				<span class="fas fa-book-open"></span>
 			</div>
 		</div>
 	</section>
 
-	<div class='row user-tabs'>
-		<ul class='nav nav-tabs'>
+	<div class='row'>
+		<ul class='nav nav-tabs underline-tabs'>
 			<li  class='active'><a href='#tab-prologues' data-toggle='tab' id='tab-prologues--anchor'>Prologues</a></li>
 			<li><a href='#tab-comments' data-toggle='tab' id='tab-comments--anchor'>Comments</a></li>
 			<li><a href='#tab-similar' data-toggle='tab' id='tab-similar--anchor'>Similar</a></li>
@@ -98,19 +105,20 @@
 	<div class='tab-content'>
 		<!-- Prologes DIV -->
 		<div id='tab-prologues' class='tab-pane fade in active'>
-			<div class="main-prologes" id="main-prologes"></div>
+			<div class="main-prologes book-prologes" id="main-prologes"></div>
 		</div>
 
 		<!-- Comments DIV -->
 		<div id='tab-comments' class='tab-pane fade in'>
-			<div class="book-comment--area" id="book-comment--area" >
-				<div class="comment--form">
-					<div class="comment--textarea-container">
-						<textarea id="book-comment--textarea" class="comment--textarea" placeholder="Write a comment..."></textarea>
-						<div class="comment--error-area" id="book-comment--error-area"></div>
+
+			<div class="comment-area" id="book-comment--area" >
+				<div class="comment-form">
+					<div class="textarea-container">
+						<textarea id="book-comment--textarea" class="comment-textarea" placeholder="Write a comment..."></textarea>
+						<div class="comment--error-area" id="error-area"></div>
 					</div>
-					<div class="reply-form--actions">
-						<button type="button" class="btn Comment-button disabled" disabled="disabled" id="comment-book--submit">Post</button>
+					<div class="actions">
+						<button type="button" class="btn main-btn disabled" disabled="disabled" id="comment-book--submit">Post</button>
 					</div>
 					<!-- <div class="book-comment--feedback text-right" id="book-comment--feedback"></div> -->
 				</div>
@@ -124,91 +132,9 @@
 			<!-- Existing similar -->
 			<div class='similarities' id='main-similarities'>
 				<!-- Example 1 -->
-				<!-- <div class='similarity panel'>
-					<div class='similarity--book'>
-						<div class='book--icon similarity--icon'>
-							<img src='/prologes/img/book_dark.png' class='book--icon'>
-						</div>
-						<div class='book-info book-info--right'>
-							<span class='title'><a href=''>Long Book tile</a></span>
-							<span class='authors'><a href=''>Author One</a>, <a href=''>Author Two</a></span>
-						</div>
-					</div>
-					<div class='similarity--voting'>
-						<div class='similairty--voting-up'>
-							<i class='fas fa-chevron-up'></i>
-						</div>
-						<div class='similarity--voting-bar'>
-							<div class='up' style='width:75%'></div>
-						</div>
-						<div class='similarity--voting-down'>
-							<i class='fas fa-chevron-down'></i>
-						</div>
-					</div>
-				</div> -->
 				<!-- Example 2 -->
-				<!-- <div class='similarity panel'>
-					<div class='similarity--book'>
-						<div class='book--icon similarity--icon'>
-							<img src='/prologes/img/book_clear.png' class='book--icon'>
-						</div>
-						<div class='book-info book-info--right'>
-							<span class='title'><a href=''>The lord of the rings: Two towers</a></span>
-							<span class='authors'><a href=''>Author One</a>, <a href=''>Author Two</a>, <a href=''>Author Three</a></span>
-						</div>
-					</div>
-					<div class='similarity--voting'>
-						<div class='similairty--voting-up'></div>
-						<div class='similarity--voting-bar'>
-							<div class='up' style='width:75%'></div>
-						</div>
-						<div class='similarity--voting-down'></div>
-					</div>
-				</div> -->
 				<!-- End examples -->
-				<!-- <div class='similarity panel'>
-					<div class='similarity--book'>
-						<div class='book--icon similarity--icon'>
-							<img src='/prologes/img/book_dark.png' class='book--icon'>
-						</div>
-						<div class='book-info book-info--right'>
-							<span class='title'><a href=''>Long Book tile</a></span>
-							<span class='authors'><a href=''>Author One</a>, <a href=''>Author Two</a></span>
-						</div>
-					</div>
-					<div class='similarity--voting'>
-						<div class='similairty--voting-up'>
-							<i class='fas fa-chevron-up'></i>
-						</div>
-						<div class='similarity--voting-bar'>
-							<div class='up' style='width:75%'></div>
-						</div>
-						<div class='similarity--voting-down'>
-							<i class='fas fa-chevron-down'></i>
-						</div>
-					</div>
-				</div>
-				<div class='similarity panel'>
-					<div class='similarity--book'>
-						<div class='book--icon similarity--icon'>
-							<img src='/prologes/img/book_dark.png' class='book--icon'>
-						</div>
-						<div class='book-info book-info--right'>
-							<span class='title'><a href=''>Long Book tile</a></span>
-							<span class='authors'><a href=''>Author One</a>, <a href=''>Author Two</a></span>
-						</div>
-					</div>
-					<div class='similarity--voting'>
-						<div class='similairty--voting-up'>
-							<i class='fas fa-chevron-up'></i>
-						</div>
-						<div class='similarity--voting-bar empty'>
-						</div>
-						<div class='similarity--voting-down'>
-							<i class='fas fa-chevron-down'></i>
-						</div>
-					</div>
-				</div> -->
+
 			</div>
 			<!-- Add from your readings -->
 			<?php if($loggedIn) { ?>
@@ -313,7 +239,7 @@ function createSimilarityBar(upvotes, downvotes) {
 }
 
 function authorsNode(authors) {
-	var span = $('<span></span>');
+	var span = $('<span></span>', {class: 'author'});
 	for(var i = 0; i < authors.length; i++) {
 		var author = authors[i];
 		var link = $('<a></a>', {href: ROOT_PATH + 'author/' + author.id})
@@ -367,20 +293,23 @@ function createSimilarityElement(similarity) {
 	//
 	var elementId = 'similarity-' + similarity.id;
 	var icon = $('<img>', {class: 'book--icon', src: similarity.similar.icon});
-	var bookIconDiv = $('<div></div>', {class: 'book--icon similarity--icon'}).append(icon);
+	var bookIconDiv = $('<div></div>', {class: 'icon'}).append(icon);
 
 	var link = $('<a></a>', {class: '', href: ROOT_PATH + 'book/' + similarity.similar.id}).append(document.createTextNode(similarity.similar.title));
 	var titleSpan = $('<span></span>', {class: 'title'}).append(link);
 	var authors = authorsNode(similarity.similar.authors);
-	var bookInfoDiv = $('<div></div>', {class: 'book-info book-info--right'}).append(titleSpan).append(authors);
-	var bookDiv = $('<div></div>', {class: 'similarity--book'}).append(bookIconDiv).append(bookInfoDiv);
+	var bookInfoDiv = $('<div></div>', {class: 'info'}).append(titleSpan).append(authors);
+	
+	var bookDiv = $('<div></div>', {class: 'book'}).append(bookIconDiv).append(bookInfoDiv);
+
+	// voting
 	var upvoteChevron = $('<i></i>', {class: 'fas fa-chevron-up'});
-	var upvote = $('<div></div>', {class: 'similarity--voting-up', tabindex: '0', role: 'button'}).append(upvoteChevron);
+	var upvote = $('<div></div>', {class: 'up', tabindex: '0', role: 'button'}).append(upvoteChevron);
 	var downvoteChevron = $('<i></i>', {class: 'fas fa-chevron-down'});
-	var downvote = $('<div></div>', {class: 'similarity--voting-down', tabindex: '0', role: 'button'}).append(downvoteChevron);
-	var voteCounter = $('<div></div>', {class: 'similarity--voting-counter', tabindex: '0'}).append(document.createTextNode(similarity.upvotes - similarity.downvotes));
+	var downvote = $('<div></div>', {class: 'down', tabindex: '0', role: 'button'}).append(downvoteChevron);
+	var voteCounter = $('<div></div>', {class: 'counter', tabindex: '0'}).append(document.createTextNode(similarity.upvotes - similarity.downvotes));
 	console.log('printing votes:');
-	var votingDiv = $('<div></div>', {class: 'similarity--voting'}).append(upvote).append(voteCounter).append(downvote);
+	var votingDiv = $('<div></div>', {class: 'voting'}).append(upvote).append(voteCounter).append(downvote);
 	if(loggedIn && similarity.vote == null) {
 		votingDiv.addClass('enabled');
 		upvote.on('click', createVoteOnClick(similarity.id, true, elementId));
@@ -394,7 +323,7 @@ function createSimilarityElement(similarity) {
 	if(similarity.vote === false) {
 		downvote.addClass('voted');
 	}
-	var panel = $('<div></div>', {class: 'similarity panel', id: elementId}).append(bookDiv).append(votingDiv);
+	var panel = $('<div></div>', {class: 'similarity prlg-panel', id: elementId}).append(bookDiv).append(votingDiv);
 	return panel;
 }
 
@@ -480,19 +409,11 @@ $(document).ready(function() {
 		$('#book-cover').attr('src', bookInfo.book.icon);
 		$('#book-title').text(bookInfo.book.title);
 		var authors = bookInfo.book.authors.reduce(function(linkArray, author) {
-			linkArray.push("<a href='" + ROOT_PATH + "author?i=" + author.id + "' >" + author.name +"</a>");
+			linkArray.push("<a href='" + ROOT_PATH + "author/" + author.id + "' >" + author.name +"</a>");
 			return linkArray;
 		}, []);
 		$('#book-author').append(authors.join(",&nbsp"));
-		$('#main-book--rated').raty({
-			readOnly: true,
-			size: 120,
-			score : bookInfo.book.rating ? bookInfo.book.rating : 0,
-			path: IMG_ROOT + 'img/',
-			starHalf : 'star-half-big.png',
-			starOff : 'star-off-big.png',
-			starOn : 'star-on-big.png',
-		})
+		populateRatingDiv($('#main-book--rated'), bookInfo.book.rating);
 
 	});
 
@@ -509,7 +430,6 @@ $(document).ready(function() {
 
 	getSimilar(bookId).then(function(data){
 		//print
-		console.log(data);
 		for(var i = 0; i < data.length; i++) {
 			var similarity = data[i];
 			similarBooks[similarity.similar.id] = true;

@@ -4,6 +4,8 @@
 var ajaxDir = ROOT_PATH + 'php/ajax/';
 var AJAX_DIR = ROOT_PATH + 'php/ajax/';
 
+var DEFAULT_BOOK_LIMIT = 40;
+
 var DEFAULT_USER_ICON = ROOT_PATH + 'img/user_clear.png';
 var DEFAULT_CLUB_ICON = ROOT_PATH + 'img/user_dark.png';
 var DEFAULT_BOOK_ICON = ROOT_PATH + 'img/user_clear.png';
@@ -313,19 +315,19 @@ function CommentDataHolder(htmlNode, options) {
 function AuthorExternalBooksTemplate(cfg) {
 	var base = cfg.base || 'similar-book';
 	var getThumb = function(form, thumb) {
-		var link = $('<a></a>').click(function() {form.submit();});
+		var link = $('<a></a>', {href:'#'}).click(function() {form.submit();});
 		var icon = $('<img>', {src:thumb, alt:'Cover', class:'backup-thumb'});
 		return link.append(icon);
 	};
 
 	var getBookName = function(form, title) {
-		var link = $('<a></a>').click(function(){form.submit();});
-		var title = $('<h3>').text(title);
-		return link.append(title);
+		var link = $('<a></a>', {href:'#'}).click(function(){form.submit();}).text(title);
+		var title = $('<div></div>', {class: 'title'}).append(link);
+		return title;
 	}
 
 	var getRating = function() {
-		var rating = $('<div></div>', {class: base + '--rating'});
+		var rating = $('<div></div>', {class: 'rating'});
 		rating = populateRatingDiv(rating, 0);
 		return rating;
 	};
@@ -338,25 +340,25 @@ function AuthorExternalBooksTemplate(cfg) {
 		var icon = result['icon'] != undefined ? result['icon'] : '';
 		var thumbnail = result['thumbnail'] != undefined ? result['thumbnail'] : '';
 		if(authors == [] || title == '' || lang == '') { console.log(result); return '';}
-		var form = $('<form></form>',{action: '../php/submit/googleBookRequest.php'});
+		var form = $('<form></form>',{action: ROOT_PATH + 'php/submit/googleBookRequest.php'});
 		form.append($('<input>', {type: 'hidden', name: 'authors', value: authors.join(';')}));
 		form.append($('<input>', {type: 'hidden', name: 'title', value: title}));
 		form.append($('<input>', {type: 'hidden', name: 'language', value: lang}));
 		form.append($('<input>', {type: 'hidden', name: 'icon', value: icon}));
 		form.append($('<input>', {type: 'hidden', name: 'thumbnail', value: thumbnail}));
 		//show the element
-		var holder  = $('<div></div>', {class:'col-md-4 col-sm-6'}); 
-		var article = $('<article></article>', {class: base});
-		var icon = $('<div></div>', {class: base + '--thumbnail'});
+		// var holder  = $('<div></div>', {class: 'book prlg-panel'}); 
+		var article = $('<article></article>', {class: 'book prlg-panel'});
+		var icon = $('<div></div>', {class: 'icon'});
 		icon.append(getThumb(form, thumbnail));
-		var info = $('<div></div>', {class: base + '--info'});
+		var info = $('<div></div>', {class: 'info'});
+		var rating = getRating();
 		info.append(getBookName(form, title));
-		info.append(getRating());
 		article.append(icon);
 		article.append(info);
 		article.append(form);
-		holder.append(article);
-		return holder;
+		article.append(rating);
+		return article;
 	};
 	return {
 		getElement: getElement,
@@ -372,16 +374,21 @@ function AuthorBooksTemplate(cfg) {
 	};
 
 	var getElement = function(book) {
-		var holder  = $('<div></div>', {class:'col-md-4 col-sm-6'}); 
-		var article = $('<article></article>', {class: base});
-		var icon = $('<div></div>', {class: base + '--thumbnail'});
-		icon.append(getThumb(book));
-		var info = $('<div></div>', {class: base + '--info'});
-		info.append(getBookName(book));
-		info.append(getRating(book.rating));
-		article.append(icon);
-		article.append(info);
-		holder.append(article);
+		// var holder  = $('<div></div>', {class:'col-md-4 col-sm-6'}); 
+		// var article = $('<article></article>', {class: base});
+		// var icon = $('<div></div>', {class: base + '--thumbnail'});
+		// icon.append(getThumb(book));
+		// var info = $('<div></div>', {class: base + '--info'});
+		// info.append(getBookName(book));
+		// info.append(getRating(book.rating));
+		// article.append(icon);
+		// article.append(info);
+		// holder.append(article);
+		var rating = getRating(book.rating);
+		var title = getBookName(book);
+		var info = $('<div></div>', {class: 'info'}).append(title);
+		var icon = $('<div></div>', {class: 'icon'}).append(getThumb(book));
+		var holder = $('<div></div>', {class: 'book prlg-panel'}).append(icon).append(info).append(rating);
 		return holder;
 	};
 
@@ -392,13 +399,13 @@ function AuthorBooksTemplate(cfg) {
 	}
 
 	var getBookName = function(book) {
-		var link = $('<a></a>',{href: ROOT_PATH + 'book/' + book.id});
-		var title = $('<h3>').text(book.title);
-		return link.append(title);
+		var link = $('<a></a>',{href: ROOT_PATH + 'book/' + book.id}).text(book.title);
+		var title = $('<div></div>', {class: 'title'}).append(link);
+		return title;
 	}
 
 	var getRating = function(bookRating) {
-		var rating = $('<div></div>', {class: base + '--rating'});
+		var rating = $('<div></div>', {class: 'rating'});
 		rating = populateRatingDiv(rating, bookRating);
 		return rating;
 	};
@@ -424,39 +431,51 @@ function UserPrologeTemplate(cfg) {
 			prologe = element;
 		}
 		//code to create a prologe
-		var div = $('<div></div>',{class:'col-md-6'});
-		var holder = $('<section></section>',{class:'user-prologe'});
+		var holder = $('<section></section>',{class:'prologe prlg-panel'});
 		holder.append(getThumbnail(prologe.book));
-		holder.append(getProloge(prologe));
-		holder.append(getRating(prologe.rating));
-		holder.append(getVoting(prologe.votes));
-		return div.append(holder);
+		holder.append(getContent(prologe));
+		// holder.append(getProloge(prologe));
+		// holder.append(getRating(prologe.rating));
+		// holder.append(getVoting(prologe.votes));
+		return holder;
 	};
 
 	var getThumbnail = function(user) {
 		var link = $('<a></a>', {href: ROOT_PATH + 'book/' +user.id});
-		var img = $('<img>',{src: user.icon, alt:"user", onerror:'this.setAttribute("src", "../img/defaultthumb.png");'});
-		var holder = $('<div></div>',{class: base + '--thumbnail'});
+		var img = $('<img>',{src: user.icon, alt:"user", onerror:'this.setAttribute("src", "' + ROOT_PATH +'img/defaultthumb.png");'});
+		var holder = $('<div></div>',{class: 'icon'});
 		link.append(img);
 		holder.append(link);
 		return holder;
 	};
 
+	var getContent = function(prologe) {
+		var holder = $('<div></div>', {class: 'content'});
+		holder.append(getBookTitle(prologe.book));
+		holder.append(getProloge(prologe));
+		holder.append(getRating(prologe.rating));
+		return holder;
+	};
+
+	var getBookTitle = function(book) {
+		var link = $('<a></a>', {href: ROOT_PATH + 'book/' + book.id}).append(book.title);
+		var holder = $('<div></div>', {class: 'title'});
+		return holder.append(link);
+	};
+
 	var getRating = function(userRating) {
-		var rating = $('<div></div>', {class: base + '--rating text-right'});
+		var rating = $('<div></div>', {class: 'rating'});
 		rating = populateRatingDiv(rating, userRating);
 		return rating;
 	};
 
 	var getProloge = function(prologe) {
-		var paragraph = $('<p></p>');
-		var link = $('<a></a>', {href: ROOT_PATH + 'book/' + prologe.book.id});
-		var title = $('<h4></h4>').append(prologe.book.title);
-		var holder = $('<div></div>', {class:base + '--text'});
-		link.append(title);
-		paragraph.text(prologe.posdta);
-		holder.append(link);
-		holder.append(paragraph);
+		// var paragraph = $('<p></p>');
+		var holder = $('<div></div>', {class: 'prologue'}).append(prologe.posdta);
+		// link.append(title);
+		// paragraph.text(prologe.posdta);
+		// holder.append(link);
+		// holder.append(paragraph);
 		return holder;
 	};
 
@@ -510,19 +529,20 @@ function BookPrologesTemplate(cfg) {
 			prologe = element;
 		}
 		//code to create a prologe
-		var holder = $('<section></section>',{class:'main-prologe'});
-		holder.append(getThumbnail(prologe.user));
-		holder.append(getProloge(prologe));
-		holder.append(getRating(prologe.rating));
-		holder.append(getSignature(prologe.user));
-		holder.append(getVoting(enableVoting, prologe.votes, userVoting, prologe.id));
-		return holder;
+		var holder = $('<section></section>',{class:'prologe prlg-panel'});
+		var icon = getThumbnail(prologe.user);
+		var prologue = getProloge(prologe);
+		var rating = getRating(prologe.rating);
+		var signature = getSignature(prologe.user);
+		var content = $('<div></div>', {class: 'content'}).append(prologue).append(rating).append(signature);
+		var panelContent = $('<div></div>', {class:'panel-content'}).append(icon).append(content);
+		return holder.append(panelContent);
 	};
 
 	var getThumbnail = function(user) {
-		var link = $('<a></a>', {href: ROOT_PATH + 'user?i='+user.id});
+		var link = $('<a></a>', {href: ROOT_PATH + 'user/'+user.userName});
 		var img = $('<img>',{src: user.icon, alt:"user", onerror:'this.setAttribute("src", "'+ ROOT_PATH+'img/defaultuser.png");'});
-		var holder = $('<div></div>',{class: base + '--thumbnail'});
+		var holder = $('<div></div>',{class: 'icon'});
 		link.append(img);
 		holder.append(link);
 		return holder;
@@ -531,22 +551,21 @@ function BookPrologesTemplate(cfg) {
 	var getProloge = function(prologe) {
 		var paragraph = $('<p></p>');
 		paragraph.text(prologe.posdta);
-		var holder = $('<div></div>', {class:base + '--text'});
+		var holder = $('<div></div>', {class: 'prologue'});
 		holder.append(paragraph);
 		return holder;
 	};
 
 	var getSignature = function(user) {
-		//
-		var link = $('<a></a>', {href: ROOT_PATH + 'user?i=' + user.id});
-		var signature = $('<div></div>', {class: base + '--signature text-right'});
+		var link = $('<a></a>', {href: ROOT_PATH + 'user/' + user.userName});
+		var signature = $('<div></div>', {class: 'signature'});
 		link.text(user.displayName);
 		signature.append(link);
 		return signature;
 	};
 
 	var getRating = function(userRating) {
-		var rating = $('<div></div>', {class: base + '--rating text-right'});
+		var rating = $('<div></div>', {class: 'rating'});
 		rating = populateRatingDiv(rating, userRating);
 		return rating;
 	};
@@ -765,23 +784,6 @@ function EventTemplate(cfg) {
 	};
 }
 
-function UserPrologesTemplate(cfg) {
-	var base = cfg.base || 'library-prologe';
-
-	var getEmpty = function() {
-		//
-	};
-
-	var getElement = function(prologe) {
-		//
-	};
-
-	return {
-		getEmpty: getEmpty,
-		getElement: getElement
-	};
-}
-
 function UserLibraryTemplate(cfg) {
 	var base = cfg.base || 'library-book';
 
@@ -790,34 +792,40 @@ function UserLibraryTemplate(cfg) {
 	};
 
 	var getElement = function(book) {
-		var bookHolder = $('<div></div>',{class:'col-md-4'});
-		var bookCard = $('<article></article>', {class:base});
-		var bookThumbLink = $('<a></a>',{href:ROOT_PATH + 'book/' +book.id});
-		var bookThumb = $('<div></div>', {class: base + '--thumbnail'});
+		var bookCard = $('<article></article>', {class: 'book prlg-panel'});
+		var bookThumbLink = $('<a></a>',{href: ROOT_PATH + 'book/' +book.id});
+		var bookThumb = $('<div></div>', {class: 'icon'});
 		
 		var cover = book.thumbnail == null ? '../img/defaultthumb.png' : book.thumbnail;
 		var thumb = $('<img>',{alt:'Book cover', src: cover});
 		
-		var bookInfo = $('<div></div>', {class: base + '--info'});
-		var bookTitleLink = $('<a></a>',{href:ROOT_PATH + 'book/' +book.id});
-		var bookTitle = $('<h5></h5>').text(book.title);
-		var bookAuthor = $('<h6></h6>').text(book.authorName);
+		var bookInfo = $('<div></div>', {class: 'info'});
+		var bookTitleLink = $('<a></a>',{href:ROOT_PATH + 'book/' +book.id}).append(book.title);
+		var bookTitle = $('<div></div>', {class: 'title'}).append(bookTitleLink);
+		// var bookTitle = $('<h5></h5>').text(book.title);
+		// var bookAuthor = $('<h6></h6>').text(book.authorName);
+		var authors = book.authors.reduce(function(linkArray, author) {
+			// linkArray.push(author.name);
+			linkArray.push("<a href='" + ROOT_PATH + "author/" + author.id + "' >" + author.name +"</a>");
+			return linkArray;
+		}, []);
+		//authorHolder.append(authors.join(",&nbsp"));
+		var bookAuthor = $('<div></div>', {class: 'author'}).html(authors.join(",&nbsp"));
 		
-		var bookRating = $('<div></div>', {class: base + '--rating'});
-		var rating = book.rating != null ? book.rating.rating : 0;
-		bookRating = populateRatingDiv(bookRating, rating);
+		// var bookRating = $('<div></div>', {class: base + '--rating'});
+		// var rating = book.rating != null ? book.rating.rating : 0;
+		// bookRating = populateRatingDiv(bookRating, rating);
 		
 		bookThumb.append(thumb);
 		bookThumbLink.append(bookThumb);
 		bookCard.append(bookThumbLink);
 
-		bookTitleLink.append(bookTitle);
-		bookInfo.append(bookTitleLink);
+		bookInfo.append(bookTitle);
 		bookInfo.append(bookAuthor);
 		bookCard.append(bookInfo);
 
-		bookCard.append(bookRating);
-		return bookHolder.append(bookCard);
+		// bookCard.append(bookRating);
+		return bookCard;
 	};
 
 	return {
@@ -831,7 +839,7 @@ function GoogleSearchTemplate(cfg) {
 	var base = cfg.base || 'google-result';
 	var getEmpty = function(){};
 	var getElement = function(result) {
-		var holder = $('<article></article>', {class: base});
+		var holder = $('<article></article>', {class: 'book prlg-panel'});
 		//GET VARIABLES
 		var authors = result['authors'] != undefined ? result['authors'] : [];
 		//var author = result['author'] != undefined ? result['author'] : '';
@@ -847,20 +855,31 @@ function GoogleSearchTemplate(cfg) {
 		form.append($('<input>', {type: 'hidden', name: 'language', value: lang}));
 		form.append($('<input>', {type: 'hidden', name: 'icon', value: icon}));
 		form.append($('<input>', {type: 'hidden', name: 'thumbnail', value: thumbnail}));
+
+		function submitForm(forms) {
+			const submittable = forms[0];
+			return function() {
+				// console.log('submitting:', submittable.querySelectorAll('input[name="title"]')[0].value);
+				submittable.submit();
+			};
+		};
 		
 		var resultCover = $('<img>', {src: thumbnail, alt:'Cover'}).error(function(){this.src=ROOT_PATH + 'img/defaultthumb.png';});
-		var resultImgSubmit = $('<button></button>', {type:'submit', class:'google-result--submit'}).append(resultCover);
-		var resultDiv = $('<div></div>', {class:'google-result--thumbnail'}).append(resultImgSubmit);
+		var resultImgSubmit = $('<a></a>', {href:"#"}).append(resultCover);
+		var resultDiv = $('<div></div>', {class:'icon'}).append(resultImgSubmit.click(submitForm(form)));
 		holder.append(resultDiv);
-		var resultTitle = $('<h4></h4>').html(title+" ("+lang+")");
-		var resultTitleSubmit = $('<a></a>', {}).append(resultTitle);
-		var resultAuthor = $('<h5></h5>').html(authors.join(', '));
-		var resultInfo = $('<div></div>', {class: 'google-result--info'});
-		resultInfo.append(resultTitleSubmit.click(function(){$(this).closest('form').submit();}));
+		// form.append(resultDiv);
+		var resultTitle = $('<div></div>', {class: 'title'}).html(title+" ("+lang+")");
+		var resultTitleSubmit = $('<a></a>', {href:"#"}).append(resultTitle);
+		var resultAuthor = $('<div></div>', {class: 'author'}).html(authors.join(', '));
+		var resultInfo = $('<div></div>', {class: 'info'});
+		resultInfo.append(resultTitleSubmit.click(submitForm(form)));
 		resultInfo.append(resultAuthor);
+		// form.append(resultInfo);
 		holder.append(resultInfo);
-		form.append(holder);
-		return form;
+		// form.append(holder);
+		holder.append(form);
+		return holder;
 		//
 	};
 	return {
@@ -879,14 +898,14 @@ function SearchTemplate(cfg) {
 		if(result.className === 'Book') {
 			return getBook(result);
 		} else if(result.className === 'Author') {
-			return getAuthor(result);
+			// return getAuthor(result);
 		} else {
 			//
 		}
 	};
 
 	var getBookCover = function(book) {
-		var holder = $('<div></div>', {class: bookBase + '--thumbnail'});
+		var holder = $('<div></div>', {class: 'icon'});
 		var link = $('<a></a>',{href:'book/' +  book.id});
 		var icon = $('<img>',{src: book.thumbnail, alt:'Cover'});
 		link.append(icon);
@@ -895,16 +914,16 @@ function SearchTemplate(cfg) {
 	};
 
 	var getBookInfo = function(book) {
-		var holder = $('<div></div>', {class: bookBase + '--info'});
+		var holder = $('<div></div>', {class: 'info'});
 		var link = $('<a></a>', {href:'book/' + book.id});
-		var title = $('<h4></h4>').text(book.title);
+		var title = $('<div></div>', {class: 'title'}).text(book.title);
 		var authors = book.authors.reduce(function(linkArray, author) {
-			//
-			linkArray.push("<a href='author.php?i=" + author.id + "' >" + author.name +"</a>");
+			linkArray.push(author.name);
+			// linkArray.push("<a href='author.php?i=" + author.id + "' >" + author.name +"</a>");
 			return linkArray;
 		}, []);
 		//authorHolder.append(authors.join(",&nbsp"));
-		var author = $('<h5></h5>').html(authors.join(",&nbsp"));
+		var author = $('<div></div>', {class: 'author'}).html(authors.join(",&nbsp"));
 		link.append(title);
 		holder.append(link);
 		holder.append(author);
@@ -919,10 +938,10 @@ function SearchTemplate(cfg) {
 	};
 
 	var getBook = function(book) {
-		var holder = $('<article></article>',{class: bookBase});
+		var holder = $('<article></article>',{class: 'book prlg-panel'});
 		holder.append(getBookCover(book));
 		holder.append(getBookInfo(book));
-		holder.append(getBookRating(book));
+		// holder.append(getBookRating(book));
 		return holder;
 	};
 

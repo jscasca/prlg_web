@@ -8,54 +8,58 @@
 	<?php include('templates/__header.php'); ?>
 	<title><?php echo getTranslation('Register'); ?></title>
 </head>
-<body class="body-fullWidth">
+<body class="body-background">
+	<div class="forgotten full-body">
 	
-	<section class="Registration text-center">
-		<div class="Login-header">
+	<section class="centered-section opaque">
+		<div class="header">
 			<a href="index"><img src="<?php echo $rootpath;?>img/prologes.png" /></a>
 		</div>
-		<div class="Login-container">
-			<h5><?php echo getTranslation('Join Prologes by filling this form'); ?></h5>
+		<div class="content">
+			<h2><<?php echo getTranslation('Join Prologes'); ?></h2>
 			<form action="registration" method="POST" class="Login-form" id="registration--form">
+				<h5><?php echo getTranslation('Join Prologes by filling this form'); ?></h5>
 				<div class="form-group">
 					<label class="sr-only" for=""><?php echo getTranslation('Username'); ?></label>
-				    <div class="input-group">
-				        <div class="input-group-addon"><span class="fa fa-user"></span></div>
-				        <input type="text" class="form-control" placeholder="<?php echo getTranslation('Username'); ?>" name="user" id="username">
-				    </div>
+					<div class="input-group">
+						<div class="input-group-addon"><span class="fa fa-user"></span></div>
+						<input type="text" class="form-control" placeholder="<?php echo getTranslation('Username'); ?>" name="user" id="username">
+					</div>
 				</div>
 				<div class="form-group">
 					<label class="sr-only" for=""><?php echo getTranslation('Email'); ?></label>
-				    <div class="input-group">
-				        <div class="input-group-addon register-addon"><span class="fa fa-envelope"></span></div>
-				        <input type="text" class="form-control" placeholder="ex. john@email.com" name="email" id="email">
-				    </div>
+					<div class="input-group">
+						<div class="input-group-addon register-addon"><span class="fa fa-envelope"></span></div>
+						<input type="text" class="form-control" placeholder="ex. john@email.com" name="email" id="email">
+					</div>
 				</div>
 				<div class="form-group">
 					<label class="sr-only" for=""><?php echo getTranslation('Password'); ?></label>
-				    <div class="input-group">
-				        <div class="input-group-addon"><span class="fa fa-lock"></span></div>
-				        <input type="password" class="form-control" placeholder="<?php echo getTranslation('Password'); ?>" name="pwd" id="pwd">
-				    </div>
+					<div class="input-group">
+						<div class="input-group-addon"><span class="fa fa-lock"></span></div>
+						<input type="password" class="form-control" placeholder="<?php echo getTranslation('Password'); ?>" name="pwd" id="pwd">
+					</div>
 				</div>
 				<div class="form-group">
 					<label class="sr-only" for=""><?php echo getTranslation('Confirm password'); ?></label>
-				    <div class="input-group">
-				        <div class="input-group-addon register-addon"><span class="fa fa-lock"></span></div>
-				        <input type="password" class="form-control" placeholder="<?php echo getTranslation('Password'); ?>" name="pwdConfirmation" id="pwd2">
-				    </div>
+					<div class="input-group">
+						<div class="input-group-addon register-addon"><span class="fa fa-lock"></span></div>
+						<input type="password" class="form-control" placeholder="<?php echo getTranslation('Password'); ?>" name="pwdConfirmation" id="pwd2">
+					</div>
 				</div>
 				<div id="error-msg"></div>
-				<button type="send" class="btn Basic-button Green-button"><?php echo getTranslation('Sign up!'); ?></button>
-				<h5><?php echo getTranslation('Already have an account?'); ?> <a href="login"><?php echo getTranslation('Log in'); ?></a></h5>
+				<button type="send" class="btn main-btn"><?php echo getTranslation('Sign up!'); ?></button>
 				<!--<h6>O utiliza tus redes sociales</h6>
 				<div class="Login-buttonContainer">
 					<a href="<?php echo htmlspecialchars($loginUrl); ?>" class="btn Facebook-button">Facebook</a>
 					<a href="#" class="btn Google-button">Google</a>
 				</div>-->
 			</form>
+			<h5><?php echo getTranslation('Already have an account?'); ?> <a href="login"><?php echo getTranslation('Log in'); ?></a></h5>
 		</div>
 	</section>
+
+	</div>
 
 </body>
 </html>

@@ -11,13 +11,13 @@
 	?>
 	<title><?php echo getTranslation('Forgot your password?'); ?></title>
 </head>
-<body class="body-fullWidth">
-	
-	<section class="Registration text-center">
-		<div class="Login-header">
+<body class="body-background">
+	<div class="forgotten full-body">
+	<section class="centered-section opaque">
+		<div class="header">
 			<a href="index.php"><img src="<?php echo $rootpath;?>img/prologes.png" /></a>
 		</div>
-		<div class="Login-container">
+		<div class="content">
 			<?php
 			if(isset($sent) && $sent === true) {
 			?>
@@ -25,7 +25,7 @@
 			<?php
 			} else {
 			?>
-			<h3><?php echo getTranslation('Forgot your password?'); ?></h3>
+			<h2><?php echo getTranslation('Forgot your password?'); ?></h2>
 
 			<?php
 				if(isset($expired) && $expired === true)echo "<h4 class='eror'>" . getTranslation("The token is invalid or has already expired. Please try again") . "</h4>"; 
@@ -39,7 +39,7 @@
 				    </div>
 				</div>
 				<div id="error-msg"></div>
-				<button type="send" class="btn Basic-button Green-button"><?php echo getTranslation('Submit'); ?></button>
+				<button type="send" class="btn main-btn"><?php echo getTranslation('Submit'); ?></button>
 				<h5><?php echo getTranslation('Already have an account?'); ?> <a href="login.php"><?php echo getTranslation('Log in'); ?></a></h5>
 				<!--<h6>O utiliza tus redes sociales</h6>
 				<div class="Login-buttonContainer">
@@ -52,6 +52,7 @@
 			?>
 		</div>
 	</section>
+	</div>
 
 </body>
 </html>

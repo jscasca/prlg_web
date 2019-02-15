@@ -2,69 +2,95 @@
 
 ?>
 <div class="profile-container">
-	<div class="col-md-4 col-sm-12">
-		<div class="input-holder" id="displayHolder">
-			<span id='displayname--label'>Name</span>
-			<div class="">
-				<h2 id="userDisplayName"></h2>
+	<div class="col-sm-12">
+
+		<div class="prlg-panel">
+			<div class="main-profile">
+				<div class="icon-section">
+					<div class="croppable-wrapper" id="croppable-wrapper">
+						<div class="croppable" id="croppable"></div>
+					</div>
+					<div class="icon" id="avatar-display--area">
+						<img src="<?php echo $rootpath;?>img/defaultuser.png" alt="avatar" id="avatar">
+					</div>
+					<div class="actions change-icon" id="change-avatar--buttons">
+						<div class="upload-btn">
+							<input type="file" id="avatar-upload" name="avatar">
+							<label class="btn" for="avatar-upload"><?php echo getTranslation('Change avatar'); ?></label>
+						</div>
+					</div>
+					<div class="actions edit-avatar" id="save-avatar--buttons"></div>
+				</div>
+				<div class="info-section">
+					<div class="info">
+						<div class="section">
+							<div class="field-name"><?php echo getTranslation('Display name'); ?></div>
+							<div class="field-editable">
+							</div>
+							<div class="field-value">
+								<div class="value display-name" id="userDisplayName"></div>
+								<div class="action" tabindex="0" id="edit-user--displayname" role="button">
+									<i class="fas fa-pen" title="<?php echo getTranslation('Edit'); ?>"></i>
+								</div>
+							</div>
+						</div>
+						<div class="section">
+							<div class="field-name"><?php echo getTranslation('User name'); ?></div>
+							<div class="field-value">
+								<div class="value username" id="username"></div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
-		<div class="input-holder" id="">
-			<span id='username--label'>User</span>
-			<h3 id="username"></h3>
 		</div>
 	</div>
 	
-	<div class="col-md-8 col-sm-12 text-center">
-		<div class="profile-avatar">
-			<img src="../img/defaultuser.png" alt="avatar" id="avatar">
-		</div>
-		<!--<div class="">
-			<button class="btn Stroked-button--grey">Cambiar avatar</button>
-		</div>-->
-		<!--<div class="profile-avatar--options">
-			<img src="img/defaultuser.png">
-			<img src="img/defaultuser.png">
-			<img src="img/defaultuser.png">
-			<img src="img/defaultuser.png">
-			<img src="img/defaultuser.png">
-			<img src="img/defaultuser.png">
-			<img src="img/defaultuser.png">
-			<img src="img/defaultuser.png">
-		</div>-->
-		<div class="profile-avatar--change" id="profile-avatar--change">
-			<!-- <button id="avatar-change--button" class="btn Basic-button Green-button">Change</button> -->
-		</div>
-		
-		<div class="profile-avatar--upload" id="profile-avatar--upload">
-			<form id="avatar-upload--form" action="<?php echo $rootpath;?>php/submit/avatar.php" method="POST" enctype="multipart/form-data">
-				<div id="avatar-upload">
-					<input type="file" id="avatar-upload--file" class="form-upload" name="avatar">
-					<label class="btn Basic-button Green-button" for="avatar-upload--file">Change</label>
-				</div>
-				<div id="avatar-upload--actions" style="display:none;">
-					<button id="avatar-upload--reset" type="reset" class="btn Basic-button">Cancel</button>
-					<button type="submit" class="btn Basic-button Green-button">Save</button>
-				</div>
-				<div id='avatar-upload--error' class='error-msg'>
-					<!-- show error -->
-				</div>
-			</form>
-		</div>
-	</div>
 	
 </div>
 <script type="text/javascript">
 var currentAvatar = "";
 var error = "<?php echo isset($profileError) ? 'There was an error uploading the file. Please try again.' : ''; ?>";
 
-$('#avatar-upload--form').submit(function() {
-	//Check if there is a file
-	if($('#avatar-upload--file').val() == '') {
-		return false;
+var croppable = null;
+
+function cancelAvatarChange() {
+	return function() {
+		croppable = null;
+		$('#avatar-upload').val('');
+		$('#avatar-display--area').css('display', 'flex');
+		$('#croppable-wrapper').empty().append($('<div></div>', {class: "croppable", id: "croppable"}));
+		$('#save-avatar--buttons').empty();
+	};
+};
+
+var createEditable = function(value, save, cancel, validate) {
+	if(validate === undefined) {
+		validate = function(input) {
+			return input !== '' && input.length < 25;
+		};
 	}
-	return true;
-});
+	var input = $('<input>', {type: 'input'}).val(value);
+	// var cancelIcon = $('<i></i>', {class: 'action cancel fas fa-times', title: 'Cancel', tabindex: "0", role: 'button'}).on('click', cancel);
+	// var saveIcon = $('<i></i>', {class: 'action submit fas fa-check', title: 'Cancel', tabindex: "0", role: 'button'}).on('click', save);
+	var wrapper = $('<div></div>', {class: 'wrapper contained'}).append(input);
+	// .append(cancelIcon).append(saveIcon);
+	var inputHolder = $('<div></div>', {class: 'editable-are display-name'}).append(wrapper);
+
+	var cancelButton = $('<button></button>', {class: 'btn', title: getText('Cancel'), tabindex: "0", role: 'button'}).on('click', cancel).append(getText(' Cancel'));
+	var saveButton = $('<button></button>', {class: 'btn main-btn', title: getText('Save'), tabindex: "0", role: 'button'}).on('click', function() {
+		var inputValue = input.val();
+		if(validate(inputValue)) {
+			save(inputValue);
+		} else {
+			//
+		}
+	}).append(getText('Save'));
+	var controls = $('<div></div>', {class: 'actions'}).append(cancelButton).append(saveButton);
+
+	var holder = $('<div></div>', {class: 'editable-area display-name'}).append(inputHolder).append(controls);
+	return holder;
+};
 	
 $(document).ready(function() {
 	//display error if any
@@ -75,32 +101,89 @@ $(document).ready(function() {
 	getMyInfo().then(function(profile){
 		displayMyInfo(profile);
 	});
-	$('#displayname--label').text(getText('Display name'));
+	$('#displayname--label').text(getText('Display name')); // Can be done in php instead
 	$('#username--label').text(getText('Username'));
-});
 
-$('#avatar-upload--reset').click(function() {
-	$('#avatar').attr('src', currentAvatar);
-	$('#avatar-upload--actions').css('display', 'none');
-});
+	$('#edit-user--displayname').on('click', function() {
+		// clean all others
+		$('.field-editable').empty();
+		$('.field-value').css('display', 'flex');
+		// find the section
+		var section = $(this).closest('.section');
+		var editable = section.find('.field-editable');
+		var value = section.find('.field-value');
 
-$('#avatar-upload--file').change(function() {
-	//validate the file is an image
-	//TODO: validation
-	//then display
-	previewAvatar(this);
-	$('#avatar-upload--actions').css('display', 'block');
-});
+		value.css('display', 'none');
+		var editableArea = createEditable(value.find('.value').text(), function(newValue) {
+			// ajax save
+			ajaxPromise({
+						type: 'POST',
+						dataType: 'json',
+						url: AJAX_DIR + 'postUserDisplay.php',
+						data: {
+							display: newValue
+						}
+					});
+			section.find('.field-value .value').empty().append(document.createTextNode(newValue));
+			$('.field-editable').empty();
+			$('.field-value').css('display', 'flex');
+		}, function() {
+			$('.field-editable').empty();
+			$('.field-value').css('display', 'flex');
+		});
+		editable.append(editableArea);
+		section.find('input').focus();
+	});
 
-function previewAvatar(input) {
-	if(input.files && input.files[0]) {
+	$('#avatar-upload').change(function() {
+		if(croppable == null) {
+			croppable = $('.croppable').croppie({
+				enableExif: true,
+				viewport: {
+					width: 200,
+					height: 200,
+					type: 'circle'
+				},
+				boundary: {
+					width: 250,
+					height: 250
+				}
+			});
+			var saveButton = $('<button></button>', {class: 'btn main-btn'}).append('Save').on('click', function() {
+				var cleanButtons = cancelAvatarChange();
+				$('.actions btn').attr('disabled', 'disabled');
+				croppable.croppie('result', {type:'canvas', size: 'viewport'}).then(function(blob) {
+					var saving = ajaxPromise({
+						type: 'POST',
+						dataType: 'json',
+						url: AJAX_DIR + 'postUserAvatar.php',
+						data: {
+							img64: blob
+						}
+					});
+					saving.then(function(r) {
+						cleanButtons();
+						$('.actions btn').removeAttr('disabled');
+						$('#avatar').attr('src', r.url);
+					});
+				});
+			});
+			var cancelButton = $('<button></button>', {class: 'btn cancel-btn'}).append('Cancel').on('click', cancelAvatarChange());
+			$('#save-avatar--buttons').append(cancelButton).append(saveButton);
+		}
+		$('#avatar-display--area').css('display', 'none');
 		var reader = new FileReader();
 		reader.onload = function(e) {
-			$('#avatar').attr('src', e.target.result);
-		}
-		reader.readAsDataURL(input.files[0]);
-	}
-}
+			croppable.croppie('bind', {
+				url: e.target.result
+			}).then(function() {
+				// console.log('bind complete');
+			});
+		};
+		reader.readAsDataURL(this.files[0]);
+	});
+	//
+});
 
 function getMyInfo() {
 	return ajaxPromise({
@@ -110,33 +193,12 @@ function getMyInfo() {
 	});
 }
 
-// function getMyInfo(id) {
-// 	$.ajax({
-// 	  type: 'GET',
-// 	  dataType: 'json',
-// 	  url: '../php/ajax/getMyInfo.php',
-// 	  data: {user: id},
-// 	  success: function(data){
-// 			displayMyInfo(data);
-// 		  },
-// 	  error: function() {
-// 	  }
-// 	});
-// }
-
 function displayMyInfo(user) {
 	$('#userDisplayName').html(user.displayName);
-	$('#username').html(user.userName);
+	$('#username').html('@' + user.userName);
 	currentAvatar = user.icon;
 	$('#avatar').attr('src', user.icon + '?bs=' + Math.random());
 	// $('#avatar').error(function(){this.src='../img/defaultuser.png';});
 }
-
-function printUserDetails(user) {
-	$('#user-display').text(user.displayName);
-	$('#user-name').html(user.userName);
-	$('#user-icon').attr('src', user.icon);
-}
-
 
 </script>

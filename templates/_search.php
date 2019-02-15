@@ -3,7 +3,7 @@
 ?>
 <div class="row">	
 	<div class="index-search">
-		<form role="search" action="search">
+		<!-- <form role="search" action="search">
 			<div class="input-group">
 				<input class="form-control" id="search-input--field" type="text" name="q"/>
 				<div class="input-group-btn">
@@ -12,28 +12,38 @@
 					</button>
 				</div>
 			</div>
+		</form> -->
+		<form role="search" action="<?php echo $rootpath;?>search">
+			<div class="input-group">
+				<input type="text" placeholder="Search" name="q" class="form-control input-sm">
+				<span class="input-group-btn">
+					<button class="btn btn-default input-sm" type="submit">
+						<span class="fas fa-search"></span>
+					</button>
+				</span>
+			</div>
 		</form>
 	</div>
 </div>
 <h1 class="Section-title no-padding" id="search-results--title"></h1>
 <span id="search-title" class="search-title"></span>
 
-<div class="result-cards">
-	<div class="row">
+<div class="">
+	<div class="search-list default-book-list" id="search-results">
 		<!-- Prologes Results -->
-		<div class="col-md-8" id="search-results">
+		<!-- <div class="col-md-8" id="search-results"> -->
 		<!-- Search results here -->
-		</div>
+		<!-- </div> -->
 
 		<!-- Google Results -->
-		<div class="col-md-4">
+		<!-- <div class="col-md-4">
 			<div id="not-found" style="display:none;">
 				<h5 id="not-found--span"></h5>
 				<button id="not-found--action" class="btn Results-button" onclick="(function(){$('#book-request-modal').modal('show');})()";></button>
-				<!--<button class="btn Results-button">Add author</button>-->
+				<button class="btn Results-button">Add author</button>
 			</div>
-		</div>
-	</div>
+		</div> -->
+</div>
 <!-- Modal dialog for book request-->
 <div id="book-request-modal" class="modal fade">
 <div class="modal-dialog modal-sm">
@@ -70,12 +80,12 @@
 							<!-- <option value="jp">JAP</option> -->
 						</select>
 					</div>
-					<div id="error-msg"></div>
+					<div class="error-msg" id="error-msg"></div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<div class="modal-footer--buttons text-center">
-					<button type="button" class="btn Blue-button" id="custom-request--submit"></button>
+					<button type="button" class="btn main-btn" id="custom-request--submit"></button>
 				</div>
 			<!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
 			</div>
@@ -102,9 +112,15 @@ var searchTemplate = new SearchTemplate({});
 var gsearchTemplate = new GoogleSearchTemplate({});
 
 var addCustomRequest = function() {
-	$('#not-found--span').html(translator.getText('Could not find what you were looking for?'));
-	$('#not-found--action').html(translator.getText('Add a book'));
-	$('#not-found').css('display', 'block');
+	var description = $('<div></div>', {class: 'description'}).append(translator.getText('Could not find what you were looking for?'));
+	var addBookButton = $('<button></button>', {class: 'btn'}).append(translator.getText('Add a book')).click(function() {
+		$('#book-request-modal').modal('show');
+	});
+	var actions = $('<div></div>', {class: 'actions'}).append(addBookButton);
+	var content = $('<div></div>', {class: 'content'}).append(description).append(actions);
+	var holder = $('<div></div>', {class:"missing-result"}).append(content);
+	//onclick="(function(){$('#book-request-modal').modal('show');})()"
+	return holder;
 };
 //Cache the result after the book query
 $(document).ready(function() {
@@ -123,7 +139,7 @@ $(document).ready(function() {
 			gsearchHandler.printCollection(data.external);
 			$('#search-input--submit').removeAttr('disabled');
 			setTimeout(function() {
-				addCustomRequest();
+				$('#search-results').append(addCustomRequest());
 			}, 5000);
 			//add event listener and stuff to handle this in page instead of reloading
 		} else {
@@ -146,9 +162,8 @@ $(document).ready(function() {
 				localStorage.setItem(searchQuery, JSON.stringify({local: presults, external: gresults}));
 				$('#search-input--submit').removeAttr('disabled');
 				setTimeout(function() {
-					addCustomRequest();
+					$('#search-results').append(addCustomRequest());
 				}, 5000);
-				//TODO: After show a link to submit own
 			});
 		}
 	} else {

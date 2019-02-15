@@ -3,29 +3,26 @@
 ?>
 <div class="row">
 	<div class="col-md-8 col-sm-12">
-		<section class="main-user">
-			<div class="main-user--sidebar">
-				<div class="main-user--icon">
+		<div class="prlg-panel">
+			<section class="main-user">
+				<div class="icon">
 					<img src="../img/defaultuser.png" alt="Cover" id="user-icon" class="backup-user"/>
+					<!-- <div class="main-user--follow" id="main-user--follow"></div> -->
 				</div>
-				<div class="main-user--follow" id="main-user--follow"></div>
-			</div>
-			<div class="main-user--info">
-				<h2 id="user-display"></h2>
-				<h4 id="user-name"></h4>
-			</div>
-		</section>
+				<div class="info">
+					<div id="user-display" class="display-name"></div>
+					<div id="user-name" class="username"></div>
+				</div>
+			</section>
+		</div>
 		
-	</div>
-	
-	<div class="col-md-4 col-sm-12" id="similar-books">
 	</div>
 </div>
 
-<div class='row user-tabs'>
-	<ul class='nav nav-tabs'>
+<div class='row'>
+	<ul class='nav nav-tabs underline-tabs'>
 		<li class='active'><a href='#tab-prologes' data-toggle='tab'>Prologues</a></li>
-		<li><a href='#tab-reading' data-toggle='tab'>Reading</a></li>
+		<!-- <li><a href='#tab-reading' data-toggle='tab'>Reading</a></li> -->
 		<li><a href='#tab-wishlist' data-toggle='tab'>Wishlisted</a></li>
 		<li><a href='#tab-favorite' data-toggle='tab'>Favorites</a></li>
 	</ul>
@@ -34,22 +31,22 @@
 <div class='tab-content'>
 	<!-- Prologes DIV -->
 	<div id='tab-prologes' class='tab-pane fade in active'>
-		<div class='profile-library' id='prologe-library'></div>
+		<div class='user-prologes' id='prologe-library'></div>
 	</div>
 
 	<!-- Reading DIV -->
-	<div id='tab-reading' class='tab-pane fade'>
+	<!-- <div id='tab-reading' class='tab-pane fade'>
 		<div class='profile-library' id='reading-library'></div>
-	</div>
+	</div> -->
 
 	<!-- Wishlist DIV -->
 	<div id='tab-wishlist' class='tab-pane fade'>
-		<div class='profile-library' id='wishlist-library'></div>
+		<div class='default-book-list' id='wishlist-library'></div>
 	</div>
 
 	<!-- Favorite DIV -->
 	<div id='tab-favorite' class='tab-pane fade'>
-		<div class='profile-library' id='favorite-library'></div>
+		<div class='default-book-list' id='favorite-library'></div>
 	</div>
 </div>
 <script type="text/javascript">
@@ -110,6 +107,15 @@ $(document).ready(function() {
 	// 	//getUserInteractions(userId);
 	// }
 });
+
+function getNextWishlistedBooks(userid) {
+	return ajaxPromise({
+		type: 'GET',
+		dataType: 'json',
+		url: AJAX_DIR + 'getUserWishlisted.php',
+		data: {}
+	});
+}
 
 function getUserInfo(userid, username) {
 	return ajaxPromise({

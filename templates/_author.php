@@ -3,18 +3,29 @@
 ?>
 <div class="col-md-12">
 	<section class="main-author">
-		<div class="main-author--pic">
-			<!-- <img src="../img/defaultuser.png" alt="Author" id="author-pic" class="backup-pic" onerror='this.src="/img/defaultuser.png";'/> -->
+		<div class="prlg-panel">
+			<div class="center-icon">
+				<img src="img/author_clear_trans.png" id="author-pic" alt="Author">
+			</div>
+			<div class="info">
+				<span class="title" id="author-name">Author Name</span>
+			</div>
+		</div>
+		<!-- <div class="main-author--pic">
+			<img src="../img/defaultuser.png" alt="Author" id="author-pic" class="backup-pic" onerror='this.src="/img/defaultuser.png";'/>
 			<img src='' alt="Author" id="author-pic" class="backup-pic" />
-		</div>
-		<div class="main-author--info">
+		</div> -->
+		<!-- <div class="main-author--info">
 			<h2 id="author-name">Author Name</h2>
-		</div>
+		</div> -->
 	</section>
 </div>
 
-<div class="col-md-12 col-sm-12" id="author-books">
+<div class="col-md-12 col-sm-12">
 	<h2 class="Section-title no-padding" id=''></h2>
+	<div class="author-books" id="author-books">
+		<!-- here author books -->
+	</div>
 	
 	<!--
 	<article class="similar-book">

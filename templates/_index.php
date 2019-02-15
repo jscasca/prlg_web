@@ -77,7 +77,7 @@ if(!$loggedIn) {
 ?>
 <div class="row">	
 	<div class="index-search">
-		<form class="" action="search">
+		<!-- <form class="" action="search">
 			<div class="input-group">
 				<input class="form-control" id="index-search--field" type="text" name="q" placeholder="<?php echo getTranslation('Find a book'); ?>" />
 				<div class="input-group-btn">
@@ -87,6 +87,16 @@ if(!$loggedIn) {
 				</div>
 			</div>
 			
+		</form> -->
+		<form role="search" class="" action="<?php echo $rootpath;?>search">
+			<div class="input-group">
+				<input type="text" placeholder="<?php echo getTranslation('Find a book'); ?>" name="q" class="form-control input-sm">
+				<span class="input-group-btn">
+					<button class="btn btn-default input-sm" type="submit">
+						<span class="fas fa-search"></span>
+					</button>
+				</span>
+			</div>
 		</form>
 	</div>
 </div>

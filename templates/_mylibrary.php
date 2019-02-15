@@ -1,7 +1,37 @@
 <?php
 
 ?>
-<div class="row">
+<div class='row'>
+	<ul class='nav nav-tabs underline-tabs'>
+		<li class='active'><a href='#tab-prologes' data-toggle='tab'>Prologues</a></li>
+		<!-- <li><a href='#tab-reading' data-toggle='tab'>Reading</a></li> -->
+		<li><a href='#tab-wishlist' data-toggle='tab'>Wishlisted</a></li>
+		<li><a href='#tab-favorite' data-toggle='tab'>Favorites</a></li>
+	</ul>
+</div>
+
+<div class='tab-content'>
+	<!-- Prologes DIV -->
+	<div id='tab-prologes' class='tab-pane fade in active'>
+		<div class='user-prologes' id='prologe-library'></div>
+	</div>
+
+	<!-- Reading DIV -->
+	<!-- <div id='tab-reading' class='tab-pane fade'>
+		<div class='profile-library' id='reading-library'></div>
+	</div> -->
+
+	<!-- Wishlist DIV -->
+	<div id='tab-wishlist' class='tab-pane fade'>
+		<div class='default-book-list' id='wishlist-library'></div>
+	</div>
+
+	<!-- Favorite DIV -->
+	<div id='tab-favorite' class='tab-pane fade'>
+		<div class='default-book-list' id='favorite-library'></div>
+	</div>
+</div>
+<!-- <div class="row">
 	<h2 id='library-reading--header'></h2>
 	<div class="my-library" id="mylibrary-reading"></div>
 </div>
@@ -19,7 +49,7 @@
 		<div class="col-md-6" id="left-prologes"></div>
 		<div class="col-md-6" id="right-prologes"></div>
 	</div>
-</div>
+</div> -->
 <script type="text/javascript">
 	var retries = 0;
 	
@@ -47,6 +77,7 @@ function displayMyLibrary(library) {
 	printReadings([]);
 	printWishlist([]);
 	printProloges([]);*/
+	debugger;
 	
 	printFavorites(library.favorited);
 	printReadings(library.reading);
@@ -55,17 +86,17 @@ function displayMyLibrary(library) {
 }
 
 function printFavorites(books) {
-	var holder = $('#mylibrary-favorites');
+	var holder = $('#favorite-library');
 	printLibrarySection(books, holder, printEmptyFavorites);
 }
 
 function printReadings(books) {
-	var holder = $('#mylibrary-reading');
+	var holder = $('#reading-library');
 	printLibrarySection(books, holder, printEmptyReading);
 }
 
 function printWishlist(books) {
-	var holder = $('#mylibrary-wishlist');
+	var holder = $('#wishlist-library');
 	printLibrarySection(books, holder, printEmptyWishlist);
 }
 
@@ -120,53 +151,108 @@ function printEmpty(holder, div) {
 }
 
 function printBook(holder, book) {
-	console.log(book);
-	var article = $('<article></article>', {class:'library-book'});
-	var div = $('<div></div>', {class:'col-md-4'});
-	var thumb = $('<div></div>', {class:'library-book--thumbnail'});
-	var thumbLink = $('<a></a>', {href:'book/'+book.id});
-	thumbnail = book.thumbnail == null ? 'img/defaultthumb.png' : book.thumbnail;
-	var thumbImg = $('<img>', {src:thumbnail, alt:'Cover'});
-	thumbImg.error(function() {
-		this.src = 'img/defaultthumb.png';
-		});
-	thumbLink.append(thumbImg);
-	thumb.append(thumbLink);
-	article.append(thumb);
+	var bookCard = $('<article></article>', {class: 'book prlg-panel'});
+	var bookThumbLink = $('<a></a>',{href: ROOT_PATH + 'book/' +book.id});
+	var bookThumb = $('<div></div>', {class: 'icon'});
 	
-	var info = $('<div></div>', {class:'library-book--info'});
-	var infoLink = $('<a></a>', {href:'book/'+book.id});
-	var infoTitle = $('<h3>'+book.title+'</h3>');
+	var cover = book.thumbnail == null ? '../img/defaultthumb.png' : book.thumbnail;
+	var thumb = $('<img>',{alt:'Book cover', src: cover});
 	
-	var infoRating = $('<div></div>', {class:'library-book--rating'});
-	var rating = 0;
-	if(book.rating != null) { rating = book.rating; }
-	infoRating = getRatingDiv(infoRating, rating);
+	var bookInfo = $('<div></div>', {class: 'info'});
+	var bookTitleLink = $('<a></a>',{href:ROOT_PATH + 'book/' +book.id}).append(book.title);
+	var bookTitle = $('<div></div>', {class: 'title'}).append(bookTitleLink);
+	// var bookTitle = $('<h5></h5>').text(book.title);
+	// var bookAuthor = $('<h6></h6>').text(book.authorName);
+	var authors = book.authors.reduce(function(linkArray, author) {
+		// linkArray.push(author.name);
+		linkArray.push("<a href='" + ROOT_PATH + "author/" + author.id + "' >" + author.name +"</a>");
+		return linkArray;
+	}, []);
+	//authorHolder.append(authors.join(",&nbsp"));
+	var bookAuthor = $('<div></div>', {class: 'author'}).html(authors.join(",&nbsp"));
 	
-	infoLink.append(infoTitle);
-	info.append(infoLink);
-	info.append(infoRating);
-	article.append(info);
-	div.append(article);
-	holder.append(div);
+	// var bookRating = $('<div></div>', {class: base + '--rating'});
+	// var rating = book.rating != null ? book.rating.rating : 0;
+	// bookRating = populateRatingDiv(bookRating, rating);
+	
+	bookThumb.append(thumb);
+	bookThumbLink.append(bookThumb);
+	bookCard.append(bookThumbLink);
+
+	bookInfo.append(bookTitle);
+	bookInfo.append(bookAuthor);
+	bookCard.append(bookInfo);
+
+	// bookCard.append(bookRating);
+	// return bookCard;
+	holder.append(bookCard);
 }
 
 function printProloges(prologes) {
-	var holder = $('#mylibrary-prologes');
+	var holder = $('#prologe-library');
 	if(prologes.length == 0) {
 		printEmptyProloge(holder);
 	} else {
-		var leftHolder = $('#left-prologes');
-		var rightHolder = $('#right-prologes');
-		$(prologes).each(function (index, prologe) {
-			if(index % 2 == 0) {
-				printProloge(leftHolder, prologe);
-			} else {
-				printProloge(rightHolder, prologe);
-			}
+		$(prologes).each(function(index, prologe) {
+			//
+			var getElement = function(prologe) {
+				var getThumbnail = function(user) {
+					var link = $('<a></a>', {href: ROOT_PATH + 'book/' +user.id});
+					var img = $('<img>',{src: user.icon, alt:"user", onerror:'this.setAttribute("src", "' + ROOT_PATH +'img/defaultthumb.png");'});
+					var holder = $('<div></div>',{class: 'icon'});
+					link.append(img);
+					holder.append(link);
+					return holder;
+				};
+
+				var getContent = function(prologe) {
+					var holder = $('<div></div>', {class: 'content'});
+					holder.append(getBookTitle(prologe.book));
+					holder.append(getProloge(prologe));
+					holder.append(getRating(prologe.rating));
+					return holder;
+				};
+
+				var getBookTitle = function(book) {
+					var link = $('<a></a>', {href: ROOT_PATH + 'book/' + book.id}).append(book.title);
+					var holder = $('<div></div>', {class: 'title'});
+					return holder.append(link);
+				};
+
+				var getRating = function(userRating) {
+					var rating = $('<div></div>', {class: 'rating'});
+					rating = populateRatingDiv(rating, userRating);
+					return rating;
+				};
+
+				var getProloge = function(prologe) {
+					var holder = $('<div></div>', {class: 'prologue'}).append(prologe.posdta);
+					return holder;
+				};
+				var holder = $('<section></section>',{class:'prologe prlg-panel'});
+				holder.append(getThumbnail(prologe.book));
+				holder.append(getContent(prologe));
+				return holder;
+			};
+
+			holder.append(getElement(prologe));
 		});
-		
 	}
+
+	// if(prologes.length == 0) {
+	// 	printEmptyProloge(holder);
+	// } else {
+	// 	var leftHolder = $('#left-prologes');
+	// 	var rightHolder = $('#right-prologes');
+	// 	$(prologes).each(function (index, prologe) {
+	// 		if(index % 2 == 0) {
+	// 			printProloge(leftHolder, prologe);
+	// 		} else {
+	// 			printProloge(rightHolder, prologe);
+	// 		}
+	// 	});
+		
+	// }
 }
 
 function printEmptyProloge(holder) {
@@ -212,14 +298,14 @@ function getRatingDiv(ratingDiv, rating) {
 	if(rating == null) rating = 0;
 	var stars = Math.floor(rating);
 	for(var i = 0; i < stars; i++) {
-		ratingDiv.append('<span class="fa fa-star"></span>');
+		ratingDiv.append('<span class="fas fa-star"></span>');
 	}
 	if(rating%1 > 0) {
-		ratingDiv.append('<span class="fa fa-star-half-o"></span>');
+		ratingDiv.append('<span class="fas fa-star-half-alt"></span>');
 		stars++;
 	}
 	for(var i = stars; i < 5; i++) {
-		ratingDiv.append('<span class="fa fa-star-o"></span>');
+		ratingDiv.append('<span class="far fa-star"></span>');
 	}
 	return ratingDiv;
 }
