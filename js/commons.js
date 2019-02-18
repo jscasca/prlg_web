@@ -10,6 +10,20 @@ var DEFAULT_USER_ICON = ROOT_PATH + 'img/user_clear.png';
 var DEFAULT_CLUB_ICON = ROOT_PATH + 'img/user_dark.png';
 var DEFAULT_BOOK_ICON = ROOT_PATH + 'img/user_clear.png';
 
+const PRLG = {
+	ajaxDir: ROOT_PATH + 'php/ajax/',
+
+	addresses: {
+		addToFavorites: AJAX_DIR + 'addToFavorites.php',
+		addToReadings: AJAX_DIR + 'addToReading.php',
+		addToWishlist: AJAX_DIR + 'addToWishlist.php',
+		removeFromFavorites: AJAX_DIR + 'deleteFromFavorites.php',
+		removeFromReadings: AJAX_DIR + 'deleteFromReadings.php',
+		removeFromWishlist: AJAX_DIR + 'deleteFromWishlist.php',
+
+	}
+}
+
 function ajaxPromise(options) {
 	return new Promise(function(resolve, reject) {
 		$.ajax(options).done(resolve).fail(reject);
@@ -166,21 +180,22 @@ function CommentDataHolder(htmlNode, options) {
 	};
 
 	var createHeader = function(comment) {
-		var header = $('<div></div>', { class: 'comment-header'});
-		var minus = $('<span class="glyphicon glyphicon-minus"></span>');
-		var userlink = $('<a></a>', { class: 'user-span-link', href: './user.php?i=' + comment.user.id});
-		var user = $('<span></span>', {class: 'user-label label'}).append(comment.user.userName);
+		var header = $('<div></div>', { class: 'header'});
+		var minus = $('<span class="fas fa-minus"></span>');
+		console.log(comment.user);
+		var userlink = $('<a></a>', { class: 'poster', href: ROOT_PATH + 'user/' + comment.user.userName});
+		var user = $('<span></span>', {class: ''}).append(comment.user.userName);
 		// debugger;
 		var stringTime = stringTimeSince(comment.date, translator);
 		return header.append(userlink.append(user)).append(stringTime);
 	};
 
 	var createBody = function(comment, container, replyCount) {
-		var holder = $('<div></div>', { class: 'comment-body'});
+		var holder = $('<div></div>', { class: 'content'});
 		// var thumbnailHolder = $('<div></div>', { class: 'comment-user-thumbnail'});
 		// var thumbnail = $('<img/>', { class: '', src: '../img/defaultuser.png', 'img-src': comment.user.icon });
 		// thumbnailHolder.append(thumbnail);
-		var commentHolder = $('<div></div>', { class: 'comment-text'});
+		var commentHolder = $('<div></div>', { class: 'text'});
 		commentHolder.append(comment.text);
 		holder.append(createHeader(comment));
 		holder.append(commentHolder);
@@ -189,7 +204,7 @@ function CommentDataHolder(htmlNode, options) {
 	};
 
 	var createFooter = function(comment, container, replyCount) {
-		var holder = $('<div></div>', { class: 'comment-footer'});
+		var holder = $('<div></div>', { class: 'footer'});
 		if(replyCount > 0) {
 			var collapse = $('<span></span>').append('[' + translator.getSpan('collapse', [replyCount]) + ']');
 			collapse.on('click', function() {
@@ -225,18 +240,18 @@ function CommentDataHolder(htmlNode, options) {
 			$('.reply-form').remove();
 			var threadNest = $(this).closest('.thread').find('.thread-nest').first();
 			//look for thread and prepend
-			var replyForm = $('<div></div>', { class: 'comment'}).addClass('reply-form');
-			var holder = $('<div></div>', { class: 'comment--form'});
-			var textareaDiv = $('<div></div>', { class: 'comment--textarea-container'});
-			var errorArea = $('<div></div>', {class: 'comment--error-area'});
-			var textarea = $('<textarea/>', { class: 'comment--textarea', placeholder: 'Reply...', 'reply-to': comment.id});
-			var buttons = $('<div></div>', { class: 'reply-form--actions'});
-			var postButton = $('<button>Post</button>').addClass('btn').addClass('reply-button');
+			var replyForm = $('<div></div>', { class: 'comment-area'}).addClass('reply-form');
+			var holder = $('<div></div>', { class: 'comment-form'});
+			var textareaDiv = $('<div></div>', { class: 'textarea-container'});
+			var errorArea = $('<div></div>', {class: 'error-area'});
+			var textarea = $('<textarea/>', { class: '', placeholder: 'Reply...', 'reply-to': comment.id});
+			var buttons = $('<div></div>', { class: 'actions'});
+			var postButton = $('<button>Post</button>').addClass('btn').addClass('main-btn');
 			postButton.on('click', function() {
 				postButton.addClass('disabled').attr('disabled', 'disabled');
 				postReply(container, replyForm, textarea.attr('reply-to'), textarea.val());
 			});
-			var cancel = $('<button>Cancel</button>').addClass('btn').addClass('cancel-button');
+			var cancel = $('<button>Cancel</button>').addClass('btn');
 			cancel.on('click', function() {
 				replyForm.remove();
 			});
@@ -276,7 +291,7 @@ function CommentDataHolder(htmlNode, options) {
 	};
 
 	var createLeft = function(comment) {
-		var holder = $('<div></div>', { class: 'comment-user-thumbnail'});
+		var holder = $('<div></div>', { class: 'icon'});
 		var thumbnail = $('<img/>', { class: '', src: comment.user.icon, 'img-src': comment.user.icon });
 		return holder.append(thumbnail);
 	}

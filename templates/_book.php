@@ -29,24 +29,24 @@
 	</div>
 	<!--  -->
 	<div id="prologe-modal" class="modal fade">
-		<div class="modal-dialog">
+		<div class="modal-dialog prologe-modal">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title"><span id="modal-title-placeholder">Write a prologue!</span></h3>
+					<h3 class="title"><span id="modal-title-placeholder">Write a prologue!</span></h3>
 				</div>
-				<div class="modal-body">
-					<div class="prologe-modal--prologe text-center">
-						<textarea id="prologe-modal--textarea" class="prologe-modal--textarea"></textarea>
-						<div class="prologe-modal--feedback text-right" id="prologe-modal--feedback"></div>
+				<div class="body">
+					<div class="feedback-textarea">
+						<textarea id="prologe-modal--textarea"></textarea>
+						<div class="feedback" id="prologe-modal--feedback"></div>
 					</div>
-					<div class="prologe-modal--rating">
+					<div class="rating">
 						<span id='modal-rating--label'>Rate</span>: <span id="prologe-modal--raty"></span>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<div class="modal-footer--buttons text-center">
-						<button type="button" class="btn Blue-button" id="prologe-modal--submit">Stamp!</button>
+				<div class="footer">
+					<div class="actions">
+						<button type="button" class="btn main-btn" id="prologe-modal--submit">Stamp!</button>
 					</div>
 					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
 				</div>
@@ -191,11 +191,6 @@ var uiHelper = new UiHelper($('#book-modal'), $('#book-modal--body'));
 
 var commentHandler = new CommentDataHolder($('#main-comments'), { translator: translator });
 
-var interaction = new BookInteractionHandler({
-	translator: translator,
-	uiHandler: uiHelper
-});
-
 var similarBooks = {}; //map of ids of similar books
 
 var myReads = null; // array of my books
@@ -214,9 +209,7 @@ function filterMyReads(filterString) {
 
 function suggestionButtonClick(similarId) {
 	return function() {
-		console.log('similar:', similarId);
 		suggestSimilar(similarId).then(function(similarity) {
-			console.log('similarity:', similarity);
 			similarBooks[similarity.similar.id] = true;
 			$('#mybook-' + similarity.similar.id).remove();
 			myReads.splice(myReads.map(function(e){e.id}).indexOf(similarity.similar.id), 1);
@@ -282,7 +275,6 @@ function createVoteOnKeydown(similarityId, vote, elementToUnbind) {
 
 function unbind(elementId) {
 	var el = '#' + elementId;
-	console.log('el:', $(el));
 	$(el).find('.similarity--voting-up').off('click');
 	$(el).find('.similarity--voting-down').off('click');
 	$(el).find('.similarity--voting-up').off('keypress');
@@ -302,13 +294,11 @@ function createSimilarityElement(similarity) {
 	
 	var bookDiv = $('<div></div>', {class: 'book'}).append(bookIconDiv).append(bookInfoDiv);
 
-	// voting
 	var upvoteChevron = $('<i></i>', {class: 'fas fa-chevron-up'});
 	var upvote = $('<div></div>', {class: 'up', tabindex: '0', role: 'button'}).append(upvoteChevron);
 	var downvoteChevron = $('<i></i>', {class: 'fas fa-chevron-down'});
 	var downvote = $('<div></div>', {class: 'down', tabindex: '0', role: 'button'}).append(downvoteChevron);
 	var voteCounter = $('<div></div>', {class: 'counter', tabindex: '0'}).append(document.createTextNode(similarity.upvotes - similarity.downvotes));
-	console.log('printing votes:');
 	var votingDiv = $('<div></div>', {class: 'voting'}).append(upvote).append(voteCounter).append(downvote);
 	if(loggedIn && similarity.vote == null) {
 		votingDiv.addClass('enabled');
@@ -334,7 +324,6 @@ function getMyBooks() {
 			var holder = $('.my-readings');
 			//print books
 			for(var i = 0; i < books.length; i++) {
-				//
 				// check if book is in existing similatiries already
 				var book = books[i];
 				if(!similarBooks[book.id]) {
@@ -345,16 +334,16 @@ function getMyBooks() {
 					});
 					// print each
 					var iconImg = $('<img/>', {src: book.icon, class: 'book--icon'});
-					var iconDiv = $('<div></div>', {class: 'book-icon similarity--icon'}).append(iconImg);
+					var iconDiv = $('<div></div>', {class: 'icon'}).append(iconImg);
 					var titleSpan = $('<span></span>', {class: 'title'}).append(document.createTextNode(book.title));
-					var authorSpan = $('<span></span>', {}).append(document.createTextNode(book.authors[0].name));
-					var infoDiv = $('<div></div>', {class: 'book-info book-info--right'}).append(titleSpan).append(authorSpan);
-					var bookDiv = $('<div></div>', {class: 'similarity--book'}).append(iconDiv).append(infoDiv);
+					var authorSpan = $('<span></span>', {class: 'authors'}).append(document.createTextNode(book.authors[0].name));
+					var infoDiv = $('<div></div>', {class: 'info'}).append(titleSpan).append(authorSpan);
+					var bookDiv = $('<div></div>', {class: 'book'}).append(iconDiv).append(infoDiv);
 
-					var button = $('<button></button>', {class: 'btn action-btn-green'}).append(document.createTextNode(getText('Suggest as similar'))).on('click', suggestionButtonClick(book.id));
+					var button = $('<button></button>', {class: 'btn main-btn'}).append(document.createTextNode(getText('Suggest as similar'))).on('click', suggestionButtonClick(book.id));
 					var buttonDiv = $('<div></div>', {class: ''}).append(button);
 					var actionsDiv = $('<div></div>', {class: 'actions'}).append(buttonDiv);
-					var myReadingDiv = $('<div></div>', {class:'similarity panel', id: 'mybook-' + book.id}).append(bookDiv).append(actionsDiv);
+					var myReadingDiv = $('<div></div>', {class:'suggestion prlg-panel', id: 'mybook-' + book.id}).append(bookDiv).append(actionsDiv);
 
 					holder.append(myReadingDiv);
 				}
@@ -440,12 +429,110 @@ $(document).ready(function() {
 
 	if(loggedIn) {
 		p.getBookInteractions(bookId).then(function(data){
-			interaction.getFavoriteInteraction($('#action-favorite'), data, bookId);
-			interaction.getReadingInteraction($('#action-reading'), data, bookId, $('#action-wishlist'));
-			interaction.getWishlistInteraction($('#action-wishlist'), data, bookId);
-			interaction.getPrologeInteraction($('#action-prologe'), data, bookId, function() {
-				$("#prologe-modal").modal('show');
+			// enabled: Can be added
+			// active: can be removed
+			// disabled: cant be clicked
+			// no class: nothing
+
+			var ajaxInteraction = function(address) {
+				return ajaxPromise({type: 'GET', dataType: 'json', url: address, data: {book: bookId}});
+			};
+
+			var interact = function(holder, enabled, active) {
+				if(holder.hasClass('enabled')) {
+					enabled(holder);
+				}
+				if(holder.hasClass('active')) {
+					active(holder);
+				}
+			};
+
+			$('#action-favorite').on('click', function() {
+				var actionButton = $(this);
+				interact(actionButton, 
+					function(holder){
+						holder.removeClass('enabled');
+						ajaxInteraction(PRLG.addresses.addToFavorites).then(function() {
+							holder.addClass('active');
+							uiHelper.displayAlert(getText('Added to your favorites'));
+						});
+					}, 
+					function(holder){
+						holder.removeClass('active');
+						ajaxInteraction(PRLG.addresses.removeFromFavorites).then(function() {
+							holder.addClass('enabled');
+							uiHelper.displayAlert(getText('Removed from your favorites'));
+						});
+					});
 			});
+
+			$('#action-reading').on('click', function() {
+				var actionButton = $(this);
+				interact(actionButton, 
+					function(holder){
+						holder.removeClass('enabled');
+						ajaxInteraction(PRLG.addresses.addToReadings).then(function() {
+							holder.addClass('active');
+							uiHelper.displayAlert(getText('Added to your readings'));
+						});
+					}, 
+					function(holder){
+						holder.removeClass('active');
+						ajaxInteraction(PRLG.addresses.removeFromReadings).then(function() {
+							holder.addClass('enabled');
+							uiHelper.displayAlert(getText('Removed from your readings'));
+						});
+					});
+			});
+
+			$('#action-wishlist').on('click', function() {
+				var actionButton = $(this);
+				interact(actionButton, 
+					function(holder){
+						holder.removeClass('enabled');
+						ajaxInteraction(PRLG.addresses.addToWishlist).then(function() {
+							holder.addClass('active');
+							uiHelper.displayAlert(getText('Added to your wishlist'));
+						});
+					}, 
+					function(holder){
+						holder.removeClass('active');
+						ajaxInteraction(PRLG.addresses.removeFromWishlist).then(function() {
+							holder.addClass('enabled');
+							uiHelper.displayAlert(getText('Removed from your wishlist'));
+						});
+					});
+			});
+
+			$('#action-wishlist').removeClass('disabled');
+			$('#action-wishlist').addClass(data.wishlisted === true ? 'active' : 'enabled');
+
+			$('#action-reading').removeClass('disabled');
+			$('#action-reading').addClass(data.reading === true ? 'active' : 'enabled');
+
+			$('#action-favorite').removeClass('disabled');
+			$('#action-favorite').addClass(data.favorite === true ? 'active' : 'enabled');
+
+			$('#action-prologe').removeClass('disabled');
+			if(data.posdta == null) {
+				$('#action-prologe').addClass('enabled');
+				$('#action-prologe').on('click', function() {
+					$("#prologe-modal").modal('show');
+				});
+			} else {
+				$('#action-prologe').addClass('active');
+			}
+			console.log(data);
+			// $('#action-prologue').addClass(data.posdta ===)
+
+			//
+
+			// interaction.getFavoriteInteraction($('#action-favorite'), data, bookId);
+			// interaction.getReadingInteraction($('#action-reading'), data, bookId, $('#action-wishlist'));
+			// interaction.getWishlistInteraction($('#action-wishlist'), data, bookId);
+			// interaction.getPrologeInteraction($('#action-prologe'), data, bookId, function() {
+			// 	$("#prologe-modal").modal('show');
+			// });
 		});
 		setTimeout(function() {
 			//All the comment stuff
@@ -513,17 +600,17 @@ $(document).ready(function() {
 function validateProloge() {
 	var prologe = $('#prologe-modal--textarea').val();
 	if(prologe.length > maxProloge) {
-		$('.prologe-modal--textarea').css({'border-color':'red'});
+		$('#prologe-modal--textarea').addClass('required');
 		return 0;
 	} else {
-		$('.prologe-modal--textarea').css({'border-color' : '#3fb0ac'});
+		$('#prologe-modal--textarea').removeClass('required');
 	}
 	var rating = $('#prologe-modal--raty').raty('score');
 	if(rating == undefined || rating < 0 || rating > 5) {
-		$('.prologe-modal--rating').css({'color':'red'});
+		$('#modal-rating--label').closest('.rating').addClass('required');
 		return 0;
 	} else {
-		$('.prologe-modal--rating').css({'color':'#173e43'});
+		$('#prologe-modal--feedback').closest('.rating').removeClass('required');
 	}
 	$('#prologe-modal--submit').prop('disable', true);
 	h.postProloge(bookId, rating, prologe).then(function(prologe) {

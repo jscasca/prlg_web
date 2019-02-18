@@ -77,7 +77,6 @@ function displayMyLibrary(library) {
 	printReadings([]);
 	printWishlist([]);
 	printProloges([]);*/
-	debugger;
 	
 	printFavorites(library.favorited);
 	printReadings(library.reading);
