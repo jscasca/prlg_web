@@ -85,6 +85,11 @@ function Translator() {
 
 	var getText = function(text) {
 		var translations = {
+			/* General */
+			'Save': 'Guardar',
+			'Cancel': 'Cancelar',
+			'Edit': 'Editar',
+			/* */
 			'Title': 'Titulo',
 			'Author': 'Autor',
 			'Authors': 'Autores',

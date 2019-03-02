@@ -1,5 +1,8 @@
 <?php
 $translations = array(
+	/* General */
+	'Edit' => 'Editar',
+	'Save' => 'Guardar',
 	/* Footer */
 	'About us' => 'Conocenos',
 	'Terms and privacy' => 'Terminos y privacidad',
@@ -57,6 +60,19 @@ $translations = array(
 	'Join Prologes by filling this form' => 'Unete a Prologes llenando esta forma',
 	/* Author */
 	'Books from this author' => 'Libros de este autor',
+	/* Book */
+	'Add a similar book' => 'Agrega un libro similar',
+	'Suggest a similar book form the ones you have read' => 'Sugiere un libro similar de los libros que has leido',
+	'Comments' => 'Comentarios',
+	'Similar books' => 'Libros similares',
+	/* User */
+	'Prologues' => 'Prologos',
+	'Wishlist' => 'Por leer',
+	'Favorites' => 'Favoritos',
+	/* Profile */
+	'Change avatar' => 'Cambiar avatar',
+	'Display name' => 'Nombre para mostrar',
+	'User name' => 'Nombre de usuario',
 	/* Navbar */
 	'Find a book' => 'Encuentra un libro',
 	'Search' => 'Buscar',

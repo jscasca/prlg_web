@@ -96,9 +96,9 @@
 
 	<div class='row'>
 		<ul class='nav nav-tabs underline-tabs'>
-			<li  class='active'><a href='#tab-prologues' data-toggle='tab' id='tab-prologues--anchor'>Prologues</a></li>
-			<li><a href='#tab-comments' data-toggle='tab' id='tab-comments--anchor'>Comments</a></li>
-			<li><a href='#tab-similar' data-toggle='tab' id='tab-similar--anchor'>Similar</a></li>
+			<li  class='active'><a href='#tab-prologues' data-toggle='tab' id='tab-prologues--anchor'><?php echo getTranslation('Prologues'); ?></a></li>
+			<li><a href='#tab-comments' data-toggle='tab' id='tab-comments--anchor'><?php echo getTranslation('Comments'); ?></a></li>
+			<li><a href='#tab-similar' data-toggle='tab' id='tab-similar--anchor'><?php echo getTranslation('Similar books'); ?></a></li>
 		</ul>
 	</div>
 
@@ -141,12 +141,12 @@
 			<div class='row suggest-similar'>
 				<div class='collapsible-button' data-toggle='collapse' data-target='#my-readings' tabindex='0' role='button' id='add-similar-book'>
 					<i class='fas fa-plus'></i>
-					<span class='' >Add a similar book</span>
+					<span class='' ><?php echo getTranslation('Add a similar book'); ?></span>
 				</div>
 				<div class='collapse' id='my-readings'>
 					<div class='filter'>
 						<div class='instructions'>
-							<span>Suggest a similar book from the ones you have read.</span>
+							<span><?php echo getTranslation('Suggest a similar book form the ones you have read'); ?></span>
 						</div>
 						<div class='filter-textfield'>
 							<div class="input-group">

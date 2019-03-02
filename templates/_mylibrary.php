@@ -3,10 +3,10 @@
 ?>
 <div class='row'>
 	<ul class='nav nav-tabs underline-tabs'>
-		<li class='active'><a href='#tab-prologes' data-toggle='tab'>Prologues</a></li>
+		<li class='active'><a href='#tab-prologes' data-toggle='tab'><?php echo getTranslation('Prologues'); ?></a></li>
 		<!-- <li><a href='#tab-reading' data-toggle='tab'>Reading</a></li> -->
-		<li><a href='#tab-wishlist' data-toggle='tab'>Wishlisted</a></li>
-		<li><a href='#tab-favorite' data-toggle='tab'>Favorites</a></li>
+		<li><a href='#tab-wishlist' data-toggle='tab'><?php echo getTranslation('Wishlist'); ?></a></li>
+		<li><a href='#tab-favorite' data-toggle='tab'><?php echo getTranslation('Favorites'); ?></a></li>
 	</ul>
 </div>
 

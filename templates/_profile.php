@@ -77,7 +77,7 @@ var createEditable = function(value, save, cancel, validate) {
 	// .append(cancelIcon).append(saveIcon);
 	var inputHolder = $('<div></div>', {class: 'editable-are display-name'}).append(wrapper);
 
-	var cancelButton = $('<button></button>', {class: 'btn', title: getText('Cancel'), tabindex: "0", role: 'button'}).on('click', cancel).append(getText(' Cancel'));
+	var cancelButton = $('<button></button>', {class: 'btn', title: getText('Cancel'), tabindex: "0", role: 'button'}).on('click', cancel).append(getText('Cancel'));
 	var saveButton = $('<button></button>', {class: 'btn main-btn', title: getText('Save'), tabindex: "0", role: 'button'}).on('click', function() {
 		var inputValue = input.val();
 		if(validate(inputValue)) {
@@ -149,7 +149,7 @@ $(document).ready(function() {
 					height: 250
 				}
 			});
-			var saveButton = $('<button></button>', {class: 'btn main-btn'}).append('Save').on('click', function() {
+			var saveButton = $('<button></button>', {class: 'btn main-btn'}).append(getText('Save')).on('click', function() {
 				var cleanButtons = cancelAvatarChange();
 				$('.actions btn').attr('disabled', 'disabled');
 				croppable.croppie('result', {type:'canvas', size: 'viewport'}).then(function(blob) {
@@ -168,7 +168,7 @@ $(document).ready(function() {
 					});
 				});
 			});
-			var cancelButton = $('<button></button>', {class: 'btn cancel-btn'}).append('Cancel').on('click', cancelAvatarChange());
+			var cancelButton = $('<button></button>', {class: 'btn cancel-btn'}).append(getText('Cancel')).on('click', cancelAvatarChange());
 			$('#save-avatar--buttons').append(cancelButton).append(saveButton);
 		}
 		$('#avatar-display--area').css('display', 'none');
