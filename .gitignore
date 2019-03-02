@@ -1,4 +1,6 @@
 img/avatar/*
+img/group/*
 !img/avatar/index.php
 css/style_*
 img/.DS_Store
+fa-free/*
