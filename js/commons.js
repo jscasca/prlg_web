@@ -870,6 +870,9 @@ function GoogleSearchTemplate(cfg) {
 		form.append($('<input>', {type: 'hidden', name: 'language', value: lang}));
 		form.append($('<input>', {type: 'hidden', name: 'icon', value: icon}));
 		form.append($('<input>', {type: 'hidden', name: 'thumbnail', value: thumbnail}));
+		if(result['details'] != undefined) {
+			form.append($('<input>', {type: 'hidden', name: 'details', value: result['details']}));
+		}
 
 		function submitForm(forms) {
 			const submittable = forms[0];
@@ -1580,7 +1583,7 @@ function SearchDataSource(cfg) {
 			type: 'GET',
 			dataType: 'json',
 			url: ajaxDir + 'search.php',
-			data: {q: query, start: start, limit: limit === undefined ? 10 : limit}
+			data: {q: query, start: start, limit: limit === undefined ? 50 : limit}
 		});
 	}
 	var googleSearch = function(query, limit) {
@@ -1588,7 +1591,7 @@ function SearchDataSource(cfg) {
 			type: 'GET',
 			dataType: 'json',
 			url: ajaxDir + 'gsearch.php',
-			data: {q: query, limit: limit === undefined ? 10 : limit}
+			data: {q: query, limit: limit === undefined ? 50 : limit}
 		});
 	};
 

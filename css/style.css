@@ -417,6 +417,9 @@
 .main-book .book {
   display: flex;
 }
+.main-book .book .icon {
+  align-items: flex-start;
+}
 .main-book .actions {
   display: flex;
   justify-content: flex-end;
@@ -451,6 +454,34 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+.main-book .info .description {
+  margin-top: 20px;
+  margin-right: 24px;
+}
+.main-book .info .description .content {
+  font-size: 14px;
+}
+.main-book .info .description .content p {
+  text-align: justify;
+}
+.main-book .info .description .content.not-expanded {
+  max-height: 80px;
+  overflow: hidden;
+}
+.main-book .info .description .controls {
+  margin-top: 3px;
+  color: #4c7478;
+  cursor: pointer;
+}
+.main-book .info .description .controls p {
+  text-align: center;
+}
+.main-book .info .description .controls.not-expanded .less {
+  display: none;
+}
+.main-book .info .description .controls:not(.not-expanded) .more {
+  display: none;
 }
 .main-book .info .title {
   font-size: 32px;

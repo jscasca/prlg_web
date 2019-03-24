@@ -65,6 +65,9 @@
 				<div class="title" id="book-title"></div>
 				<div class="author" id="book-author"></div>
 				<div class="rating" id="main-book--rated"></div>
+				<div class="description expandable">
+					<div class="content" id="book-sinopsis"></div>
+				</div>
 			</div>
 		</div>
 		<!-- <div class="main-book--cover">
@@ -354,6 +357,10 @@ function getMyBooks() {
 	
 $(document).ready(function() {
 
+	$('.expandable-toggle').on('click', function() {
+		$(this).closest('.expandable').children().toggleClass('not-expanded');
+	});
+
 	if(loggedIn) {
 		$('#add-similar-book').on('keypress', function(e) {
 			if(e.keyCode == 13 || e.keyCode == 32) {
@@ -391,6 +398,8 @@ $(document).ready(function() {
 		}
 	);
 
+	var bookDetails = getBookDetail(bookId);
+
 // Load the book info
 	p.getBookInfo(bookId).then(function(bookInfo){
 // 		coverHolder.error(function(){this.src=DEFAULT_COVER;});
@@ -403,6 +412,37 @@ $(document).ready(function() {
 		}, []);
 		$('#book-author').append(authors.join(",&nbsp"));
 		populateRatingDiv($('#main-book--rated'), bookInfo.book.rating);
+
+		bookDetails.then(function(details) {
+			console.log('detail', details);
+			var sinHolder = $('#book-sinopsis');
+			if(details.description !== undefined) {
+				// preprocess and display
+				var lines = details.description.split("\n");
+				for(var i = 0; i < lines.length; i++) {
+					line = lines[i];
+					sinHolder.append($('<p></p>').append(document.createTextNode(line)));
+				}
+				console.log('height');
+				// check size of div if( > 80) then add expanding controls
+				console.log(sinHolder.height());
+				if(sinHolder.height() > 80) {
+					// add expanding controls
+					sinHolder.addClass('not-expanded');
+					// default holder to 'not-expanded'
+					var expandable = sinHolder.closest('.expandable');
+					var controls = $('<div></div>', {class: 'controls expandable-toggle not-expanded'});
+					controls.append($('<p></p>', {class: 'more'}).append(document.createTextNode(getText('Show more'))).on('click', function() {
+						$(this).closest('.expandable').children().toggleClass('not-expanded');
+					}));
+					controls.append($('<p></p>', {class: 'less'}).append(document.createTextNode(getText('Show less'))).on('click', function() {
+						$(this).closest('.expandable').children().toggleClass('not-expanded');
+					}));
+					expandable.append(controls);
+				}
+			}
+			// find sinopsis
+		});
 
 	});
 
@@ -650,6 +690,15 @@ function getSimilar(bookId) {
 		type: 'GET',
 		dataType: 'json',
 		url: AJAX_DIR + 'getBookSimilarities.php',
+		data: {book: bookId}
+	});
+}
+
+function getBookDetail(bookId) {
+	return ajaxPromise({
+		type: 'GET',
+		dataType: 'json',
+		url: AJAX_DIR + 'getBookDetails.php',
 		data: {book: bookId}
 	});
 }

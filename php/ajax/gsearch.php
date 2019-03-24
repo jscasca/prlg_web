@@ -8,6 +8,8 @@ require('../commons.php');
 	http_response_code(401);//
 	die("You must be logged in to access this resource");
 }*/
+define('MAX_LIMIT', '40');
+
 
 if(!isset($_REQUEST['q'])) {
 	http_response_code(400);
@@ -15,9 +17,16 @@ if(!isset($_REQUEST['q'])) {
 	die();
 }
 
+function getDetails($data) {
+	$details = array();
+	if(isset($data['volumeInfo']['description'])) $details['description'] = $data['volumeInfo']['description'];
+	return json_encode($details);
+}
+
 $query = $_REQUEST['q'];
 $row = isset($_REQUEST['start']) ? $_REQUEST['start'] : '0';
-$limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : '10';
+$limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : '50';
+if($limit > MAX_LIMIT) $limit = MAX_LIMIT;
 
 $gQuery = "https://www.googleapis.com/books/v1/volumes?q=".urlencode($query)."&maxResults=".$limit;
 $gCall = file_get_contents($gQuery);
@@ -31,6 +40,7 @@ if(isset($gItems['items'])) {
 		$book['lang'] = isset($result['volumeInfo']['language'])?$result['volumeInfo']['language']:'';
 		$book['icon'] = isset($result['volumeInfo']['imageLinks']['thumbnail'])?$result['volumeInfo']['imageLinks']['thumbnail']:'';
 		$book['thumbnail'] = isset($result['volumeInfo']['imageLinks']['smallThumbnail'])?$result['volumeInfo']['imageLinks']['smallThumbnail']:'';
+		$book['details'] = getDetails($result);
 		$book['q'] = $gQuery;
 		
 		$gResults[] = $book;

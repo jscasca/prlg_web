@@ -149,8 +149,14 @@ $(document).ready(function() {
 				$.each(data, function(i, r){
 					resultMap[r.title] = 1;
 				});
+			}).catch(function(e) {
+				console.warn(e);
+				
 			});
 			var gsearch = ds.googleSearch(searchQuery);
+			gsearch.catch(function(e) {
+				console.warn(e);
+			});
 			Promise.all([search, gsearch]).then(function(values){
 				//values[0] has the Prologes Search Results
 				//values[1] has the google search results
@@ -164,6 +170,8 @@ $(document).ready(function() {
 				setTimeout(function() {
 					$('#search-results').append(addCustomRequest());
 				}, 5000);
+			}).catch(function(e) {
+				console.warn(e);
 			});
 		}
 	} else {

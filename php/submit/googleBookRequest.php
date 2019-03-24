@@ -35,6 +35,9 @@ $request['title'] = $title;
 $request['language'] = $language;
 $request['icon'] = $icon;
 $request['thumbnail'] = $thumbnail;
+if(isset($_REQUEST['details'])) {
+	$request['details'] = $_REQUEST['details'];
+}
 
 $token = $_SESSION[TOKEN];
 
