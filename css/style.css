@@ -417,6 +417,12 @@
 .main-book .book {
   display: flex;
 }
+@media (max-width:767px) {
+  .main-book .book {
+    flex-direction: column;
+    text-align: center;
+  }
+}
 .main-book .book .icon {
   align-items: flex-start;
 }
@@ -457,7 +463,12 @@
 }
 .main-book .info .description {
   margin-top: 20px;
-  margin-right: 24px;
+  margin-right: 20px;
+}
+@media (max-width:767px) {
+  .main-book .info .description {
+    margin-left: 18px;
+  }
 }
 .main-book .info .description .content {
   font-size: 14px;
@@ -498,6 +509,11 @@
   display: flex;
   color: #fae596;
   font-size: 26px;
+}
+@media (max-width:767px) {
+  .main-book .info .rating {
+    justify-content: center;
+  }
 }
 .main-book .icon {
   margin: 20px;
@@ -1163,7 +1179,7 @@ body {
   margin: 1em;
   background-color: #fafafa;
   border-bottom: none;
-  font-size: 16px;
+  font-size: 14px;
 }
 .nav-tabs.underline-tabs li.active > a {
   background-color: #fafafa;
