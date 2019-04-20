@@ -12,11 +12,16 @@
 				<div class="info">
 					<div id="user-display" class="display-name"></div>
 					<div id="user-name" class="username"></div>
+					<div id="currently-reading" class="currently-reading"></div>
 				</div>
 			</section>
 		</div>
 		
 	</div>
+</div>
+
+<div class='row'>
+	<div class='panle prlg_panel'>
 </div>
 
 <div class='row'>
@@ -70,15 +75,54 @@ $(document).ready(function() {
 		var user = profile.user;
 
 		$('#user-display').text(user.displayName);
-		$('#user-name').text(user.userName);
+		$('#user-name').text('@' + user.userName);
 		$('#user-icon').attr('src', user.icon);
 
 		//print prologues
 		prologeHolder.printCollection(profile.rated);
-		readingHolder.printCollection(profile.readingBooks);
+		printUserReadings(profile.readingBooks);
+		// readingHolder.printCollection(profile.readingBooks);
 		wishlistHolder.printCollection(profile.wishlistBooks);
 		favoriteHolder.printCollection(profile.favouriteBooks);
 	});
+
+	function printUserReadings(readings) {
+
+		var printBook = function(book) {
+			var img = $('<img>', {src: book.icon});
+			var icon = $('<div></div>', {class: 'icon'}).append(img);
+			var titleLink = $('<a></a>', {href: ROOT_PATH + 'book/' + book.id}).append(document.createTextNode(book.title));
+			var title = $('<div></div>', {class: 'title'}).append(titleLink);
+			var author = $('<div></div>', {class: 'author'});
+			for(var i = 0; i < book.authors.length; i++) {
+				var link = $('<a></a>', { href: ROOT_PATH + 'author/' + book.authors[i].id}).append(document.createTextNode(book.authors[i].name));
+				if(i > 0) author.append(document.createTextNode(', '));
+				author.append(link);
+			}
+			var info = $('<div></div>', {class: 'info'}).append(title).append(author);
+			var bookDiv = $('<div></div>', {class: 'book'}).append(icon).append(info);
+
+			return bookDiv;
+		}
+		console.log(readings);
+		var holder = $('#currently-reading');
+		if(readings.length > 0) {
+			var description = $('<div></div>', {class: 'description'}).append(document.createTextNode(getText('Currently reading:')));
+			// print first only
+			var firstBook = readings[0];
+
+			var book = printBook(firstBook);
+
+			var bookList = $('<div></div>', {class: 'book-list'}).append(book);
+
+			holder.append(description);
+			holder.append(bookList);
+		} else {
+			// display not reading anything
+			var div = $('<div></div>', {class: 'empty-list' }).append(document.createTextNode(getText('Currently not reading anything')));
+			holder.append();
+		}
+	}
 
 	// p.getUserInfo(userId).then(function(data){
 	// 	u.displayUser(data, $('#user-display'), $('#user-name'), $('#user-icon'));

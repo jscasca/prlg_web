@@ -863,8 +863,59 @@
   display: flex;
   padding: 25px;
 }
+@media (max-width:767px) {
+  .main-user {
+    flex-direction: column;
+  }
+}
+.main-user .currently-reading {
+  margin-top: 20px;
+  margin-left: 6px;
+}
+.main-user .currently-reading .controls {
+  text-align: center;
+}
+.main-user .currently-reading .book-list {
+  margin-left: 8px;
+  text-align: left;
+}
+.main-user .currently-reading .description {
+  font-size: 14px;
+}
+.main-user .currently-reading .book {
+  display: flex;
+  margin-top: 10px;
+}
+.main-user .currently-reading .book .info {
+  margin-left: 10px;
+}
+@media (max-width:767px) {
+  .main-user .currently-reading .book .info {
+    text-align: left;
+  }
+}
+.main-user .currently-reading .book .info .title {
+  min-width: 120px;
+  max-width: 480px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.main-user .currently-reading .book .icon img {
+  height: 80px;
+  width: initial;
+  border-radius: 0%;
+}
 .main-user .info {
+  width: 100%;
   margin-left: 18px;
+}
+@media (max-width:767px) {
+  .main-user .info {
+    text-align: center;
+    margin-left: 0px;
+  }
 }
 .main-user .info .username {
   font-size: 16px;
