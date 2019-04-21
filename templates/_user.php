@@ -21,10 +21,6 @@
 </div>
 
 <div class='row'>
-	<div class='panle prlg_panel'>
-</div>
-
-<div class='row'>
 	<ul class='nav nav-tabs underline-tabs'>
 		<li class='active'><a href='#tab-prologes' data-toggle='tab'><?php echo getTranslation('Prologues'); ?></a></li>
 		<!-- <li><a href='#tab-reading' data-toggle='tab'>Reading</a></li> -->
