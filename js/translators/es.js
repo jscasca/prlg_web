@@ -127,6 +127,9 @@ function Translator() {
 			'My wishlist': 'Quiero leer',
 			'My favourites': 'Mis favoritos',
 			'My prologes': 'Mis prologos',
+			'Your list of favorite books is empty!': 'Tu lista de libros favoritos esta vacía!',
+			'Your wishlist is empty!': 'Tu lista de libros por leer esta vacía!',
+			'Your reading list is empty!': 'No hay ningún libro en tu lista de lecturas!',
 			/* Clubs */
 			'Start a new book club!': 'Empieza un nuevo club de lectura!',
 			'Add it!': 'Añadelo!',

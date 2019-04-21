@@ -1,6 +1,17 @@
 <?php
 
 ?>
+<div class ="row">
+	<div class="col-sm-12 col-md-8">
+		<div class="prlg-panel">
+			<div class="my-currently-reading" id="my-currently-reading">
+				<!-- Depending on the books put a description/book-list or just an empty holder -->
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- All my books under tabs -->
 <div class='row'>
 	<ul class='nav nav-tabs underline-tabs'>
 		<li class='active'><a href='#tab-prologes' data-toggle='tab'><?php echo getTranslation('Prologues'); ?></a></li>
@@ -90,8 +101,56 @@ function printFavorites(books) {
 }
 
 function printReadings(books) {
-	var holder = $('#reading-library');
-	printLibrarySection(books, holder, printEmptyReading);
+	var printBook = function(book) {
+		var img = $('<img>', {src: book.icon});
+		var icon = $('<div></div>', {class: 'icon'}).append(img);
+		var titleLink = $('<a></a>', {href: ROOT_PATH + 'book/' + book.id}).append(document.createTextNode(book.title));
+		var title = $('<div></div>', {class: 'title'}).append(titleLink);
+		var author = $('<div></div>', {class: 'author'});
+		for(var i = 0; i < book.authors.length; i++) {
+			var link = $('<a></a>', { href: ROOT_PATH + 'author/' + book.authors[i].id}).append(document.createTextNode(book.authors[i].name));
+			if(i > 0) author.append(document.createTextNode(', '));
+			author.append(link);
+		}
+		var info = $('<div></div>', {class: 'info'}).append(title).append(author);
+		var bookDiv = $('<div></div>', {class: 'book'}).append(icon).append(info);
+
+		return bookDiv;
+	};
+	var holder = $('#my-currently-reading');
+
+	console.log(books);
+	if(books === null || books === undefined || books.length === 0) {
+		// Print: not reading anything and maybe prompt to start reading
+		/*
+<div class="empty-list">
+                <div class="description">Your reading list is empty!</div>
+              </div>
+		*/
+		var description = $('<div></div>', {class: 'description'}).append(createTextNode('Your reading list is empty!'));
+		var empty = $('<div></div>', {class: 'empty-list'}).append(description);
+		holder.append(empty);
+	} else {
+		// Reading at least one book
+		var bookList = $('<div></div>', {class: 'content not-expanded'});
+		books.forEach(function(book) {
+			bookList.append(printBook(book));
+		});
+		var description = $('<div></div>', {class: 'description'}).append(createTextNode('Currently reading:'));
+		var bookListHolder = $('<div></div>', {class: 'expandable-book-list expandable-list'}).append(bookList);
+		if(books.length > 1) {
+			// create controls to toggle
+			var controls = $('<div></div>', {class: 'controls expandable-toggle not-expanded'}).on('click', function() {
+				$(this).closest('.expandable-list').children().toggleClass('not-expanded');
+			});
+			controls.append($('<p></p>', {class: 'more'}).append(createTextNode('Show more books I\'m reading')));
+			controls.append($('<p></p>', {class: 'less'}).append(createTextNode('Show less books')));
+			bookListHolder.append(controls);
+		}
+		holder.append(description).append(bookListHolder);
+	}
+	// var holder = $('#reading-library');
+	// printLibrarySection(books, holder, printEmptyReading);
 }
 
 function printWishlist(books) {
@@ -112,7 +171,7 @@ function printBooks(holder, books) {
 
 function printEmptyFavorites(holder) {
 	var info = $('<div></div>', {class:'library-book--info text-center'});
-	var infoTitle = $('<h3>No has agregado ningún libro a tus favoritos</h3>');
+	var infoTitle = $('<h3>' + getText('Your list of favorite books is empty!') + '</h3>');
 	var infoIconDiv = $('<div></div>', {class:'library-book--icon'});
 	var infoIcon = $('<div class="icon-favorite text-center"></div>');
 	infoIconDiv.append(infoIcon);
@@ -121,6 +180,7 @@ function printEmptyFavorites(holder) {
 	printEmpty(holder, info);
 }
 
+// TODO: remove this bit if unused
 function printEmptyReading(holder) {
 	var info = $('<div></div>', {class:'library-book--info text-center'});
 	var infoTitle = $('<h3>No estas leyendo ningún libro</h3>');
@@ -134,7 +194,7 @@ function printEmptyReading(holder) {
 
 function printEmptyWishlist(holder) {
 	var info = $('<div></div>', {class:'library-book--info text-center'});
-	var infoTitle = $('<h3>No has agregado libros que quieras leer</h3>');
+	var infoTitle = $('<h3>' + getText('Your wishlist is empty!') + '</h3>');
 	var infoIconDiv = $('<div></div>', {class:'library-book--icon'});
 	var infoIcon = $('<div class="icon-wishlist text-center"></div>');
 	infoIconDiv.append(infoIcon);
