@@ -70,4 +70,12 @@ var getText = function(text) {
 var getSpan = function(name, args) {
 	return translator.getSpan(name, args);
 }
+
+var createTextNode = function(text) {
+	return document.createTextNode(getText(text));
+}
+
+var simpleTextNode = function(text) {
+	return document.createTextNode(text);
+}
 </script>
