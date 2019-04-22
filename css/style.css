@@ -1003,6 +1003,54 @@
   display: flex;
   justify-content: center;
 }
+.my-currently-reading {
+  margin-left: 22px;
+  margin-top: 20px;
+}
+.my-currently-reading .empty-list {
+  margin-bottom: 10px;
+}
+.my-currently-reading .empty-list .description {
+  font-size: 18px;
+  color: #4c7478;
+}
+.my-currently-reading .description {
+  font-size: 14px;
+}
+.my-currently-reading .expandable-book-list .controls {
+  text-align: center;
+  color: #4c7478;
+}
+.my-currently-reading .expandable-book-list .controls p {
+  cursor: pointer;
+}
+.my-currently-reading .expandable-book-list .controls.not-expanded .less {
+  display: none;
+}
+.my-currently-reading .expandable-book-list .controls:not(.not-expanded) .more {
+  display: none;
+}
+.my-currently-reading .expandable-book-list .content.not-expanded {
+  max-height: 80px;
+}
+.my-currently-reading .expandable-book-list .content {
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.my-currently-reading .expandable-book-list .content .book {
+  margin-top: 10px;
+  display: flex;
+}
+.my-currently-reading .expandable-book-list .content .book .icon img {
+  height: 60px;
+}
+.my-currently-reading .expandable-book-list .content .book .info {
+  margin-left: 10px;
+  margin-top: 8px;
+}
+.my-currently-reading .expandable-book-list .content .book .info .title {
+  font-size: 16px;
+}
 html {
   height: 100%;
   width: 100%;
