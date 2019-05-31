@@ -16,7 +16,7 @@
 			<a href="index"><img src="<?php echo $rootpath;?>img/prologes.png" /></a>
 		</div>
 		<div class="content">
-			<h2><<?php echo getTranslation('Join Prologes'); ?></h2>
+			<h2><?php echo getTranslation('Join Prologes'); ?></h2>
 			<form action="registration" method="POST" class="Login-form" id="registration--form">
 				<h5><?php echo getTranslation('Join Prologes by filling this form'); ?></h5>
 				<div class="form-group">
@@ -47,11 +47,11 @@
 						<input type="password" class="form-control" placeholder="<?php echo getTranslation('Password'); ?>" name="pwdConfirmation" id="pwd2">
 					</div>
 				</div>
-				<div id="error-msg"></div>
+				<div id="error-msg" class="error-msg"></div>
 				<button type="send" class="btn main-btn"><?php echo getTranslation('Sign up!'); ?></button>
 				<!--<h6>O utiliza tus redes sociales</h6>
 				<div class="Login-buttonContainer">
-					<a href="<?php echo htmlspecialchars($loginUrl); ?>" class="btn Facebook-button">Facebook</a>
+					<a href="<?php /*echo htmlspecialchars($loginUrl);*/ ?>" class="btn Facebook-button">Facebook</a>
 					<a href="#" class="btn Google-button">Google</a>
 				</div>-->
 			</form>
@@ -152,7 +152,7 @@ function checkUsernameAvailability(username) {
 				validUsername = true;
 				$('#registration--form').submit();
 			} else {
-				displayFormViolation($('#username'), getSpan('duplicateUser', username));
+				displayFormViolation($('#username'), getSpan('duplicateUser', [username]));
 			}
 		  }
 	});
