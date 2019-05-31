@@ -130,89 +130,197 @@
 #main-group--editable {
   display: none;
 }
+.mobile-nav .nav-tabs.underline-tabs {
+  justify-content: space-around;
+}
+.wishlist-dialog .body .filter {
+  margin-bottom: 10px;
+}
+.wishlist-dialog .body .filter .instructions {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+.wishlist-dialog .body .to-add-list {
+  margin-top: -10px;
+  max-height: 450px;
+  overflow-y: auto;
+}
 .main-group {
   display: flex;
   justify-content: flex-start;
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
+.main-group .group {
+  display: flex;
+  width: 100%;
+}
+@media (max-width:767px) {
+  .main-group .group {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+.main-group .icon-section {
+  align-items: flex-start;
+  margin: 20px;
+}
+.main-group .icon-section .croppable-img {
+  height: 200px;
+}
+.main-group .icon-section .croppable-wrapper {
+  max-height: 240px;
+}
+.main-group .icon-section .icon-controls {
+  display: flex;
+  justify-content: space-around;
+}
+.main-group .icon-section .club-icon {
+  display: flex;
+}
+.main-group .icon-section .edit-control {
+  position: relative;
+  margin-left: -34px;
+  margin-top: 6px;
+}
+.main-group .icon-section .edit-control .action {
+  color: #dddfd4;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 4px;
+  font-size: 18px;
+}
+.main-group .icon-section .edit-control .action label {
+  margin: 0px;
+  cursor: pointer;
+}
+.main-group .icon-section .edit-control .action input {
+  display: none;
+}
+.main-group .icon-section .edit-control .action:focus,
+.main-group .icon-section .edit-control .action:hover {
+  color: #3fb0ac;
+}
 .main-group .info {
-  text-align: center;
-}
-.main-group .horizontal {
-  flex-direction: row;
-  display: flex;
-  width: 100%;
-}
-.main-group .horizontal .info {
   margin-top: 20px;
-}
-.main-group .horizontal .left {
-  justify-content: center;
-}
-.main-group .horizontal .right {
-  margin-left: 15px;
-  margin-top: 10px;
   width: 100%;
 }
-.main-group .horizontal .right .description {
-  margin-top: 15px;
-}
-.main-group .horizontal .right .description .content.more {
-  max-height: 80px;
-  overflow: hidden;
-}
-.main-group .horizontal .right .description .more-toggle.expanded .more {
-  display: none;
-}
-.main-group .horizontal .right .description .more-toggle:not(.expanded) .less {
-  display: none;
-}
-.main-group .horizontal .icon {
-  margin-top: 10px;
-}
-.main-group .horizontal .actions {
-  margin-top: 12px;
+.main-group .info .editable {
   display: flex;
-  justify-content: center;
 }
-.main-group .vertical {
-  flex-direction: column;
-  justify-content: center;
+.main-group .info .editable .action {
+  margin-left: 5px;
+  vertical-align: 5px;
+  font-size: 20px;
+  color: #dddfd4;
 }
-.main-group .vertical .info {
-  justify-content: center;
+.main-group .info .editable .action:focus,
+.main-group .info .editable .action:hover {
+  color: #3fb0ac;
 }
 .main-group .info .display-name {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 500;
   color: #173e43;
+}
+.main-group .info .editing .value {
+  display: none;
+}
+.main-group .info .editing.text-editable {
+  display: flex;
+}
+.main-group .info .text-editable {
+  display: none;
+  flex-direction: column;
+  width: 98%;
+}
+.main-group .info .text-editable .actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 10px;
+  margin-top: 8px;
+  margin-bottom: 10px;
+}
+.main-group .info .text-editable .actions button {
+  margin-right: 10px;
+}
+.main-group .info .field-editable {
+  display: none;
+  flex-direction: column;
+  width: 98%;
+}
+@media (max-width:767px) {
+  .main-group .info .field-editable {
+    margin-left: 8px;
+  }
+}
+.main-group .info .field-editable .actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 10px;
+  margin-top: 8px;
+}
+.main-group .info .field-editable .actions button {
+  margin-right: 10px;
+}
+.main-group .info .editing .field-editable {
+  display: flex;
 }
 .main-group .info .handle {
   margin-top: 10px;
   color: #4c7478;
   font-size: 16px;
 }
-.main-group .info-panel {
-  margin-left: 20px;
-  margin-top: 10px;
+.main-group .info .description.editing .expandable {
+  display: none;
 }
-.main-group .info-panel .title {
-  font-size: 32px;
-  font-weight: 600;
+.main-group .info .description.editing .editable {
+  display: flex;
 }
-.main-group .info-panel .handle {
-  margin-top: 10px;
+.main-group .info .description {
+  margin-top: 20px;
+  margin-right: 20px;
+}
+@media (max-width:767px) {
+  .main-group .info .description {
+    margin-left: 18px;
+  }
+}
+.main-group .info .description .editable-control {
+  position: relative;
+  text-align: right;
+  opacity: 0.8;
+  margin-top: -20px;
+  display: flex;
+  justify-content: flex-end;
+}
+.main-group .info .description .editable-control div {
+  color: #dddfd4;
+}
+.main-group .info .description .editable-control div:hover,
+.main-group .info .description .editable-control div:focus {
+  color: #3fb0ac;
+}
+.main-group .info .description .content {
+  font-size: 14px;
+}
+.main-group .info .description .content p {
+  text-align: justify;
+}
+.main-group .info .description .content *:last-child {
+  margin-bottom: 0px;
+}
+.main-group .info .description .content.not-expanded {
+  max-height: 80px;
+  overflow: hidden;
+}
+.main-group .info .description .controls {
+  margin-top: 13px;
   color: #4c7478;
-  font-size: 22px;
+  cursor: pointer;
 }
-.main-group .info-panel .description {
-  margin-top: 10px;
-  font-size: 16px;
-}
-.main-group .info-panel .description textarea {
-  height: 130px;
-  line-height: 2em;
+.main-group .info .description .controls p {
+  text-align: center;
 }
 .main-group .icon-panel {
   display: flex;
@@ -234,27 +342,12 @@
 .main-group .icon {
   display: flex;
   justify-content: center;
-}
-.main-group .icon .edit-button {
-  z-index: 2;
-  position: absolute;
-  right: 8px;
-  top: 10px;
-  margin: auto;
-  background-color: #3fb0ac;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-}
-.main-group .icon .edit-button .edit-icon {
-  color: #fff;
-  margin-top: 6px;
-  margin-left: 8px;
+  width: 100%;
 }
 .main-group .icon .cancel-edit {
   background-color: red !important;
 }
-.main-group .icon img {
+.main-group .icon .croppable-img {
   width: 140px;
   height: 140px;
   border-radius: 50%;
@@ -289,12 +382,74 @@
   color: white;
   display: none;
 }
-.group-member {
+.members .section-header {
+  text-align: center;
+  font-weight: 600;
+  color: #173e43;
+  font-size: 18px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+}
+.members .section-header h3 {
+  width: 60%;
+  border-bottom: solid 5px #173e43;
+  font-size: 20px;
+  padding-bottom: 8px;
+}
+.members .actions {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  margin-top: 10px;
+}
+.members .actions .action {
+  margin-top: 10px;
+  text-align: center;
+}
+.members .member-actions .actions {
+  display: flex;
+  flex-direction: column;
+}
+.members .member-actions .invite .btn {
+  width: 40%;
+}
+.members .member-actions .leave {
+  margin-top: 10px;
+}
+.members .membership .guest .actions {
+  display: flex;
+  justify-content: center;
+}
+.members .membership .member {
+  display: flex;
+  justify-content: center;
+}
+.members .membership .member .role {
+  align-self: flex-end;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+.club-members {
+  margin-left: 10px;
+}
+@media (min-width:768px) and (max-width:991px) {
+  .club-members {
+    margin-left: 0;
+  }
+}
+.club-members .member {
+  padding: 3px;
+  border-radius: 30px;
   display: flex;
   justify-content: flex-start;
-  margin-top: 5px;
+  margin-top: 2px;
 }
-.group-member .info {
+.club-members .member:hover {
+  background-color: #fff;
+}
+.club-members .member .info {
   display: flex;
   flex-direction: column;
   margin-left: 8px;
@@ -302,34 +457,39 @@
   overflow: hidden;
   white-space: nowrap;
 }
-.group-member .info .display-name a {
-  color: #173e43;
-  font-weight: 600;
+.club-members .member .info .display-name {
+  font-size: 14px;
 }
-.group-member .info .display-name a div {
+.club-members .member .info .display-name a {
+  color: #173e43;
+  font-weight: 500;
+}
+.club-members .member .info .display-name a div {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.group-member .info .user-name a {
+.club-members .member .info .username a {
   color: #4c7478;
   font-size: 12px;
+}
+.club-members .member .info .username a div {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.group-member .info .user-name a div {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.group-member div.icon {
+.club-members .member .icon {
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: center;
 }
-.group-member img.icon {
+.club-members .member .icon img {
   border-radius: 50%;
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
+}
+.side-tab-panel {
+  margin-left: 20px;
+  margin-right: 20px;
 }
 .group-reading {
   padding-bottom: 10px;
@@ -343,8 +503,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: center;
   margin-right: 8px;
   margin-left: 8px;
+}
+.group-reading .info .title {
+  margin-top: 10px;
+  margin-bottom: 8px;
+  font-size: 22px;
+  font-weight: 500;
+}
+.group-reading .info .author {
+  font-size: 16px;
+}
+.group-reading .icon {
+  padding-top: 16px;
+  padding-bottom: 12px;
 }
 .group-reading .icon img {
   height: 150px;
@@ -353,17 +527,23 @@
   margin-top: 10px;
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
 }
 .group-wishlist .section-name {
-  margin-top: 8px;
-  margin-left: 12px;
+  padding-top: 8px;
+  text-align: center;
   font-size: 16px;
 }
 .group-wishlist .selected-book .book {
+  text-align: center;
   display: flex;
   flex-direction: column;
   margin-left: 8px;
   margin-right: 8px;
+}
+.group-wishlist .selected-book .book .info {
+  display: flex;
+  flex-direction: column;
 }
 .group-wishlist .selected-book .book .info .title {
   text-decoration: none;
@@ -379,18 +559,34 @@
 .group-wishlist .selected-book .book .info .author a {
   text-decoration: none;
 }
+.group-wishlist .selected-book .book .icon {
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
 .group-wishlist .selected-book .book .icon img {
   height: 80px;
 }
 .group-wishlist .list {
   margin-top: 8px;
+  border-bottom: 1px solid #e4e4e4;
+  border-top: 1px solid #e4e4e4;
+  max-height: 420px;
+  overflow-y: auto;
+}
+.group-wishlist .list .book:first-child {
+  border-top: 0;
 }
 .group-wishlist .list .selected {
   background-color: #e4e4e4;
 }
 .group-wishlist .list .book {
+  cursor: pointer;
   display: flex;
   border-top: 1px solid #e4e4e4;
+}
+.group-wishlist .list .book:hover,
+.group-wishlist .list .book:active {
+  background-color: rgba(63, 176, 172, 0.4);
 }
 .group-wishlist .list .book .info {
   display: flex;
@@ -409,6 +605,17 @@
   height: 50px;
   margin: 2px;
   margin-right: 0;
+}
+@media (min-width:768px) and (max-width:991px) {
+  .club-side-content.col-sm-4 {
+    padding: 0;
+  }
+}
+@media (min-width:768px) and (max-width:991px) {
+  .club-side-content.col-sm-4 .side-tab-panel {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 .main-book {
   display: flex;
@@ -434,10 +641,20 @@
   margin-top: 15px;
   border-top: 1px solid #e4e4e4;
 }
+@media (max-width:767px) {
+  .main-book .actions {
+    justify-content: space-around;
+  }
+}
 .main-book .actions .action {
   margin-right: 15px;
   margin-top: 15px;
   color: #173e43;
+}
+@media (max-width:767px) {
+  .main-book .actions .action {
+    margin-right: 0px;
+  }
 }
 .main-book .actions .action:hover,
 .main-book .actions .action:focus {
@@ -1229,6 +1446,7 @@ body {
   margin-top: 1px!important;
   margin-left: 2px;
   margin-right: 1px;
+  margin-bottom: 1px;
   width: 99%;
 }
 .upload-btn input {
@@ -1274,11 +1492,21 @@ body {
   align-content: center;
   align-items: center;
 }
+.mobile-nav {
+  display: none;
+}
+@media (max-width:767px) {
+  .mobile-nav {
+    display: block;
+  }
+}
 .nav-tabs.underline-tabs {
   margin: 1em;
   background-color: #fafafa;
   border-bottom: none;
   font-size: 14px;
+  display: flex;
+  justify-content: space-between;
 }
 .nav-tabs.underline-tabs li.active > a {
   background-color: #fafafa;
@@ -1314,6 +1542,18 @@ body {
   justify-content: flex-end;
   color: #fae596;
 }
+.default-book-list.dialog .book {
+  width: 48%;
+}
+@media (max-width:767px) {
+  .default-book-list.dialog .book {
+    width: 98%;
+  }
+}
+.default-book-list.dialog .book:hover,
+.default-book-list.dialog .book:focus {
+  background-color: rgba(63, 176, 172, 0.4);
+}
 .default-book-list {
   display: flex;
   flex-wrap: wrap;
@@ -1337,6 +1577,9 @@ body {
   }
 }
 .default-book-list .book .info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   margin-left: 10px;
 }
 .default-book-list .book .info .title {
@@ -1372,6 +1615,16 @@ body {
   padding: 15px;
   border-top: 1px solid #dddfd4;
 }
+.modal-content .footer .actions {
+  display: flex;
+  justify-content: center;
+}
 .error-msg {
   color: red;
+}
+.expandable .controls.not-expanded .less {
+  display: none;
+}
+.expandable .controls:not(.not-expanded) .more {
+  display: none;
 }
