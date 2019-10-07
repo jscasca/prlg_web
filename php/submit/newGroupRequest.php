@@ -23,14 +23,11 @@ if($name == '') {
 }
 
 $request['name'] = $name;
-// $request['type'] // public|restricted|private
-// $request['displayname']
-// $request['']
 
 $token = $_SESSION[TOKEN];
 
 //$response = tokenCurlCall($token, "POST", "api/books/requests", $request);
-$response = authenticationlessCurlCall("POST", "api/group/", $request);
+$response = tokenCurlCall($token, "POST", "api/clubs/", $request);
 $code = $response[HTTP_STATUS];
 if($code != 200) {
 	header("Location: " . $internalErrorPage);

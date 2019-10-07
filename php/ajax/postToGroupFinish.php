@@ -12,27 +12,21 @@ if(!isset($_REQUEST['club'])) {
 	http_response_code(400);//
 	die("No query term set");
 }
-
-// TODO: Do one at a time
-$club = $_REQUEST['club']; //the id
-
-if (!isset($_REQUEST['attribute']) || !isset($_REQUEST['value'])) {
+if(!isset($_REQUEST['reading'])) {
 	http_response_code(400);//
-	die("No attribute value set");
+	die("No query term set");
 }
 
-$wrapper[$_REQUEST['attribute']] = $_REQUEST['value'];
-
+$club = $_REQUEST['club']; //the id
 $token = $_SESSION[TOKEN];
-//$getUser = tokenCurlCall($accessToken, "GET", ME);
-$response = tokenCurlCall($token, "POST", "api/clubs/".$club."/attributes", $wrapper);
-
+$response = tokenCurlCall($token, "POST", "api/clubs/".$club."/readings"."/finish"."/".$_REQUEST['reading']);
 $code = $response[HTTP_STATUS];
 if($code != 200 && $code != 204) {
 	http_response_code($code);
 	$error = json_decode($response[RESPONSE], true);
 	print( json_encode(array("code" => $code, "message" => $error['message'])) );
 } else {
+	//$response[RESPONSE] should be a reading Object
 	//header('HTTP/1.1 204 No response', true, 204);die();
 	print($response[RESPONSE]);
 }

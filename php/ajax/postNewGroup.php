@@ -19,7 +19,7 @@ $group['name'] = $_REQUEST['name'];
 
 $token = $_SESSION[TOKEN];
 //$getUser = tokenCurlCall($accessToken, "GET", ME);
-$response = tokenCurlCall($token, "POST", "api/groups/", $comment);
+$response = tokenCurlCall($token, "POST", "api/groups/", $group);
 $code = $response[HTTP_STATUS];
 if($code != 200 && $code != 204) {
 	http_response_code($code);
