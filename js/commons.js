@@ -24,6 +24,28 @@ const PRLG = {
 	}
 }
 
+function objToNode(obj) {
+	if (obj.type === 'text') {
+		return document.createTextNode(obj.text);
+	} else {
+		var node = document.createElement(obj.node);
+		for (var key in obj.attrs) {
+			node.setAttribute(key, obj.attrs[key]);
+		}
+		if (obj.children !== undefined) {
+			obj.children.forEach(function(child) {
+				if (child instanceof Element) {
+					node.appendChild(child);
+				} else {
+					node.appendChild(objToNode(child));
+				}
+			});
+		}
+
+		return node;
+	}
+}
+
 function ajaxPromise(options) {
 	return new Promise(function(resolve, reject) {
 		$.ajax(options).done(resolve).fail(reject);
@@ -132,7 +154,7 @@ function PrologesDataHolder(node, template, options) {
 	var header = options == null ? false : options.useHeader || false;
 	var defaultEmptyElement = options == null ? false : (options.defaultEmptyElement || false);
 
-	var printCollection = function(elements) {
+	var printCollection = function(elements, params) {
 		if(elements.length != 0) {
 			if(header) {
 				holder.append(template.getHeader());
