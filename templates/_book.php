@@ -673,7 +673,9 @@ function displaySubmittedProloge(prologe, id) {
 }
 
 function newProloge(prologe) {
-	prologesHandler.printCollection(prologe);
+	// $('#main-prologes'), prologesTemplate
+	$('#main-prologes').prepend(prologesTemplate.getElement(prologe));
+	// prologesHandler.printCollection(prologe);
 }
 
 /* Similar books */

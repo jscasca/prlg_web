@@ -53,7 +53,7 @@ echo "<script type='text/javascript'>var loggedIn = ".(isset($_SESSION[SID])?"tr
         </li>
         <!-- LOGGED IN -->
         <?php	} else { ?>
-        <!--<li><a href="#">Perfil</a></li>	
+        <!--<li><a href="#">Perfil</a></li>
         <li><a href="#">Seguidores</a></li>	-->
         <li class="dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -65,7 +65,7 @@ echo "<script type='text/javascript'>var loggedIn = ".(isset($_SESSION[SID])?"tr
           <ul role="menu" class="dropdown-menu">
             <li><a href="<?php echo $rootpath;?>profile"><?php echo getTranslation('Profile');?></a></li>
             <li><a href="<?php echo $rootpath;?>library"><?php echo getTranslation('Library');?></a></li>
-            <!-- <li><a href="<?php echo $rootpath;?>clubs"><?php echo getTranslation('Book clubs');?></a></li> -->
+            <li><a href="<?php echo $rootpath;?>clubs"><?php echo getTranslation('Book clubs');?></a></li>
             <li><a href="<?php echo $rootpath;?>logout"><?php echo getTranslation('Log out');?></a></li>
           </ul>
         </li>
