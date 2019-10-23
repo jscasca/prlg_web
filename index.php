@@ -153,7 +153,11 @@ if(preg_match('"^(?:/prologes)?/(?:(?:index)|(?:home))(?:.php)?$"', $uri) || pre
 		if($pass === $passConf && $error === null) {
 			try {
 				registration($user, $pass, $email);
-				header('Location: ' . $indexUrl);
+				if(isset($_SESSION['login_referer']) && true) {
+					header('Location: ' . $_SESSION['login_referer']);
+				} else {
+					header('Location: ' . BASE_DIR . 'index');
+				}
 				exit;
 			} catch(DuplicateResourceException $e) {
 				if($e->getCode() == 0) {
