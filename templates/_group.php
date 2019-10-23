@@ -430,6 +430,15 @@ function joinClub(clubId) {
 	});
 }
 
+function leaveClub(clubId) {
+	return ajaxPromise({
+		type: 'GET',
+		dataType: 'json',
+		url: AJAX_DIR + 'deleteClubMembership.php',
+		data: {club: clubId}
+	});
+};
+
 function getClubInfo(clubId) {
 	return ajaxPromise({
 		type: 'GET',
@@ -1196,9 +1205,44 @@ getClubComments(clubId).then(function(comments) {
 				}]
 			});
 			leaveLink.addEventListener('click', function() {
-				console.log('Leaving club...');
+				leaveClub(clubId).then(function() {
+					// left club
+					// console.log('left club');
+					// just refresh cause ugh....
+					window.location.reload(false);
+				});
 			});
 			$('#member-actions').append(leaveLink);
+		};
+
+		var notMember = function() {
+			//console.log('catch membership');
+			console.log('NOT MEMBER');
+			// JOIN or REQUEST INVITATION depending on club type
+			var btn = $('<button></button>', {class: 'btn main-btn'}).append(document.createTextNode(getText('JOIN CLUB'))).on('click', function() {
+				joinClub(clubId).then(function(response) {
+					// Enable messaging if positive response and change button to memer
+					// TODO: change button
+					// Response can have either a membership if the club is public or a notification if the club is restrcited
+					$('#membership').empty();
+					memberBanner();
+					// remove JOIN btn
+					enableCommenting()
+					// TODO: join can return a membership or an invite
+					if (response.membership) {
+						// TODO: member now
+						// At least enable the comments
+					} else if (response.invite) {
+						// TODO: request sent
+					}
+				}).catch(function(e) {
+					console.log('failed to join/request invite', e);
+				});
+				// Jin the club
+			});
+			var role = $('<div></div>', {Class: 'actions'}).append(btn);
+			var holder = $('<div></div>', {class: 'guest'}).append(role);
+			$('#membership').append(holder);
 		};
 
 		var enableCommenting = function() {
@@ -1234,7 +1278,7 @@ getClubComments(clubId).then(function(comments) {
 		console.log('logged in');
 		getClubMembership(clubId).then(function(membership) {
 			console.log('membership', membership);
-			if (membership) {
+			if (membership && (membership.status == 'MEMBER' || membership.status == null)) {
 				if (membership.admin) {
 					turnToAdmin();
 					$('#main-group--reading-add').removeClass('disabled').removeAttr('disabled').on('click', function() {
@@ -1509,37 +1553,17 @@ getClubComments(clubId).then(function(comments) {
 					addActionsToReading(null);
 				}
 				memberBanner();
+			} else  if (membership.status == 'INACTIVE') {
+				//
+				notMember();
 			}
 			// COMMENTING
 			setTimeout(function() {
 				enableCommenting();
 			}, 2000);
 		}).catch(function() {
-			console.log('catch membership');
-			console.log('NOT MEMBER');
-			// JOIN or REQUEST INVITATION depending on club type
-			var btn = $('<button></button>', {class: 'btn main-btn'}).append(document.createTextNode(getText('JOIN CLUB'))).on('click', function() {
-				joinClub(clubId).then(function(response) {
-					// Enable messaging if positive response and change button to memer
-					// TODO: change button
-					// Response can have either a membership if the club is public or a notification if the club is restrcited
-					memberBanner();
-					enableCommenting()
-					// TODO: join can return a membership or an invite
-					if (response.membership) {
-						// TODO: member now
-						// At least enable the comments
-					} else if (response.invite) {
-						// TODO: request sent
-					}
-				}).catch(function(e) {
-					console.log('failed to join/request invite', e);
-				});
-				// Jin the club
-			});
-			var role = $('<div></div>', {Class: 'actions'}).append(btn);
-			var holder = $('<div></div>', {class: 'guest'}).append(role);
-			$('#membership').append(holder);
+			// 
+			notMember();
 		});
 		
 		//if logged in show the comment thingy

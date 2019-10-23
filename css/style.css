@@ -277,6 +277,18 @@
 .main-group .info .description.editing .editable {
   display: flex;
 }
+.main-group .info .description.editing .empty {
+  display: none;
+}
+.main-group .info .description.empty .expandable {
+  display: none;
+}
+.main-group .info .description.empty .empty {
+  display: block;
+}
+.main-group .info .description.empty.editing .empty {
+  display: none;
+}
 .main-group .info .description {
   margin-top: 20px;
   margin-right: 20px;
@@ -285,6 +297,23 @@
   .main-group .info .description {
     margin-left: 18px;
   }
+}
+.main-group .info .description .empty {
+  display: none;
+  padding: 10px;
+  padding-top: 0;
+  margin-bottom: 10px;
+}
+.main-group .info .description .empty .frame {
+  cursor: pointer;
+  height: 100px;
+  border: 2px dashed #e4e4e4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #e4e4e4;
+  font-weight: 600;
+  font-size: 14px;
 }
 .main-group .info .description .editable-control {
   position: relative;
@@ -491,13 +520,65 @@
   margin-left: 20px;
   margin-right: 20px;
 }
+.group-reading.empty .background {
+  background: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url('/prologes/img/easychair_ink_greyed.png');
+  background-size: 100% 100%;
+}
+.group-wishlist.empty .background {
+  background: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url('/prologes/img/wishlist_ink_greyed.png');
+  background-size: 100% 100%;
+}
+.group-library.empty .background {
+  background: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url('/prologes/img/library_ink_greyed.png');
+  background-size: 100% 100%;
+}
+.tab-content .empty {
+  height: 280px;
+  padding: 30px;
+}
+.tab-content .empty .background {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.tab-content .empty .background span {
+  font-size: 18px;
+  font-weight: 400;
+}
+.group-reading.empty .icon {
+  display: none;
+}
+.group-reading.empty .info {
+  display: none;
+}
+.group-reading.empty .actions {
+  display: none;
+}
+.group-reading.empty .section-name {
+  display: none;
+}
+.group-reading.empty .background {
+  display: flex;
+}
 .group-reading {
   padding-bottom: 10px;
+}
+.group-reading .background {
+  display: none;
 }
 .group-reading .actions {
   margin-top: 10px;
   display: flex;
   justify-content: center;
+}
+.group-reading .section-name {
+  padding-top: 8px;
+  text-align: center;
+  font-size: 16px;
 }
 .group-reading .info {
   display: flex;
@@ -522,6 +603,27 @@
 }
 .group-reading .icon img {
   height: 150px;
+}
+.group-wishlist.empty .background {
+  display: flex;
+}
+.group-wishlist.empty .background .actions {
+  display: flex;
+}
+.group-wishlist.empty .actions {
+  display: none;
+}
+.group-wishlist.empty .section-name {
+  display: none;
+}
+.group-wishlist.empty .selected-book {
+  display: none;
+}
+.group-wishlist.empty .list {
+  display: none;
+}
+.group-wishlist .background {
+  display: none;
 }
 .group-wishlist .actions {
   margin-top: 10px;
@@ -616,6 +718,89 @@
     margin-left: 0;
     margin-right: 0;
   }
+}
+.my-bookclubs .section-header {
+  font-size: 22px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+}
+.my-bookclubs .section-header h3 {
+  width: 40%;
+  border-bottom: solid 5px #173e43;
+  font-size: 20px;
+  padding-bottom: 8px;
+}
+.my-bookclubs .bookclubs .bookclub {
+  display: flex;
+  padding: 15px;
+  position: relative;
+}
+.my-bookclubs .bookclubs .bookclub a {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  text-decoration: none;
+  z-index: 10;
+}
+.my-bookclubs .bookclubs .bookclub:hover,
+.my-bookclubs .bookclubs .bookclub:focus {
+  background-color: rgba(63, 176, 172, 0.4);
+}
+.my-bookclubs .bookclubs .bookclub .icon img {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+}
+.my-bookclubs .bookclubs .bookclub .info {
+  margin-left: 8px;
+  margin-top: 5px;
+}
+.my-bookclubs .bookclubs .bookclub .info .name {
+  color: #173e43;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+.my-bookclubs .bookclubs .bookclub .info .handle {
+  color: #4c7478;
+  font-size: 14px;
+}
+.new-group {
+  padding: 10px;
+  margin-top: 35px;
+}
+.new-group .icon {
+  margin-top: 10px;
+  margin: auto;
+}
+.new-group .icon img {
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+}
+.new-group .section-header {
+  margin-top: 15px;
+  font-size: 26px;
+}
+.new-group .section-instructions {
+  padding: 10px;
+}
+.new-group .new-form {
+  padding: 10px 20px;
+}
+.new-group .new-form .actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+.section-header {
+  text-align: center;
+  color: #173e43;
+  font-weight: 600;
 }
 .main-book {
   display: flex;
@@ -1627,4 +1812,7 @@ body {
 }
 .expandable .controls:not(.not-expanded) .more {
   display: none;
+}
+.filtered-out {
+  display: none !important;
 }
