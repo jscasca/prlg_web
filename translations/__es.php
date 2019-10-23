@@ -41,6 +41,9 @@ $translations = array(
 	'Enter your username or email address to reset your password' => 'Inserta tu nombre de usuario o correo electronico para cambiar tu contraseña',
 	/* Search */
 	'Add a new book!' => 'Agrega un nuevo libro!',
+	/* New Club */
+	'My book clubs' => 'My clubes de lectura',
+	'Select a unique name for your new club and start enjoying your new space!' => 'Seleciona un nombre unico para tu club y empieza a disfrutar de tu nuevo espacio!',
 	/* Groups/Clubs */
 	'Add a book that you are reading, have read or is in your wishlist' => 'Añade un libro que hayas leido, estes leyendo o este en tu lista de lectura',
 	'Add a book to the club wishlist' => 'Añade un libro a la lista de lectura del club',
@@ -50,7 +53,7 @@ $translations = array(
 	'Add to wishlist' => 'Añade a tu lista',
 	'Start your club!' => 'Empieza tu club!',
 	'Start your own book club!' => 'Empieza tu club de lectura!',
-	'Club names must start with a letter and can contain letter, numbers and/or underscores up to 25 characters' => 'Los nombres de clubes deben de empezar con una letra y pueden contener letras, numeros y/o guiones bajos hasta un total de 25 caracteres',
+	'Club names must start with a letter and can contain letters, numbers and/or underscores up to 25 characters' => 'Los nombres de clubes deben de empezar con una letra y pueden contener letras, numeros y/o guiones bajos hasta un total de 25 caracteres',
 	'Select a unique club name for your group and start enjoying your new space!' => 'Selecciona un nombre unico para tu club y empieza a disfrutar de tu nuevo espacio!',
 	'Club name' => 'Nombre del club',
 	'If you are already a member, log in to start your own book club!' => 'Si ya eres un miembro, inicia sesion para crear tu propio club de lectura!',

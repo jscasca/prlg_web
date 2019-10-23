@@ -31,7 +31,7 @@
 		</div>
 		<div class="section-instructions">
 			<p><?php echo getTranslation('Select a unique name for your new club and start enjoying your new space!'); ?></p>
-			<p><?php echo getTranslation('Club names must start with a letter and can contain letter, numbers and/or underscores up to 25 characters'); ?></p>
+			<p><?php echo getTranslation('Club names must start with a letter and can contain letters, numbers and/or underscores up to 25 characters'); ?></p>
 		</div>
 		<div class="new-form">
 			<form method="POST" action="php/submit/newGroupRequest.php" id="new-club--form">
