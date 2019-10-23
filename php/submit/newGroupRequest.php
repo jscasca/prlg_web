@@ -4,7 +4,7 @@ session_start();
 require('../commons.php');
 
 $internalErrorPage = BASE_DIR . URL_INTERNAL_SERVER_ERROR;
-$groupPage = BASE_DIR . 'group';
+$groupPage = BASE_DIR . 'clubs';
 
 /*if(!isset($_SESSION[SID])) {
 	//header('HTTP/1.1 401 Unauthorized', true, 401);
@@ -34,7 +34,7 @@ if($code != 200) {
 	die();
 } else {
 	$group = json_decode($response[RESPONSE], true);
-	header('Location: ' . $groupPage . '/'.$group['id']); die();
+	header('Location: ' . $groupPage . '/'.$group['clubName']); die();
 }
 
 ?>
