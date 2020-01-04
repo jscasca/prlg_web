@@ -145,8 +145,8 @@ function getToken($clientId, $clientSecret, $username, $pass) {
 	}
 	return $response;
 }
-function authenticationlessCurlCall($method, $url, $data = false) {
-	$url = REST_API . $url;
+function authenticationlessCurlCall($method, $resource, $data = false) {
+	$url = (strpos($resource, 'http') === 0) ? $resource : REST_API . $resource;
 	$curl = curl_init();
 	$headers = [];
 	switch($method) {
@@ -303,5 +303,18 @@ function getLang($server) {
 function isValidLanguage($lang) {
 	$validLanguages = array('en','es');
 	return in_array($lang, $validLanguages);
+}
+
+function getIpAddr() {
+	if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+		//ip from share internet
+		$ip = $_SERVER['HTTP_CLIENT_IP'];
+	}elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+		//ip pass from proxy
+		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	}else{
+		$ip = $_SERVER['REMOTE_ADDR'];
+	}
+	return $ip;
 }
 ?>

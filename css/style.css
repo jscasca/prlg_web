@@ -806,6 +806,9 @@
   display: flex;
   flex-direction: column;
 }
+.main-book .tab-content {
+  margin-bottom: 20px;
+}
 .main-book .book {
   display: flex;
 }
@@ -821,7 +824,7 @@
 .main-book .actions {
   display: flex;
   justify-content: flex-end;
-  font-size: 56px;
+  font-size: 46px;
   margin-bottom: 10px;
   margin-top: 15px;
   border-top: 1px solid #e4e4e4;
@@ -1103,6 +1106,134 @@
 }
 .prologe-modal .actions .main-btn {
   width: 33%;
+}
+.main-book--sidebar .prlg-panel {
+  margin-bottom: 30px;
+}
+.main-book--sidebar .header {
+  padding: 8px;
+  font-size: 18px;
+  color: #173e43;
+  text-align: center;
+  font-weight: 600;
+}
+.main-book--sidebar .toggable-header {
+  font-weight: 600;
+}
+.main-book--sidebar .club-list .club {
+  border-radius: 5px;
+  display: flex;
+  padding: 6px;
+  margin-top: 8px;
+}
+.main-book--sidebar .club-list .club:hover {
+  background-color: rgba(63, 176, 172, 0.4);
+  text-decoration: none;
+}
+.main-book--sidebar .club-list .club .icon img {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}
+.main-book--sidebar .club-list .club .info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+}
+.main-book--sidebar .club-list .club .info .display-name {
+  color: #173e43;
+  font-size: 18px;
+}
+.main-book--sidebar .club-list .club .info .handle {
+  margin-top: 3px;
+  color: #4c7478;
+  font-size: 14px;
+}
+.book-classifieds .book-classified {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  margin-top: 8px;
+  padding: 8px;
+}
+.book-classifieds .book-classified:hover {
+  text-decoration: none;
+  cursor: pointer;
+  background-color: rgba(63, 176, 172, 0.4);
+}
+.book-classifieds .book-classified .price {
+  display: flex;
+}
+.book-classifieds .book-classified .price .value {
+  font-size: 18px;
+  color: #3fb0ac;
+}
+.book-classifieds .book-classified .price .options {
+  margin-left: 5px;
+  color: #4c7478;
+  font-size: 12px;
+  margin-top: auto;
+  margin-bottom: 4px;
+}
+.book-classifieds .book-classified .from {
+  font-size: 14px;
+}
+.book-classifieds .book-classified .from span {
+  color: #173e43;
+  font-weight: 600;
+}
+.book-classifieds .book-classified .where {
+  font-size: 14px;
+}
+.book-classifieds .book-classified .where span {
+  color: #173e43;
+  font-weight: 500;
+}
+.classifieds-actions {
+  text-align: center;
+  margin: 8px;
+}
+.bookstore-catalogue {
+  overflow-x: hidden;
+}
+.bookstore-catalogue .item {
+  border-radius: 5px;
+  margin-top: 8px;
+  padding: 8px;
+  display: flex;
+}
+.bookstore-catalogue .item:hover {
+  text-decoration: none;
+  cursor: pointer;
+  background-color: rgba(63, 176, 172, 0.4);
+}
+.bookstore-catalogue .item:hover .price {
+  color: #173e43;
+}
+.bookstore-catalogue .item .icon img {
+  width: 60px;
+  max-height: 80px;
+}
+.bookstore-catalogue .item .info {
+  width: 100%;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.bookstore-catalogue .item .info .title {
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 188px;
+}
+.bookstore-catalogue .item .info .price {
+  font-size: 18px;
+  color: #3fb0ac;
+}
+.bookstore-catalogue .item .info .provider img {
+  height: 24px;
+  width: auto;
 }
 .main-author {
   margin-top: 3em;
@@ -1453,6 +1584,191 @@
 .my-currently-reading .expandable-book-list .content .book .info .title {
   font-size: 16px;
 }
+.my-messages .header {
+  text-align: center;
+  color: #173e43;
+  font-size: 18px;
+}
+.my-messages .header .h2 {
+  font-size: 18px;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+.my-messages .message-list .message {
+  display: flex;
+  width: 100%;
+  border-radius: 5px;
+  padding: 8px;
+}
+.my-messages .message-list .message:hover {
+  background-color: rgba(63, 176, 172, 0.4);
+  text-decoration: none;
+}
+.my-messages .message-list .message .icon img {
+  height: 80px;
+}
+.my-messages .message-list .message .content {
+  width: 100%;
+  margin-left: 8px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+}
+.my-messages .message-list .message .content .details {
+  display: flex;
+}
+.my-messages .message-list .message .content .details .seller {
+  color: #173e43;
+  font-size: 14px;
+}
+.my-messages .message-list .message .content .details .date {
+  margin-left: auto;
+  color: #4c7478;
+}
+.my-messages .message-list .message .content .subject {
+  font-size: 14px;
+  color: #3fb0ac;
+  font-weight: 700;
+}
+#messenger-widget-list.displayed {
+  display: flex;
+  flex-direction: column;
+}
+#messenger-widget-list {
+  display: none;
+}
+.messenger-widget.displayed {
+  display: flex;
+}
+.messenger-widget {
+  display: none;
+  flex-direction: column-reverse;
+  background-color: white;
+  border: 1px solid #e4e4e4;
+  width: 1170px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  height: calc(100% - 195px);
+}
+@media (max-width:767px) {
+  .messenger-widget {
+    width: 100%;
+    height: calc(100% - 50px);
+    position: fixed;
+    z-index: 10;
+    top: 50px;
+    margin: 0;
+    padding: 0;
+  }
+}
+.messenger-widget .menu .options {
+  border-bottom: 1px solid #e4e4e4;
+  position: relative;
+}
+.messenger-widget .menu .options .return {
+  position: absolute;
+  color: #173e43;
+  font-size: 28px;
+  margin-left: 10px;
+  margin-top: 1px;
+}
+.messenger-widget .menu .options .header {
+  text-align: center;
+}
+.messenger-widget .menu .options .header h1 {
+  margin-top: 10px;
+  margin-bottom: 8px;
+  font-size: 30px;
+}
+.messenger-widget .menu .details {
+  border-bottom: 1px solid #e4e4e4;
+  display: flex;
+}
+.messenger-widget .menu .details .icon {
+  padding: 8px;
+}
+.messenger-widget .menu .details .icon img {
+  height: 60px;
+}
+.messenger-widget .menu .details .info {
+  margin-left: 10px;
+  margin-top: 12px;
+}
+.messenger-widget .menu .details .info .seller {
+  font-size: 18px;
+  color: #173e43;
+}
+.messenger-widget .menu .details .info .subject {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3fb0ac;
+  margin-top: 6px;
+}
+.messenger-widget .chats {
+  background-color: grey;
+  flex-grow: 1;
+  min-height: 300px;
+  height: calc(100% - 82px - 127px);
+  overflow-y: scroll;
+}
+.messenger-widget .chats .chat-message {
+  display: flex;
+  font-size: 16px;
+}
+.messenger-widget .chats .chat-message .bubble {
+  max-width: 80%;
+  border-radius: 8px;
+  margin: 8px 24px 12px;
+  padding: 8px;
+  word-break: break-word;
+}
+.messenger-widget .chats .chat-message .bubble .timestamp {
+  color: #4c7478;
+  padding: 8px;
+  float: right;
+  margin-left: 15px;
+}
+.messenger-widget .chats .chat-message.incoming {
+  justify-content: flex-start;
+}
+.messenger-widget .chats .chat-message.incoming .bubble {
+  background-color: #e4e4e4;
+}
+.messenger-widget .chats .chat-message.outgoing {
+  justify-content: flex-end;
+}
+.messenger-widget .chats .chat-message.outgoing .bubble {
+  background-color: #3fb0ac;
+}
+.messenger-widget .input {
+  display: flex;
+  padding: 14px;
+}
+.messenger-widget .input .text {
+  width: 100%;
+}
+.messenger-widget .input textarea {
+  border-radius: 5px;
+  width: 100%;
+  border: 1px solid #e4e4e4;
+  resize: none;
+  padding: 8px;
+  font-size: 16px;
+}
+.messenger-widget .input textarea:hover,
+.messenger-widget .input textarea:focus {
+  outline: none;
+  border-color: #3fb0ac;
+}
+.messenger-widget .input .actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 2px;
+}
 html {
   height: 100%;
   width: 100%;
@@ -1464,6 +1780,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5em;
+}
+body h1,
+body h2,
+body h3,
+body h4,
+body h5 {
+  color: #173e43;
 }
 .body-background {
   width: 100%;
@@ -1576,6 +1899,10 @@ body {
 }
 .prlg-panel .panel-content {
   margin: 1em;
+}
+.prlg-panel .link-actions {
+  text-align: center;
+  margin: 8px;
 }
 .btn.main-btn {
   background-color: #3fb0ac;
@@ -1815,4 +2142,20 @@ body {
 }
 .filtered-out {
   display: none !important;
+}
+.toggable.open .on-closed {
+  display: none;
+}
+.toggable:not(.open) .on-open {
+  display: none;
+}
+.toggable-header {
+  color: #173e43;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 8px;
+  margin-left: 5px;
+  margin-right: 5px;
+  display: flex;
+  justify-content: space-between;
 }

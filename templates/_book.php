@@ -175,6 +175,9 @@
 	<h2 class="Section-title no-padding">Similar books</h2>
 </div> -->
 
+<div class="col-md-4 col-sm-12 main-book--sidebar" id="main-book--sidebar">
+</div>
+
 <script type="text/javascript">
 var bookId = '<?php echo $book; ?>';
 var retries = 0;
@@ -354,6 +357,17 @@ function getMyBooks() {
 		});
 	}
 }
+
+function getPrices(title, author) {
+	console.log('getting prices');
+	//
+	return ajaxPromise({
+		type: 'GET',
+		dataType: 'json',
+		url: AJAX_DIR + 'getBookPrices.php',
+		data: {title: title, author: author}
+	});
+}
 	
 $(document).ready(function() {
 
@@ -402,6 +416,123 @@ $(document).ready(function() {
 
 // Load the book info
 	p.getBookInfo(bookId).then(function(bookInfo){
+
+		getPrices(bookInfo.book.title, bookInfo.book.authors[0].name).then((priceListing) => {
+			console.log(priceListing);
+			const lastUpdate = priceListing.last;
+			const prices = priceListing.list;
+
+			if (prices.length > 0) {
+
+				var createToggable = () => {
+					var toggle = objToNode({
+						node: 'div',
+						attrs: {class: 'toggable-header'},
+						children: [
+							{
+								node: 'span',
+								attrs: {},
+								children: [{type: 'text', text: getText('Buy this book online')}]
+							},
+							{ node: 'span', attrs: {class: 'fas fa-caret-down on-closed'}},
+							{ node: 'span', attrs: {class: 'fas fa-caret-up on-open'}}
+						]
+					});
+					//
+					var toggable = objToNode({
+						node: 'div',
+						attrs: {class: 'prlg-panel toggable', id: 'affiliate-links'},
+						children: [
+							// toggable header
+							toggle,
+							// catalogue of links
+							{
+								node: 'div',
+								attrs: {class: 'bookstore-catalogue on-open'},
+								children: []
+							},
+							// link actions to show the rest
+							// TODO: add link with actions
+							// {}
+						]
+					});
+					toggle.addEventListener('click', () => {
+						toggable.classList.toggle('open');
+					});
+					return toggable;
+				};
+				// create a populate a toggable
+			// 	var leaveLink = objToNode({
+			// 	node: 'div',
+			// 	attrs: {class: 'action leave'},
+			// 	children: [{
+			// 		node: 'a',
+			// 		attrs: {href: '#'},
+			// 		children: [{type: 'text', text: getText('Leave club')}]
+			// 	}]
+			// });
+				var pricingToggable = createToggable();
+				// find the correct list holder
+
+				$('#main-book--sidebar').append(pricingToggable);
+				const listHolder = pricingToggable.children[1];
+
+				prices.slice(0,5).forEach((item) => {
+					console.log('item: ', item);
+					const imgSrc = item.img !== undefined ? item.img['small'] : '../img/defaultthumb.png';
+					const price = item.price['USD']['sale'] !== undefined ? item.price['USD']['sale'] : item.price['USD']['retail'];
+					// determine which price to show
+					// TODO: LOCATION
+					//
+					var anchor = objToNode({
+						node: 'a',
+						attrs: {class: 'item', href: item.url},
+						children: [
+							{
+								node: 'div',
+								attrs: {class: 'icon'},
+								children: [{node: 'img', attrs: {src: imgSrc}}]
+							},
+							{
+								node: 'div',
+								attrs: {class: 'info'},
+								children: [
+									// title
+									{
+										node: 'div',
+										attrs: {class: 'title'},
+										children: [{type: 'text',text:item.title}]
+									},
+									// price
+									{
+										node: 'div',
+										attrs: {class: 'price'},
+										children: [{type: 'text', text: 'USD $' + price}]
+									},
+									// provider
+									{
+										node: 'div',
+										attrs: {class: 'provider'},
+										children: [{
+											node: 'img',
+											attrs: {src: '../img/book_depository.png'}
+										}]
+									}
+								]
+							}
+						]
+					});
+
+					listHolder.append(anchor);
+				});
+
+				/*
+$('#toggle-catalogue').on('click', function() {
+        $('#bookstore-links').toggleClass('open');
+      });
+				*/
+			}
+		});
 // 		coverHolder.error(function(){this.src=DEFAULT_COVER;});
 // 		coverHolder.attr('src', bookInfo.book.icon);
 		$('#book-cover').attr('src', bookInfo.book.icon);
